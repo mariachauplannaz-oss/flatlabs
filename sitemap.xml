@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>FlatLabs — Fashion Flat Generator</title>
+<style>
+
+/* Botón deshabilitado (Próximamente) */
+.cat-card.disabled {
+    opacity: 0.5;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    position: relative;
+    pointer-events: none; /* Evita que se pueda hacer clic */
+}
+
+.cat-card.disabled::after {
+    content: "SOON";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: var(--gray3);
+    font-size: 8px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Botón Flotante de Lemon Squeezy */
+.support-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #FFD700; /* Color dorado/café */
+    color: #1d1d1f;
+    padding: 12px 18px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 9999;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.support-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px) {
+    .support-button {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+}
+
+:root {
+    --blue: #007AFF; --blue-h: #0056CC; --gray1: #1D1D1F; --gray2: #86868B;
+    --gray3: #D2D2D7; --gray4: #F5F5F7; --white: #FFFFFF;
+    --radius: 14px; --ease: cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;
+    background:var(--gray4);color:var(--gray1);height:100vh;height:100dvh;
+    overflow:hidden;-webkit-font-smoothing:antialiased;font-size:15px;
+}
+
+/* ═══ APP SHELL ═══ */
+.app{display:flex;height:100vh;height:100dvh}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+    width:360px;min-width:360px;background:rgba(255,255,255,.72);
+    backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+    border-right:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;
+    overflow:hidden;position:relative;z-index:10;
+}
+.sidebar-header{padding:20px 24px;border-bottom:1px solid rgba(0,0,0,.06)}
+.app-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.app-sub{font-size:11px;color:var(--gray2);margin-top:1px;letter-spacing:.2px}
+
+/* Steps navigation */
+.steps-nav{display:flex;padding:12px 24px;gap:4px;border-bottom:1px solid rgba(0,0,0,.06)}
+.step-dot{
+    flex:1;height:3px;border-radius:2px;background:var(--gray3);transition:background .4s var(--ease);
+}
+.step-dot.active{background:var(--blue)}
+.step-dot.done{background:var(--gray1)}
+
+/* Steps container */
+.steps-scroll{flex:1;overflow:hidden;position:relative}
+.steps-track{
+    display:flex;width:300%;height:100%;
+    transition:transform .5s var(--ease);
+}
+.step-panel{
+    width:calc(100%/3);height:100%;overflow-y:auto;padding:0;
+    -webkit-overflow-scrolling:touch;
+}
+.step-panel::-webkit-scrollbar{width:6px}
+.step-panel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:3px}
+
+.step-content{padding:20px 24px 100px}
+
+/* Step titles */
+.step-title{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--gray2);margin-bottom:20px;line-height:1.4}
+
+/* Section labels */
+.sec-label{
+    font-size:11px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.8px;color:var(--gray2);margin:20px 0 10px;
+}
+.sec-label:first-child{margin-top:0}
+
+/* ═══ CATEGORY CARDS ═══ */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cat-card{
+    background:var(--white);border:2px solid var(--gray3);border-radius:var(--radius);
+    padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s var(--ease);
+    position:relative;overflow:hidden;
+}
+.cat-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,122,255,.12)}
+.cat-card.selected{border-color:var(--blue);background:rgba(0,122,255,.04)}
+.cat-card.selected::after{
+    content:'✓';position:absolute;top:8px;right:8px;width:22px;height:22px;
+    background:var(--blue);color:white;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+}
+.cat-icon{display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--gray2)}
+.cat-card.selected .cat-icon{color:var(--blue)}
+.cat-label{font-size:14px;font-weight:600}
+
+/* ═══ OPTION CARDS (horizontal scroll) ═══ */
+.opt-scroll{
+    display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;
+    -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;
+}
+.opt-scroll::-webkit-scrollbar{height:4px}
+.opt-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px}
+.opt-card{
+    min-width:90px;flex:0 0 90px;background:var(--white);border:2px solid var(--gray3);
+    border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;
+    transition:all .3s var(--ease);scroll-snap-align:start;
+}
+.opt-card:hover{border-color:var(--blue);transform:translateY(-1px)}
+.opt-card.selected{border-color:var(--blue);background:rgba(0,122,255,.05)}
+.opt-card.none-card{border-style:dashed;opacity:.7}
+.opt-card.none-card.selected{opacity:1}
+.opt-name{font-size:11px;font-weight:500;color:var(--gray2);margin-top:4px}
+.opt-card.selected .opt-name{color:var(--blue);font-weight:600}
+.opt-preview{height:50px;display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.4}
+.opt-card.selected .opt-preview{opacity:.8}
+
+/* ═══ UPLOAD ZONE ═══ */
+.drop-zone{
+    background:var(--white);border:2px dashed var(--gray3);border-radius:var(--radius);
+    padding:20px;text-align:center;cursor:pointer;transition:all .3s var(--ease);margin-bottom:12px;
+}
+.drop-zone:hover{border-color:var(--blue);background:rgba(0,122,255,.02)}
+.drop-zone.ok{border-color:#34C759;border-style:solid;background:rgba(52,199,89,.04)}
+.drop-icon{font-size:28px;margin-bottom:4px;opacity:.4}
+.drop-text{font-size:13px;color:var(--gray2)}
+.drop-sub{font-size:11px;color:var(--gray3);margin-top:2px}
+.file-input{display:none}
+.file-badge{
+    display:inline-block;padding:4px 10px;background:rgba(52,199,89,.1);color:#248A3D;
+    border-radius:8px;font-size:11px;font-weight:600;margin-top:8px;
+}
+
+/* ═══ TOGGLES (iOS) ═══ */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+.tog-label{font-size:14px;font-weight:500}
+.tog-hint{font-size:11px;color:var(--gray2);font-weight:400;margin-left:4px}
+.tog{
+    position:relative;width:44px;height:26px;background:var(--gray3);
+    border-radius:26px;cursor:pointer;transition:background .3s var(--ease);flex-shrink:0;
+}
+.tog.on{background:var(--blue)}
+.tog::after{
+    content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;
+    background:white;border-radius:50%;transition:transform .3s var(--ease);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+}
+.tog.on::after{transform:translateX(18px)}
+.tog-disabled{opacity:.35;pointer-events:none}
+
+/* ═══ COLORS ═══ */
+.color-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.color-row label{font-size:13px;font-weight:500;min-width:48px}
+input[type="color"]{
+    width:32px;height:32px;border:2px solid var(--gray3);border-radius:8px;
+    cursor:pointer;padding:2px;-webkit-appearance:none;
+}
+.hex{font-family:"SF Mono",monospace;font-size:11px;color:var(--gray2)}
+
+/* Slider */
+.slider-wrap{margin:10px 0}
+.slider-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.slider-val{font-weight:600;color:var(--blue)}
+input[type="range"]{
+    -webkit-appearance:none;width:100%;height:4px;border-radius:2px;
+    background:var(--gray3);outline:none;
+}
+input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:white;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15);
+    border:2px solid var(--blue);
+}
+
+/* ═══ BUTTONS ═══ */
+.btn{
+    width:100%;padding:14px;border:none;border-radius:var(--radius);
+    font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+    transition:all .3s var(--ease);display:flex;align-items:center;
+    justify-content:center;gap:8px;
+}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover:not(:disabled){background:var(--blue-h);transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,122,255,.25)}
+.btn-blue:active{transform:translateY(0)}
+.btn-blue:disabled{opacity:.35;cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--gray1);border:1.5px solid var(--gray3);margin-top:8px}
+.btn-outline:hover{background:rgba(0,0,0,.03)}
+.btn-text{background:none;border:none;color:var(--blue);font-weight:500;padding:10px}
+.btn-text:hover{opacity:.7}
+
+/* Fixed bottom bar */
+.sidebar-bottom{
+    position:absolute;bottom:0;left:0;right:0;padding:16px 24px;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(20px);
+    border-top:1px solid rgba(0,0,0,.06);display:flex;gap:10px;
+}
+.sidebar-bottom .btn{flex:1}
+
+/* ═══ MAIN CANVAS ═══ */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--gray4)}
+.topbar{
+    background:rgba(255,255,255,.8);backdrop-filter:blur(40px);
+    border-bottom:1px solid rgba(0,0,0,.06);padding:14px 28px;
+    display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-home{
+    font-size:13px;font-weight:500;color:var(--gray2);text-decoration:none;
+    transition:color .2s;
+}
+.topbar-home:hover{color:var(--gray1)}
+.topbar-actions{display:flex;gap:8px}
+.topbar-download{
+    padding:10px 22px;border:none;background:var(--gray1);color:white;
+    border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:all .3s var(--ease);
+}
+.topbar-download:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+
+.canvas-area{flex:1;padding:28px;overflow:auto;display:flex;align-items:center;justify-content:center}
+.canvas-card{
+    background:white;border-radius:20px;padding:36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.06);transition:box-shadow .4s;
+    min-width:420px;min-height:500px;display:flex;align-items:center;justify-content:center;
+}
+.canvas-card:hover{box-shadow:0 28px 70px rgba(0,0,0,.09)}
+#svg-preview{width:400px;height:700px}
+#svg-preview svg{width:100%;height:100%}
+
+.empty{text-align:center;padding:40px}
+.empty-icon{font-size:56px;opacity:.12;margin-bottom:12px}
+.empty h3{font-size:18px;font-weight:600;margin-bottom:6px}
+.empty p{font-size:13px;color:var(--gray2);line-height:1.5}
+
+/* Log */
+.log{
+    margin-top:10px;background:var(--gray1);border-radius:10px;padding:10px 12px;
+    font-family:"SF Mono",ui-monospace,monospace;font-size:10px;
+    color:#8b949e;max-height:100px;overflow-y:auto;line-height:1.6;
+}
+.log .ok{color:#3fb950} .log .warn{color:#d29922} .log .err{color:#f85149} .log .info{color:#58a6ff}
+
+/* ═══ MOBILE ═══ */
+/* Burger menu button - hidden on desktop */
+.burger-btn{
+    display:none;position:fixed;top:14px;left:14px;z-index:60;
+    width:40px;height:40px;border:none;background:rgba(255,255,255,.85);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:10px;cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    align-items:center;justify-content:center;
+    transition:all .3s var(--ease);
+}
+.burger-btn svg{width:20px;height:20px;color:var(--gray1)}
+.burger-btn:active{transform:scale(.92)}
+
+/* Home button - hidden on desktop */
+.home-btn{
+    display:none;position:fixed;top:14px;right:14px;z-index:60;
+    height:40px;padding:0 16px;border:none;background:rgba(255,255,255,.85);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:10px;cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    align-items:center;justify-content:center;gap:6px;
+    font-family:inherit;font-size:12px;font-weight:600;color:var(--gray1);
+    text-decoration:none;
+    transition:all .3s var(--ease);
+}
+.home-btn:active{transform:scale(.92)}
+
+/* Sidebar overlay backdrop */
+.sidebar-backdrop{
+    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.3);z-index:40;
+    opacity:0;transition:opacity .3s var(--ease);
+}
+.sidebar-backdrop.show{display:block;opacity:1}
+
+/* Mobile download button */
+.mobile-download{
+    display:none;position:fixed;bottom:50px;left:50%;transform:translateX(-50%);z-index:60;
+    padding:14px 28px;border:none;background:var(--gray1);color:white;
+    border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;
+    font-family:inherit;box-shadow:0 4px 16px rgba(0,0,0,.2);
+    transition:all .3s var(--ease);gap:8px;align-items:center;justify-content:center;
+}
+.mobile-download.show{display:flex}
+.mobile-download:active{transform:translateX(-50%) scale(.95)}
+
+@media(max-width:800px){
+    .burger-btn{display:flex}
+    .home-btn{display:flex}
+
+    .app{flex-direction:column;position:relative}
+
+    /* Canvas is fullscreen background */
+    .main{
+        position:fixed;top:0;left:0;right:0;bottom:0;
+        height:100dvh;width:100%;z-index:1;
+    }
+    .topbar{display:none}
+    .canvas-area{padding:16px;padding-top:60px}
+    .canvas-card{
+        min-width:auto;min-height:auto;padding:20px;border-radius:16px;
+        width:100%;max-width:400px;
+    }
+    #svg-preview{width:100%;height:auto;aspect-ratio:4/7;max-height:65dvh}
+
+    /* Sidebar as overlay from left */
+    .sidebar{
+        position:fixed;top:0;left:0;bottom:0;z-index:50;
+        width:85vw;max-width:360px;min-width:auto;
+        transform:translateX(-100%);
+        transition:transform .35s var(--ease);
+        border-right:1px solid rgba(0,0,0,.08);
+        box-shadow:4px 0 24px rgba(0,0,0,.1);
+    }
+    .sidebar.open{transform:translateX(0)}
+
+    .sidebar-header{padding:16px 20px}
+    .step-content{padding:16px 20px 100px}
+    .sidebar-bottom{padding:12px 20px}
+    .cat-grid{grid-template-columns:1fr 1fr}
+    .cat-card{padding:18px 12px}
+    .cat-icon{margin-bottom:6px}
+    .cat-icon svg{width:32px;height:32px}
+    .cat-label{font-size:12px}
+
+    .support-button{bottom:12px;right:12px;padding:8px 14px;font-size:11px;z-index:35}
+}
+</style>
+</head>
+<body>
+<!-- Mobile: Burger menu + Home -->
+<button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<a class="home-btn" id="homeBtn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>
+    Home
+</a>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+<button class="mobile-download" id="mobileDownload" onclick="document.getElementById('btnDownload').click()">
+    ⬇ Download SVG
+</button>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="app-title">FlatLabs BETA</div>
+            <div class="app-sub">Fashion Flat Technical Drawing Generator</div>
+        </div>
+
+        <div class="steps-nav">
+            <div class="step-dot active" data-step="0"></div>
+            <div class="step-dot" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+        </div>
+
+        <div class="steps-scroll">
+            <div class="steps-track" id="stepsTrack">
+
+                <!-- ═══ STEP 0: Category ═══ -->
+                <div class="step-panel">
+                    <div class="step-content">
+                        <div class="step-title">Garment</div>
+                        <div class="step-desc">Choose a category to start designing</div>
+
+                        <div id="dropZone" style="display:none"></div>
+                        <input type="file" id="fileInput" class="file-input" style="display:none">
+                        <div id="fileBadge" style="display:none"></div>
+
+                        <div class="sec-label">Category</div>
+                        <div class="cat-grid" id="catGrid"></div>
+                    </div>
+                </div>
+
+                <!-- ═══ STEP 1: Components ═══ -->
+                <div class="step-panel">
+                    <div class="step-content" id="step1Content">
+                        <div class="step-title">Components</div>
+                        <div class="step-desc">Select shape for each module</div>
+                        <div id="modulesContainer"></div>
+                    </div>
+                </div>
+
+                <!-- ═══ STEP 2: Details & Colors ═══ -->
+                <div class="step-panel">
+                    <div class="step-content" id="step2Content">
+                        <div class="step-title">Style</div>
+                        <div class="step-desc">Colors, details, and finishing touches</div>
+
+                        <div class="sec-label">Colors</div>
+                        <div class="color-row"><label>Fill</label><input type="color" id="cFill" value="#4A90D9"><span class="hex" id="hFill">#4A90D9</span></div>
+                        <div class="color-row"><label>Stroke</label><input type="color" id="cStroke" value="#1a1a1a"><span class="hex" id="hStroke">#1a1a1a</span></div>
+                        <div class="slider-wrap">
+                            <div class="slider-head"><span>Stroke width</span><span class="slider-val" id="vSW">1</span></div>
+                            <input type="range" id="rSW" min="0.5" max="3" step="0.25" value="1">
+                        </div>
+
+                        <div class="sec-label">Details</div>
+                        <div class="tog-row">
+                            <span class="tog-label">Seams</span>
+                            <div class="tog on" id="togSeams"></div>
+                        </div>
+                        <div id="detailToggles"></div>
+
+                        <div style="margin-top:20px">
+                            <div class="log" id="log" style="display:none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <button class="btn btn-outline" id="btnBack" style="display:none">Back</button>
+            <button class="btn btn-blue" id="btnNext" disabled>Next</button>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <a href="index.html" class="topbar-home">← Home</a>
+            <div class="topbar-title" id="topbarTitle">Canvas</div>
+            <div class="topbar-actions">
+                <button class="topbar-download" id="btnDownload" style="display:none">⬇ Download SVG</button>
+            </div>
+        </div>
+        <div class="canvas-area">
+            <div class="canvas-card">
+                <div id="svg-preview">
+                    <div class="empty">
+                        <div class="empty-icon">✨</div>
+                        <h3>Ready to Create</h3>
+                        <p>Choose a garment category<br>and configure your design</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="downloadModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+    <div style="background:white; padding:30px; border-radius:20px; width:90%; max-width:400px; text-align:center;">
+        <h3 style="margin-bottom:10px; font-family:inherit; font-size:18px; font-weight:700;">Almost there!</h3>
+        <p style="font-size:13px; color:#666; margin-bottom:20px; line-height:1.5;">This is a BETA Version <br>Enter your email to download your SVG file and get notified about new modules.</p>
+        <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm">
+            <input type="email" name="email" placeholder="you@email.com" required style="width:100%; padding:12px; border:1.5px solid var(--gray3); border-radius:10px; margin-bottom:15px; font-size:15px; font-family:inherit; outline:none; transition:border .2s;" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray3)'">
+            <button type="submit" class="btn btn-blue" style="width:100%;">Download SVG</button>
+        </form>
+		<button id="skipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:0.6;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Not interested, download anyway →</button>
+        <button onclick="document.getElementById('downloadModal').style.display='none'" style="background:none; border:none; color:var(--gray2); margin-top:15px; cursor:pointer; font-size:12px; font-family:inherit;">Close</button>
+
+	<div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--gray3); text-align: center;">
+        <p style="font-size: 14px; color: var(--gray2); margin-bottom: 15px;">
+            Did FlatLabs save you time? Support the development of new modules!
+        </p>
+        <a href="https://buymeacoffee.com/flatlabs" target="_blank" 
+           
+           style="display: inline-block; padding: 10px 20px; background: #FFD700; color: #1d1d1f; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
+           ☕ Buy me a coffee
+        </a>
+    </div>
+    </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════
+const CONFIG = {
+  "version": "1.0",
+  "body_group": "BODY",
+  "viewBox": "0 0 400 800",
+  "categories": {
+    "tshirt": {
+      "label": "T-Shirt",
+      "icon": "tshirt_icon",
+      "fixed_seams": ["top_ts_dtl"],
+      "exportViewBox": "80 110 240 260",
+      "anchor_group": "ANCHORS",
+      "junctions": {
+        "A": { "anchor": "merger_point_shoulder", "coord": "x2y2" },
+        "B": { "anchor": "merger_point_shoulder", "coord": "x1y1" },
+        "C": { "mirror": "B" },
+        "D": { "mirror": "A" }
+      },
+      "modules": {
+        "base": {
+          "label": "Torso", "required": true, "edge": "A-D", "options": [
+            { "id": "top_ts_tor_reg", "label": "Regular" },
+            { "id": "top_ts_tor_crp", "label": "Cropped" },
+            { "id": "top_ts_tor_bag", "label": "Baggy" }
+          ]
+        },
+        "neck": {
+          "label": "Neckline", "required": true, "join": { "with": "base", "type": "PATH_JOIN" }, "edge": "C-B", "options": [
+            { "id": "top_ts_nck_v", "label": "V-Neck" },
+            { "id": "top_ts_nck_rnd", "label": "Round" },
+            { "id": "top_ts_nck_mok", "label": "Mock Neck" }
+          ]
+        },
+        "sleeves": {
+          "label": "Sleeves", "required": true, "join": { "with": "base", "type": "FULL_JOIN", "order": "below_base" }, "edge_r": "A-B", "edge_l": "D-C", "options": [
+            { "id": "top_ts_slv_set", "label": "Set-in" },
+            { "id": "top_ts_slv_lon", "label": "Long" },
+            { "id": "top_ts_slv_set_low", "label": "Set-in Low" }
+          ]
+        }
+      },
+      "details": [
+        { "id": "top_ts_pkt", "label": "Pocket", "default": false },
+        {
+          "id": "shoulder_seam", "label": "Shoulder seam", "default": false, "type": "select", "options": [
+            { "id": "sem_ts_shl_reg", "label": "Regular" },
+            { "id": "sem_ts_shl_low", "label": "Raglan" }
+          ]
+        }
+      ]
+    },
+    "pants": {
+      "label": "Pants",
+      "icon": "pants_icon",
+      "disabled": true, // Corregido: Coma añadida y fuera de 'modules'
+      "modules": {
+        "base": {
+          "label": "Leg", "required": true, "options": [
+            { "id": "bot_pl_leg_str", "label": "Straight" },
+            { "id": "bot_pl_leg_wid", "label": "Wide" },
+            { "id": "bot_pl_leg_sli", "label": "Slim" }
+          ]
+        },
+        "waist": {
+          "label": "Waist", "required": false, "join": { "with": "base", "type": "PATH_JOIN" }, "options": [
+            { "id": "bot_pl_wst_btn", "label": "Button" },
+            { "id": "bot_pl_wst_ela", "label": "Elastic" }
+          ]
+        }
+      },
+      "details": []
+    },
+    "jacket": {
+      "label": "Jacket",
+      "icon": "jacket_icon",
+      "disabled": true, // Corregido: Coma añadida y fuera de 'modules'
+      "modules": {
+        "base": {
+          "label": "Body", "required": true, "options": [
+            { "id": "top_pj_bod_std", "label": "Standard" }
+          ]
+        },
+        "collar": {
+          "label": "Collar", "required": false, "join": { "with": "base", "type": "PATH_JOIN" }, "options": [
+            { "id": "top_pj_col_hig", "label": "High" },
+            { "id": "top_pj_col_hoo", "label": "Hood" }
+          ]
+        },
+        "quilting": {
+          "label": "Quilting", "required": false, "join": { "type": "LAYER", "order": "above_base" }, "options": [
+            { "id": "top_pj_qui_hor", "label": "Horizontal" },
+            { "id": "top_pj_qui_squ", "label": "Square" },
+            { "id": "top_pj_qui_dia", "label": "Diamond" }
+          ]
+        }
+      },
+      "details": []
+    }
+  }
+};
+
+
+// ══════════════════════════════════════════════════
+// EMBEDDED ASSETS (not accessible to end user)
+// ══════════════════════════════════════════════════
+const EMBEDDED_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #ec2027;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-2, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14 {
+        stroke-width: .5px;
+      }
+
+      .cls-1, .cls-3, .cls-5 {
+        fill: #e6e7e8;
+      }
+
+      .cls-1, .cls-3, .cls-5, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-13 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+      }
+
+      .cls-2, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14 {
+        stroke: #414042;
+      }
+
+      .cls-2, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14 {
+        fill: none;
+      }
+
+      .cls-3 {
+        stroke: #be1e2d;
+        stroke-width: .75px;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-4, .cls-8, .cls-12 {
+        stroke-dasharray: .5 .5;
+      }
+
+      .cls-6 {
+        stroke-dasharray: 1 .5;
+      }
+
+      .cls-9 {
+        stroke-dasharray: .5 .5 .5 .5 .5 .5;
+      }
+
+      .cls-10 {
+        stroke-dasharray: 3 1 3 1 3 1;
+      }
+
+      .cls-11 {
+        stroke-dasharray: .5 .5;
+      }
+
+      .cls-13 {
+        stroke-dasharray: .5 .5;
+      }
+    </style>
+  </defs>
+  <g id="body_base">
+    <g id="BODY">
+      <path id="body" class="cls-5" d="M258.47,314.57s-2.43-12.7-8.03-25.84c-4.02-9.44-12.4-23.09-12.4-27.92s15-57.67,15-57.67l12.78,53.22s.89,26.89.89,34.52c-.52,12.52,17.31,54.54,17.52,57.54.21,3-8.05,18.63-9,23-1.49,6.84,1,28,1,28,0,0,1.64-.57,2-1,.97-1.17,1.7-2.48,2-6,.29-3.39,1-8,1-8,0,0,.92-.65,2-1.22,1.08-.57,3-.78,3-.78l1,12s-1.55,8.55-2,9c-.45.45-4.46,4-5,4s-4.71.6-6,1c-.86.27-2,2-2,2,0,0,7.57,2,8,2s9.29-4.29,10-5c.71-.71,6.25-12.42,7-14,.75-1.58-2-46-2-46l-3.3-64.73s-1.67-14.33-7-29.89c-1.33-3.11-2.14-27.68-8-67.59,0,0-3.91-38-13.74-46.04l-30.94-8.42c-25.98-10.25-17.16-34.39-17.16-34.39h-30.17s9.05,25.18-17.09,33.73l-31.57,9.08c-9.83,8.04-14.74,46.04-14.74,46.04-5.86,39.91-6.67,64.48-8,67.59-5.33,15.56-7,29.89-7,29.89l-3.3,64.73s-2.75,44.42-2,46c.75,1.58,6.29,13.29,7,14,.71.71,9.57,5,10,5s8-2,8-2c0,0-1.14-1.73-2-2-1.29-.4-5.46-1-6-1s-4.55-3.55-5-4c-.45-.45-2-9-2-9l1-12s1.92.2,3,.78c1.08.57,2,1.22,2,1.22,0,0,.71,4.61,1,8,.3,3.52,1.03,4.83,2,6,.36.43,2,1,2,1,0,0,2.49-21.16,1-28-.95-4.37-9.21-20-9-23,.21-3,18.04-45.03,17.52-57.54,0-7.63.89-34.52.89-34.52l14.34-53.22s15,52.48,15,57.67-8.37,18.48-12.4,27.92c-5.6,13.14-8.03,25.84-8.03,25.84,0,0-5.39,54.23-4.88,76.01.62,26.39,10.47,108.89,11.35,116.11s-4.69,39.22-4.69,55.41,12.48,120.03,12.69,127.59-6,38-10,63c-1.45,9.08,15.8,27.07,25,27,3.36-.02,7.9-4.22,9-10s-6.43-70.44-7-80,10.68-110.33,11-121-2.82-53.2-2-64,8-105,8-105c0,0,3.15-43.05,3.15-45.78l6.85.56,6.85-.22,2.48,45.44s7.18,94.2,8,105c.82,10.8-2.32,53.33-2,64s11.57,111.44,11,121c-.57,9.56-8.1,74.22-7,80s5.64,9.98,9,10c9.2.07,26.45-17.92,25-27-4-25-10.21-55.45-10-63s12.69-111.4,12.69-127.59-5.56-48.19-4.69-55.41c.88-7.22,11.73-89.73,12.35-116.11.51-21.78-5.21-76.01-5.21-76.01Z"/>
+      <path id="ears" class="cls-5" d="M224.47,80.38c3.07.93,4.58-3.37,5.67-5.89,1.89-4.36,2.63-11.02-2.67-9.89h-54.63c-5.3-1.13-4.56,5.52-2.67,9.89,1.09,2.52,2.59,6.81,5.67,5.89h48.63Z"/>
+      <path id="head" class="cls-5" d="M227.71,64.4c1.07-12.32,4.25-40.84-27.71-41.46-31.96.62-28.78,29.14-27.71,41.46,1.11,6.21,2.22,11.42,3.32,15.68,1.52,5.88,3.03,9.96,4.46,12.38,3.55,4.84,16.19,11.54,19.92,11.54s16.37-6.7,19.92-11.54c1.47-2.48,3.01-6.69,4.57-12.79.2-.78,2.98-13.96,3.22-15.27Z"/>
+    </g>
+    <g id="ANCHORS">
+      <line class="cls-1" x1="147.1" y1="211.12" x2="135.44" y2="137.82"/>
+      <line class="cls-1" x1="200" y1="152.22" x2="170.02" y2="127.91"/>
+      <polyline class="cls-1" points="200 354.48 200 174.04 200 152.22 200 129.42 200 107"/>
+      <line class="cls-1" x1="200" y1="129.42" x2="175.17" y2="123.42"/>
+      <line class="cls-1" x1="147.1" y1="211.12" x2="126.1" y2="152.19"/>
+      <line id="merger_point_neck" class="cls-3" x1="157.55" y1="131.34" x2="200" y2="174.04"/>
+      <line id="merger_point_shoulder" class="cls-3" x1="147.1" y1="134.2" x2="147.1" y2="211.12"/>
+    </g>
+  </g>
+  <g id="top_ts_tor_crp_GRP">
+    <path id="top_ts_tor_crp" class="cls-7" d="M252.9,211.12c-3.18,13.9-8.23,29.55-8.23,29.55h-44.67s-44.67,0-44.67,0c0,0-5.05-15.64-8.23-29.55"/>
+    <line id="sem_ts_tor__crp_2" class="cls-6" x1="154.14" y1="236.87" x2="245.86" y2="236.87"/>
+    <line id="sem_ts_tor__crp_1" class="cls-6" x1="154.14" y1="237.83" x2="245.86" y2="237.83"/>
+  </g>
+  <g id="top_ts_tor_bag_GRP">
+    <path id="top_ts_tor_bag" class="cls-2" d="M147.1,211.12l-12.29,101.76h131.45l-13.36-101.76"/>
+    <line id="sem_ts_tor_bag_1" class="cls-6" x1="135.9" y1="309.51" x2="265.57" y2="309.51"/>
+    <line id="sem_ts_tor_bag_1-2" data-name="sem_ts_tor_bag_1" class="cls-6" x1="135.9" y1="308.72" x2="265.57" y2="308.72"/>
+  </g>
+  <g id="top_ts_nck_rnd_GRP">
+    <path id="top_ts_nck_rnd" class="cls-7" d="M253.12,134.2s-15.74-4.02-22.92-6.13c-3.43,6.81-20.91,9.98-29.98,9.98s-26.55-3.17-29.98-9.98c-7.18,2.11-23.14,6.13-23.14,6.13"/>
+    <g id="sem_ts_nck_rnd">
+      <g>
+        <path class="cls-7" d="M165.63,129.37s.05.07.15.19"/>
+        <path class="cls-13" d="M166.11,129.94c2.17,2.4,11.94,11.64,34.28,11.64s32-9.81,33.7-11.92"/>
+        <path class="cls-7" d="M234.24,129.46c.1-.13.14-.2.14-.2"/>
+      </g>
+    </g>
+  </g>
+  <g id="top_ts_nck_mok_GRP">
+    <g id="sem_ts_nck_mok_GRP">
+      <line id="sem_ts_nck_mok_17" class="cls-7" x1="200.22" y1="146.13" x2="200.22" y2="137.82"/>
+      <line id="sem_ts_nck_mok_16" class="cls-7" x1="191.48" y1="145.65" x2="193.64" y2="137.24"/>
+      <line id="sem_ts_nck_mok_15" class="cls-7" x1="195.85" y1="146.22" x2="196.91" y2="137.82"/>
+      <line id="sem_ts_nck_mok_14" class="cls-7" x1="186.97" y1="145.07" x2="190.24" y2="136.81"/>
+      <line id="sem_ts_nck_mok_13" class="cls-7" x1="182.33" y1="144.15" x2="186.7" y2="136.2"/>
+      <line id="sem_ts_nck_mok_12" class="cls-7" x1="177.47" y1="142.76" x2="182.78" y2="135.45"/>
+      <line id="sem_ts_nck_mok_11" class="cls-7" x1="172.72" y1="140.89" x2="179.12" y2="134.07"/>
+      <line id="sem_ts_nck_mok_10" class="cls-7" x1="167.65" y1="138.55" x2="175" y2="132.46"/>
+      <line id="sem_ts_mok_rnd_9" class="cls-7" x1="237.63" y1="135.34" x2="228.71" y2="129.68"/>
+      <line id="sem_ts_mok_rnd_8" class="cls-7" x1="161.67" y1="134.72" x2="171.42" y2="129.81"/>
+      <line id="sem_ts_mok_rnd_7" class="cls-7" x1="232.62" y1="138.41" x2="225.22" y2="132.28"/>
+      <line id="sem_ts_mok_rnd_6" class="cls-7" x1="227.77" y1="140.94" x2="221.45" y2="134.2"/>
+      <line id="sem_ts_mok_rnd_5" class="cls-7" x1="222.89" y1="142.81" x2="217.42" y2="135.28"/>
+      <line id="sem_ts_mok_rnd_4" class="cls-7" x1="218.06" y1="144.05" x2="213.75" y2="136.2"/>
+      <line id="sem_ts_mok_rnd_3" class="cls-7" x1="213.47" y1="145.07" x2="210.2" y2="136.81"/>
+      <line id="sem_ts_mok_rnd_2" class="cls-7" x1="208.96" y1="145.65" x2="206.83" y2="137.36"/>
+      <line id="sem_ts_mok_rnd_1" class="cls-7" x1="204.56" y1="145.91" x2="203.53" y2="137.82"/>
+      <g id="sem_ts_mok_rnd_18">
+        <g>
+          <path class="cls-7" d="M156.57,132.08s.06.06.18.17"/>
+          <path class="cls-11" d="M157.11,132.59c2.9,2.64,17.51,14.67,42.89,14.67s40.59-12.58,43.02-14.85"/>
+          <path class="cls-7" d="M243.2,132.24c.12-.11.18-.17.18-.17"/>
+        </g>
+      </g>
+      <path id="sem_ts_mok_rnd_19" class="cls-7" d="M157.55,131.34s1.1,1.17,3.31,2.86c5.66,4.32,18.63,12.02,39.14,12.02,28.52,0,42.45-14.88,42.45-14.88"/>
+    </g>
+    <path id="top_ts_nck_mok" class="cls-7" d="M253.12,134.2s-15.96-4.19-23.14-6.3c-3.43,6.81-20.91,9.98-29.98,9.98s-26.55-3.17-29.98-9.98c-7.18,2.11-22.92,6.3-22.92,6.3"/>
+  </g>
+  <g id="top_ts_pkt_GRP">
+    <g id="top_ts_pkt_r">
+      <path id="top_ts_pkt_r-2" data-name="top_ts_pkt_r" class="cls-14" d="M238.01,201.15v-33.44h-25.03v33.44h25.03Z"/>
+      <line id="dtl_top_ts_pkt_r" class="cls-10" x1="212.68" y1="173.75" x2="238.26" y2="173.75"/>
+      <polyline id="top_ts_pkt_r-3" data-name="top_ts_pkt_r" class="cls-9" points="213.8 168.13 213.8 200.19 237.2 200.19 237.2 168.13"/>
+    </g>
+  </g>
+  <g id="top_ts_slv_lon_GRP">
+    <path id="top_ts_slv_lon_r" class="cls-7" d="M147.1,134.2s-8.9,1.72-11.67,3.62c-3.77,2.58-8.03,11.63-9.33,14.37-4.86,12.37-8.41,37.14-10.25,50.33-1.71,13.18-5.15,43.27-6.11,48.51s-4.12,22.75-5.23,26.78-4.65,62.04-3.58,70.89h15.06c2.57-8.32,15.04-39.62,16.84-48.21s.96-20.67,2.67-37.54c2.1-5.79,11.6-51.83,11.6-51.83"/>
+    <line id="sem_ts_cuf_r_2" class="cls-4" x1="100.8" y1="346.78" x2="116.63" y2="346.78"/>
+    <line id="sem_ts_cuf_r_1" class="cls-4" x1="100.74" y1="345.89" x2="116.57" y2="345.89"/>
+    <path id="top_ts_slv_lon_l" class="cls-7" d="M253.12,134.2s8.9,1.72,11.67,3.62c3.77,2.58,8.03,11.63,9.33,14.37,4.86,12.37,8.41,37.14,10.25,50.33,1.71,13.18,4.15,43.27,5.11,48.51s4.12,22.75,5.23,26.78,4.65,62.04,3.58,70.89h-15.06c-2.57-8.32-15.04-39.62-16.84-48.21-1.79-8.59-.96-20.67-2.67-37.54-2.1-5.79-10.82-51.83-10.82-51.83"/>
+    <line id="sem_ts_cuf_l_2" class="cls-4" x1="298.42" y1="346.78" x2="282.6" y2="346.78"/>
+    <line id="sem_ts_cuf_l_1" class="cls-4" x1="297.79" y1="345.71" x2="281.97" y2="345.71"/>
+  </g>
+  <g id="top_ts_slv_set_GRP">
+    <path id="top_ts_slv_set_l" class="cls-7" d="M252.9,211.12l2.16,3.2,27.94-13.32s-4.01-35.31-8.17-46.89c-.84-2.32-5.44-11.79-10.04-16.29-3.51-1.39-11.67-3.62-11.67-3.62"/>
+    <path id="top_ts_slv_set_r" class="cls-7" d="M147.1,211.12l-1.94,3.2-27.94-13.32s4.72-37.23,8.88-48.81c.84-2.32,4.73-9.87,9.33-14.37,3.51-1.39,11.67-3.62,11.67-3.62"/>
+    <line id="sem_ts_hem_l_2" class="cls-12" x1="282.72" y1="199.09" x2="253.93" y2="212.47"/>
+    <line id="sem_ts_hem_l_1" class="cls-12" x1="282.6" y1="198.28" x2="253.52" y2="211.79"/>
+    <line id="sem_ts_hem_r_2" class="cls-12" x1="117.5" y1="199.09" x2="146.29" y2="212.47"/>
+    <line id="sem_ts_hem_r_1" class="cls-12" x1="117.62" y1="198.28" x2="146.7" y2="211.79"/>
+  </g>
+  <g id="top_ts_tor_reg_GRP">
+    <polyline id="top_ts_tor_reg" class="cls-7" points="147.1 211.12 143.96 298.82 200 298.82 256.04 298.82 252.9 211.12"/>
+    <line id="sem_ts_tor__reg_2" class="cls-8" x1="143.96" y1="295.72" x2="255.9" y2="295.75"/>
+    <line id="sem_ts_tor__reg_1" class="cls-8" x1="143.96" y1="294.91" x2="255.9" y2="294.93"/>
+  </g>
+  <g id="top_ts_nck_v_GRP">
+    <polyline id="top_ts_nck_v" class="cls-7" points="253.12 134.2 242.45 131.89 229.98 128.45 200 152.22 170.02 127.91 157.55 131.34 147.1 134.2"/>
+    <polyline id="dtl_ts_nck_v_1" class="cls-8" points="165.85 129.19 200 157.44 233.49 129.42"/>
+  </g>
+  <g id="top_ts_slv_set_low_GRP">
+    <line id="dtl_ts_slv_set_low_l_2" class="cls-8" x1="290.5" y1="199.06" x2="254.35" y2="216.4"/>
+    <line id="dtl_ts_slv_set_low_l_1" class="cls-8" x1="290.17" y1="198.17" x2="254.11" y2="215.5"/>
+    <line id="dtl_ts_slv_set_low_r_2" class="cls-8" x1="108.71" y1="198.84" x2="145.87" y2="216.56"/>
+    <line id="dtl_ts_slv_set_low_r_1" class="cls-8" x1="109.05" y1="198.22" x2="146.03" y2="215.86"/>
+    <path id="top_ts_slv_set_low_r" class="cls-7" d="M147.1,134.2s-8.1,1.97-11.67,3.62c-3.34,1.54-7.81,10.72-9.33,14.37-3.84,9.21-17.82,47.84-18.03,48.41-.3.58,37.07,18.08,37.41,17.67l1.63-7.16"/>
+    <path id="top_ts_slv_set_low_l" class="cls-7" d="M253.12,134.2s7.1,2.27,10.68,3.92c3.34,1.54,9.52,12.35,11.03,15.99,3.88,9.32,16.33,46.79,16.33,46.79.3.58-35.98,17.72-36.32,17.31l-1.95-7.09"/>
+  </g>
+  <g id="sem_ts_shl_low_GRP">
+    <line id="sem_ts_shl_low_r" class="cls-7" x1="146.91" y1="211.12" x2="125.91" y2="152.19"/>
+    <line id="sem_ts_shl_low_l" class="cls-7" x1="274.83" y1="154.11" x2="253.44" y2="210.7"/>
+  </g>
+  <g id="sem_ts_shl_reg_GRP">
+    <line id="sem_ts_shl_reg_r" class="cls-7" x1="147.1" y1="211.12" x2="135.44" y2="137.82"/>
+    <line id="sem_ts_shl_reg_l" class="cls-7" x1="263.87" y1="138.03" x2="252.9" y2="211.12"/>
+  </g>
+  <g id="top_ts_dtl_GRP">
+    <line id="top_ts_sem_sid_r" class="cls-7" x1="147.1" y1="162.19" x2="147.1" y2="211.12"/>
+    <line id="top_ts_sem_sid_l" class="cls-7" x1="252.13" y1="162.19" x2="252.9" y2="211.12"/>
+  </g>
+</svg>`;
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let currentStep = 0;
+let selectedCategory = null;
+let totalAssetsSVG = null;
+let selections = {};    // { moduleKey: optionId | 'none' }
+let detailStates = {};  // { detailId: bool }
+
+const logEl = document.getElementById('log');
+function log(m,t='info'){const l=document.createElement('div');l.className=t;l.textContent=m;logEl.appendChild(l);logEl.scrollTop=logEl.scrollHeight}
+
+// ══════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════
+const track = document.getElementById('stepsTrack');
+const dots = document.querySelectorAll('.step-dot');
+const btnBack = document.getElementById('btnBack');
+const btnNext = document.getElementById('btnNext');
+
+function goStep(n) {
+    currentStep = n;
+    track.style.transform = `translateX(-${n * 33.333}%)`;
+    dots.forEach((d,i) => { d.className = 'step-dot' + (i < n ? ' done' : i === n ? ' active' : ''); });
+    btnBack.style.display = n > 0 ? '' : 'none';
+
+    if (n === 0) { btnNext.textContent = 'Next'; btnNext.disabled = !selectedCategory || !totalAssetsSVG; }
+    else if (n === 1) { btnNext.textContent = 'Next'; btnNext.disabled = false; }
+    else if (n === 2) { btnNext.textContent = 'Generate'; btnNext.disabled = false; }
+}
+
+btnBack.addEventListener('click', () => { if (currentStep > 0) goStep(currentStep - 1); });
+btnNext.addEventListener('click', () => {
+    if (currentStep < 2) { goStep(currentStep + 1); if (currentStep === 1) buildStep1(); if (currentStep === 2) buildStep2(); }
+    else { generate(); if(window.innerWidth<=800) closeSidebar(); }
+});
+
+// ══════════════════════════════════════════════════
+// STEP 0 — Category + Upload
+// ══════════════════════════════════════════════════
+const GARMENT_ICONS = {
+    tshirt_icon: `<svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M32.59 41.98H12.23c-.93 0-1.81-.09-2.26-1.1l-.02-.04c-.37-.83.01-1.37.27-2.12.68-2 .93-4.2 1.12-6.29l.15-2.48c.01-.27.06-.54.06-.8l0-6.02c-.05-1.06-.26-2.11-.3-3.17-2.02-.09-1.77 2.33-3.43 2.04-2.64-.46-4.5-3.08-6.03-5.06-.35-.45-.85-.95-.99-1.51-.46-1.78 2.01-2.71 3.22-3.38l4.13-2.33c.47-.28.94-.55 1.39-.86 1.05-.73 2.07-1.59 3.4-1.71l.83-.03c1.5-.12 2.89-.68 4.33-1.06.58-.06.84.49 1.19.85 1.32 1.39 3.02 1.75 4.85 1.74 1.78-.01 3.68-.45 4.85-1.89.72-.87.49-.81 1.66-.48l2.43.65c.4.09.8.15 1.21.18 1.59.11 2.2.31 3.58 1.29l1.28.87 6.31 3.58c.61.35 1.69.92 1.8 1.71l.02.1c.18.72-.33 1.3-.75 1.81l-1.61 2.1c-1.1 1.36-2.88 3.24-4.66 3.43h-.04c-.79.08-1.04-.17-1.41-.78-.45-.74-1.15-1.6-2.08-1.09-.06.26-.06.53-.08.79l-.14 1.39c-.05.34-.04.69-.04 1.04l.01 6.11c.01.26.07.51.08.77l.03 1.3.01.26.05.78.52 3.64c.1.59.19 1.19.37 1.75.14.45.54 1.37.6 1.73 0 .03.01.06.02.09.34.94-.59 1.97-1.48 2.15l-.04 0c-.44.09-.96.04-1.41.04h-2.65zM18.01 7.54c.86 2.43 2.72 4.12 5.3 4.38 2.24.23 5.05-.76 6.14-2.83l0-.01c.28-.48.47-.94.59-1.49-1.33 1.35-3.04 2.32-4.97 2.33l-2.06-.01c-1.96-.1-3.67-.96-5.01-2.38zm-1.45.35c-1.26.36-1.88.52-3.16.56-1.22.04-1.88.6-2.78 1.26l-1.62 1.05-4.26 2.4c-.82.46-2.2 1.01-2.76 1.79.27.58.76 1.1 1.15 1.6 1.08 1.36 2.63 3.41 4.33 4.03l.52.16c1.01-1.22 1.5-2.32 3.47-2.09 1.12.13 1 .77 1.13 1.74l.19 1.76c.02.17.05.35.06.52l.08 1.56 0 3.42c-.01.2-.05.41-.06.61l-.13 3.19-.48 4.19-.54 2.63c-.09.4-.24.81-.38 1.2-.26.73-.38 1.05.51 1.05l23.91 0c.26 0 .7.08.93-.05l.04-.02c.12-.12.18-.19.2-.36-.52-1.42-.87-2.77-1.1-4.26l-.34-2.3-.29-3.46-.07-4.04c0-.16.04-.32.04-.49l.02-2.66.18-2.24c.04-.36.09-.75.24-1.09.49-1.03 1.89-1.07 2.78-.53.71.37 1.13 1.06 1.6 1.67.15.19.22.08.44.02 1.77-.51 3.55-3.02 4.63-4.38l.65-.81c.11-.14.26-.28.34-.44l.01-.02c-.32-.65-2.27-1.57-2.93-1.95l-5.49-3.19c-1.09-.74-1.87-1.36-3.23-1.39-.23-.01-.49 0-.72-.04l-1.6-.36c-.2-.05-.49-.15-.69-.15-.14.41-.23.82-.4 1.21-1.52 3.49-5.99 4.94-9.47 3.77-1.82-.61-3.43-2.02-4.29-3.74-.09-.17-.46-1.21-.58-1.26l-.06.02z" fill="currentColor"/><path d="M33.83 27.73l-6.28 0c-.63 0-1.23.05-1.27-.82l.01-6.92c0-.71-.24-1.65.58-1.97l6.98-.01c.15.01.32.14.41.25l.02.03c.21.25.12.67.12.98l0 5.88c.01.49.16 1.62 0 2.02l-.07.17c-.12.21-.3.32-.52.38zm-6.04-8.24l-.09.02c-.03.32 0 .67 0 .99l0 5.41c0 .11-.01.25.01.36l5.25 0 .07-6.78-5.24 0z" fill="currentColor"/></svg>`,
+    pants_icon: `<svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M25.8 30.58l-1.77-8.57c-.14.31-.18.66-.25.99l-1.55 7.41-.76 4.14-1.06 6.74c-.2 1.13-1.34 1.07-2.17 1.07l-5.8 0c-.19 0-.39.01-.57-.03l-.03-.01c-1.22-.28-1.16-1.22-1.16-2.2l.01-8.63.11-3.91c.01-.37.07-.74.09-1.1l.01-1.84c.01-.38.08-.76.09-1.14l.02-1.94c.01-.27.06-.54.07-.81l.12-3.09.19-2.79c.09-1.07.27-2.14.48-3.2l.39-1.97c.06-.29.04-.61.04-.91l0-1.33c0-.29-.04-.68.09-.94.32-.63.73-.9 1.46-.95l19.72-.01c1.6 0 2.14.33 2.14 1.92l0 1.18c0 .39.05.77.11 1.17l.18.99.05.18.2.93c.14.74.23 1.49.3 2.23l.14 2.04c.02.25 0 .56.06.8l.03.13c.11.5.06 1.07.08 1.58.01.2.06.4.06.6l.02 1.5c.01.22.06.45.07.67l.02 1.58c.01.29.08.57.09.86l.03 1.94c.01.16.04.32.04.49l.05 2.29c.01.18.05.36.06.54l.01 1.6c.01.19.05.38.05.57l.01 8.3c0 1.12.25 2.24-1.13 2.66l-.07.02c-.14.03-.3.03-.44.03l-5.47 0c-2.02 0-2.45.21-2.77-2.11l-1.67-9.67z" fill="currentColor"/></svg>`,
+    jacket_icon: `<svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M24.46 42.03l-.37-.4c-1.41 1.45-2.27 1.47-4.24 1.48l-3.59 0c-2.13 0-4.12-1.14-4.69-3.3-.08-.3-.1-.61-.17-.92l-.44.23c-1.8.84-4.1.2-4.92-1.67-.18-.42-.58-2-.59-2.42l-.1-1.68 0-4.9c.01-.21.06-.42.07-.64.22-3.58.84-7.31 2.16-10.66 1.23-3.12 2.97-5.42 6.22-6.68l1.86-.64c.42-.12.84-.22 1.24-.4l-.05-.21c-.55-1.71 1.23-3.68 2.89-4.02.36-.07.72-.09 1.08-.14l.92-.09c.16-.01.32-.05.48-.05l1.02-.01 3.07.08c1.79.12 4.08.59 4.73 2.56l.08.25c.15.47.12 1.2-.07 1.67l2.37.76c2.47.8 4.69 2.41 5.95 4.72l1.23 2.76c.22.45.3.98.47 1.45l.93 4.03c.05.15.06.3.08.46l.42 3.13.07 1.13c.08.8.08 1.38.08 2.18l-.03 3.52c-.01.19-.06.37-.07.56-.02.37.01.78-.05 1.14-.07.45-.36 1.64-.51 2.04-.42 1.13-1.48 1.99-2.68 2.14-.85.11-2 0-2.7-.54l-.02-.02c-.03.2-.05.41-.09.61-.49 2.17-2.23 3.56-4.46 3.65l-4.26 0c-1.27 0-2.21-.03-3.23-.98l-.1-.1z" fill="currentColor"/></svg>`
+};
+
+const catGrid = document.getElementById('catGrid');
+
+Object.entries(CONFIG.categories).forEach(([key, cat]) => {
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+
+    // Si está deshabilitada
+    if (cat.disabled) {
+        card.classList.add('disabled');
+    } else {
+        card.addEventListener('click', () => {
+            catGrid.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedCategory = key;
+            selections = {};
+            detailStates = {};
+
+            const mods = cat.modules;
+            Object.entries(mods).forEach(([mk, mod]) => {
+                if (mod.required) selections[mk] = mod.options[0].id;
+                else selections[mk] = 'none';
+            });
+
+            cat.details.forEach(d => detailStates[d.id] = d.default || false);
+
+            checkStep0();
+        });
+    }
+
+    const iconSvg = GARMENT_ICONS[cat.icon] || `<span style="font-size:40px">${cat.icon}</span>`;
+    card.innerHTML = `
+        <div class="cat-icon">${iconSvg}</div>
+        <div class="cat-label">${cat.label}</div>
+    `;
+
+    catGrid.appendChild(card);
+});
+
+
+// File upload
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--blue)'; });
+dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.style.borderColor=''; if(e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e => { if(e.target.files.length) loadFile(e.target.files[0]); });
+
+function loadFile(file) {
+    const r = new FileReader();
+    r.onload = ev => {
+        totalAssetsSVG = new DOMParser().parseFromString(ev.target.result, 'image/svg+xml');
+        dropZone.classList.add('ok');
+        const badge = document.getElementById('fileBadge');
+        badge.innerHTML = `<span class="file-badge">✅ ${file.name}</span>`;
+        badge.style.display = 'block';
+        checkStep0();
+    };
+    r.readAsText(file);
+}
+
+function checkStep0() { btnNext.disabled = !(selectedCategory && totalAssetsSVG); }
+
+// ══════════════════════════════════════════════════
+// STEP 1 — Modules (dynamic from config)
+// ══════════════════════════════════════════════════
+function buildStep1() {
+    const container = document.getElementById('modulesContainer');
+    container.innerHTML = '';
+    if (!selectedCategory) return;
+    const cat = CONFIG.categories[selectedCategory];
+
+    Object.entries(cat.modules).forEach(([moduleKey, mod]) => {
+        const sec = document.createElement('div');
+        sec.innerHTML = `<div class="sec-label">${mod.label}${mod.required ? '' : ' <span style="opacity:.5">(optional)</span>'}</div>`;
+
+        const scroll = document.createElement('div');
+        scroll.className = 'opt-scroll';
+
+        // "None" option for non-required
+        if (!mod.required) {
+            const none = document.createElement('div');
+            none.className = 'opt-card none-card' + (selections[moduleKey] === 'none' ? ' selected' : '');
+            none.innerHTML = `<div class="opt-preview">—</div><div class="opt-name">None</div>`;
+            none.addEventListener('click', () => { selectOption(moduleKey, 'none', scroll); });
+            scroll.appendChild(none);
+        }
+
+        mod.options.forEach(opt => {
+            const card = document.createElement('div');
+            card.className = 'opt-card' + (selections[moduleKey] === opt.id ? ' selected' : '');
+            // short code for mini preview
+            const shortLabel = opt.label.slice(0, 3).toUpperCase();
+            card.innerHTML = `<div class="opt-preview" style="font-size:14px;font-weight:700;opacity:.3">${shortLabel}</div><div class="opt-name">${opt.label}</div>`;
+            card.addEventListener('click', () => { selectOption(moduleKey, opt.id, scroll); });
+            scroll.appendChild(card);
+        });
+
+        sec.appendChild(scroll);
+        container.appendChild(sec);
+    });
+}
+
+function selectOption(moduleKey, optId, scrollContainer) {
+    selections[moduleKey] = optId;
+    scrollContainer.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+    // Find and select the right card
+    const cards = scrollContainer.querySelectorAll('.opt-card');
+    const cat = CONFIG.categories[selectedCategory];
+    const mod = cat.modules[moduleKey];
+    let idx = 0;
+    if (!mod.required) {
+        if (optId === 'none') cards[0].classList.add('selected');
+        idx = 1;
+    }
+    mod.options.forEach((opt, i) => {
+        if (opt.id === optId) cards[i + idx].classList.add('selected');
+    });
+}
+
+// ══════════════════════════════════════════════════
+// STEP 2 — Details (dynamic from config)
+// ══════════════════════════════════════════════════
+function buildStep2() {
+    const container = document.getElementById('detailToggles');
+    container.innerHTML = '';
+    if (!selectedCategory) return;
+    const cat = CONFIG.categories[selectedCategory];
+
+    cat.details.forEach(det => {
+        if (det.type === 'select') {
+            // Select-type detail: None / Option1 / Option2
+            const label = document.createElement('div');
+            label.className = 'sec-label';
+            label.textContent = det.label;
+            container.appendChild(label);
+
+            const scroll = document.createElement('div');
+            scroll.className = 'opt-scroll';
+
+            // "None" option
+            const noneCard = document.createElement('div');
+            noneCard.className = 'opt-card none-card' + (!detailStates[det.id] || detailStates[det.id] === 'none' ? ' selected' : '');
+            noneCard.innerHTML = `<div class="opt-preview">—</div><div class="opt-name">None</div>`;
+            noneCard.addEventListener('click', () => {
+                detailStates[det.id] = 'none';
+                scroll.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+                noneCard.classList.add('selected');
+            });
+            scroll.appendChild(noneCard);
+
+            det.options.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = 'opt-card' + (detailStates[det.id] === opt.id ? ' selected' : '');
+                const shortLabel = opt.label.slice(0, 3).toUpperCase();
+                card.innerHTML = `<div class="opt-preview" style="font-size:14px;font-weight:700;opacity:.3">${shortLabel}</div><div class="opt-name">${opt.label}</div>`;
+                card.addEventListener('click', () => {
+                    detailStates[det.id] = opt.id;
+                    scroll.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+                scroll.appendChild(card);
+            });
+
+            container.appendChild(scroll);
+        } else {
+            // Toggle-type detail: on/off
+            const row = document.createElement('div');
+            row.className = 'tog-row';
+            const tog = document.createElement('div');
+            tog.className = 'tog' + (detailStates[det.id] ? ' on' : '');
+            tog.addEventListener('click', () => { tog.classList.toggle('on'); detailStates[det.id] = tog.classList.contains('on'); });
+
+            row.innerHTML = `<span class="tog-label">${det.label}</span>`;
+            row.appendChild(tog);
+            container.appendChild(row);
+        }
+    });
+}
+
+// ══════════════════════════════════════════════════
+// ENGINE (preserved from v12 — with fixed parseNums)
+// ══════════════════════════════════════════════════
+function extractGroup(groupId) {
+    if (!totalAssetsSVG) return null;
+    const grpId = groupId + '_GRP';
+    const group = totalAssetsSVG.getElementById(grpId);
+    if (!group) { log('⚠️ "'+grpId+'" not found','warn'); return null; }
+    const main=[], seams=[], details=[];
+    group.querySelectorAll('path,polyline,polygon,line').forEach(el => {
+        const id=el.getAttribute('id')||'', tag=el.tagName.toLowerCase();
+        const shape = { tag, id };
+        if (tag==='path') shape.d=el.getAttribute('d');
+        else if (tag==='polyline'||tag==='polygon') shape.points=el.getAttribute('points');
+        else if (tag==='line') { shape.x1=el.getAttribute('x1'); shape.y1=el.getAttribute('y1'); shape.x2=el.getAttribute('x2'); shape.y2=el.getAttribute('y2'); }
+        if (id.startsWith('sem_')) seams.push(shape);
+        else if (id.startsWith('dtl_')) details.push(shape);
+        else main.push(shape);
+    });
+    return { main, seams, details };
+}
+
+// Convert any shape (polyline, line, path) to a path d string
+function shapeToD(shape) {
+    if (shape.d) return shape.d;
+    if (shape.points) {
+        const pts = parseNums(shape.points);
+        if (pts.length < 4) return null;
+        let d = `M${pts[0]},${pts[1]}`;
+        for (let i = 2; i < pts.length; i += 2) d += ` L${pts[i]},${pts[i+1]}`;
+        return d;
+    }
+    if (shape.x1 != null) return `M${shape.x1},${shape.y1} L${shape.x2},${shape.y2}`;
+    return null;
+}
+
+// Get endpoints from any shape
+function shapeEndpoints(shape) {
+    const d = shapeToD(shape);
+    return d ? getEndpoints(d) : null;
+}
+
+// Smart reverse: uses complex reverse for curves, simple for lines
+function reverseAnyD(d) {
+    return /[CcSsQq]/.test(d) ? reverseComplexPath(d) : reverseLinePath(d);
+}
+
+// ═══ READ ANCHOR JUNCTIONS FROM SVG ═══
+function readJunctions(cat) {
+    if (!totalAssetsSVG || !cat.junctions) return null;
+    const jDef = cat.junctions;
+    const center = 200; // center X of the viewBox
+    const pts = {};
+
+    // Read anchor-based junctions
+    for (const [name, def] of Object.entries(jDef)) {
+        if (def.anchor) {
+            const el = totalAssetsSVG.getElementById(def.anchor);
+            if (!el) { log(`⚠️ Anchor "${def.anchor}" not found`,'warn'); continue; }
+            if (def.coord === 'x1y1') pts[name] = { x: parseFloat(el.getAttribute('x1')), y: parseFloat(el.getAttribute('y1')) };
+            else if (def.coord === 'x2y2') pts[name] = { x: parseFloat(el.getAttribute('x2')), y: parseFloat(el.getAttribute('y2')) };
+        }
+    }
+
+    // Resolve mirrors (reflect across center X)
+    for (const [name, def] of Object.entries(jDef)) {
+        if (def.mirror && pts[def.mirror]) {
+            const src = pts[def.mirror];
+            pts[name] = { x: center + (center - src.x), y: src.y };
+        }
+    }
+
+    // Log
+    for (const [name, pt] of Object.entries(pts)) {
+        log(`  Junction ${name}: (${pt.x.toFixed(1)}, ${pt.y.toFixed(1)})`,'info');
+    }
+
+    return pts;
+}
+
+// ═══ CLASSIFY COMPONENT: which junction is each endpoint nearest to? ═══
+function classifyEndpoints(shape, junctions, tol) {
+    const d = shapeToD(shape);
+    if (!d) return null;
+    const ep = getEndpoints(d);
+    if (!ep) return null;
+
+    const dist = (a, b) => Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+    const nearest = (pt) => {
+        let best = null, bestD = Infinity;
+        for (const [name, jpt] of Object.entries(junctions)) {
+            const dd = dist(pt, jpt);
+            if (dd < bestD) { bestD = dd; best = name; }
+        }
+        return bestD < tol ? best : null;
+    };
+
+    return { d, start: ep.start, end: ep.end, startJ: nearest(ep.start), endJ: nearest(ep.end) };
+}
+
+// ═══ 4-COMPONENT ANCHOR-DRIVEN CIRCUIT MERGE ═══
+// Circuit is always: A → D → C → B → A (clockwise)
+// Each component fills one edge of the circuit
+function mergeCircuit(torsoShape, neckShape, slvRShape, slvLShape, junctions) {
+    if (!junctions || !junctions.A || !junctions.B || !junctions.C || !junctions.D) {
+        log('  ❌ Missing junctions for circuit merge','err');
+        return null;
+    }
+
+    const TOL = 15; // tolerance for matching endpoints to junctions
+    const stripM = d => d.replace(/^M[^A-DF-Za-df-z]*/, '').replace(/Z\s*$/i, '').trim();
+    const stripZ = d => d.replace(/Z\s*$/i, '').trim();
+
+    // Circuit edges in order: A→D, D→C, C→B, B→A
+    const circuit = [
+        { from: 'A', to: 'D', label: 'torso' },
+        { from: 'D', to: 'C', label: 'slvL' },
+        { from: 'C', to: 'B', label: 'neck' },
+        { from: 'B', to: 'A', label: 'slvR' },
+    ];
+
+    // Classify all components
+    const components = [
+        { shape: torsoShape, name: 'TOR' },
+        { shape: neckShape, name: 'NCK' },
+        { shape: slvRShape, name: 'SLV_R' },
+        { shape: slvLShape, name: 'SLV_L' },
+    ];
+
+    for (const c of components) {
+        const info = classifyEndpoints(c.shape, junctions, TOL);
+        if (!info) { log(`  ❌ Can't classify ${c.name}`,'err'); return null; }
+        Object.assign(c, info);
+        log(`  ${c.name}: (${info.start.x.toFixed(1)},${info.start.y.toFixed(1)}) [${info.startJ||'?'}] → (${info.end.x.toFixed(1)},${info.end.y.toFixed(1)}) [${info.endJ||'?'}]`,'info');
+    }
+
+    // For each circuit edge, find which component fills it
+    let result = '';
+    let chain = [];
+
+    for (let i = 0; i < circuit.length; i++) {
+        const edge = circuit[i];
+        // Find component whose endpoints match this edge (fwd or rev)
+        const match = components.find(c => !c.used &&
+            ((c.startJ === edge.from && c.endJ === edge.to) ||
+             (c.startJ === edge.to && c.endJ === edge.from)));
+
+        if (!match) {
+            log(`  ❌ No component for edge ${edge.from}→${edge.to}`,'err');
+            return null;
+        }
+
+        const fwd = (match.startJ === edge.from && match.endJ === edge.to);
+        match.used = true;
+
+        if (i === 0) {
+            // First segment: keep M
+            result = fwd ? stripZ(match.d) : `M${match.end.x},${match.end.y} ` + reverseAnyD(match.d);
+        } else {
+            // Subsequent: strip M, append
+            result += ' ' + (fwd ? stripM(match.d) : reverseAnyD(match.d));
+        }
+        chain.push(`${match.name}${fwd ? '→' : '←'}`);
+    }
+
+    result += ' Z';
+    log(`  ✅ Circuit: ${chain.join(' → ')} → Z`,'ok');
+    return result;
+}
+
+// ═══ 2-COMPONENT JOIN (torso + neck only) ═══
+function joinTwo(shapeA, shapeB) {
+    const dA = shapeToD(shapeA), dB = shapeToD(shapeB);
+    if (!dA || !dB) return null;
+    const ae = getEndpoints(dA), be = getEndpoints(dB);
+    if (!ae || !be) return null;
+    const TOL = 3, near = (a, b) => Math.abs(a.x - b.x) < TOL && Math.abs(a.y - b.y) < TOL;
+
+    log(`  A: (${ae.start.x.toFixed(1)},${ae.start.y.toFixed(1)})→(${ae.end.x.toFixed(1)},${ae.end.y.toFixed(1)})`,'info');
+    log(`  B: (${be.start.x.toFixed(1)},${be.start.y.toFixed(1)})→(${be.end.x.toFixed(1)},${be.end.y.toFixed(1)})`,'info');
+
+    const stripM = d => d.replace(/^M[^A-DF-Za-df-z]*/, '').replace(/Z\s*$/i, '').trim();
+    const stripZ = d => d.replace(/Z\s*$/i, '').trim();
+
+    // A.end connects to B.start
+    if (near(ae.end, be.start)) {
+        log('  → A fwd + B fwd + Z','ok');
+        return stripZ(dA) + ' ' + stripM(dB) + ' Z';
+    }
+    // B.end connects to A.start
+    if (near(be.end, ae.start)) {
+        log('  → B fwd + A fwd + Z','ok');
+        return stripZ(dB) + ' ' + stripM(dA) + ' Z';
+    }
+    // A.start connects to B.start → reverse A + B
+    if (near(ae.start, be.start)) {
+        log('  → B fwd + A rev + Z','ok');
+        return stripZ(dB) + ' ' + reverseAnyD(dA) + ' Z';
+    }
+    // A.end connects to B.end → A + reverse B
+    if (near(ae.end, be.end)) {
+        log('  → A fwd + B rev + Z','ok');
+        return stripZ(dA) + ' ' + reverseAnyD(dB) + ' Z';
+    }
+    log('  ❌ No join strategy','err');
+    return null;
+}
+
+function parseNums(s) { return (s.match(/[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?/g)||[]).map(parseFloat); }
+
+function tracePathPoints(d) {
+    const pts=[], cmds=d.match(/[MmLlHhVvCcSsQqTtAaZz][^MmLlHhVvCcSsQqTtAaZz]*/g);
+    if(!cmds) return pts; let x=0,y=0,sx=0,sy=0;
+    cmds.forEach(cmd=>{const t=cmd[0],n=parseNums(cmd.slice(1));
+        switch(t){
+            case'M':x=n[0];y=n[1];sx=x;sy=y;pts.push({x,y});break;case'm':x+=n[0];y+=n[1];sx=x;sy=y;pts.push({x,y});break;
+            case'L':for(let i=0;i<n.length;i+=2){x=n[i];y=n[i+1];pts.push({x,y})}break;case'l':for(let i=0;i<n.length;i+=2){x+=n[i];y+=n[i+1];pts.push({x,y})}break;
+            case'H':x=n[0];pts.push({x,y});break;case'h':x+=n[0];pts.push({x,y});break;
+            case'V':y=n[0];pts.push({x,y});break;case'v':y+=n[0];pts.push({x,y});break;
+            case'C':for(let i=0;i<n.length;i+=6){x=n[i+4];y=n[i+5];pts.push({x,y})}break;case'c':for(let i=0;i<n.length;i+=6){x+=n[i+4];y+=n[i+5];pts.push({x,y})}break;
+            case'S':for(let i=0;i<n.length;i+=4){x=n[i+2];y=n[i+3];pts.push({x,y})}break;case's':for(let i=0;i<n.length;i+=4){x+=n[i+2];y+=n[i+3];pts.push({x,y})}break;
+            case'Q':for(let i=0;i<n.length;i+=4){x=n[i+2];y=n[i+3];pts.push({x,y})}break;case'q':for(let i=0;i<n.length;i+=4){x+=n[i+2];y+=n[i+3];pts.push({x,y})}break;
+            case'Z':case'z':x=sx;y=sy;break;
+        }
+    }); return pts;
+}
+function getEndpoints(d){const p=tracePathPoints(d);return p.length<2?null:{start:p[0],end:p[p.length-1]}}
+
+function reverseLinePath(d){return tracePathPoints(d).slice().reverse().map(p=>`L${p.x},${p.y}`).join(' ')}
+
+function reverseComplexPath(d){
+    const segs=[],cmds=d.match(/[MmLlHhVvCcSsQqTtAaZz][^MmLlHhVvCcSsQqTtAaZz]*/g);
+    if(!cmds)return d;let x=0,y=0,pc2x=0,pc2y=0;
+    cmds.forEach(cmd=>{const t=cmd[0],n=parseNums(cmd.slice(1));
+        if(t==='M'||t==='m'){if(t==='M'){x=n[0];y=n[1]}else{x+=n[0];y+=n[1]}segs.push({type:'M',x,y});pc2x=x;pc2y=y}
+        else if(t==='L'){for(let i=0;i<n.length;i+=2){segs.push({type:'L',fx:x,fy:y,x:n[i],y:n[i+1]});x=n[i];y=n[i+1]}pc2x=x;pc2y=y}
+        else if(t==='l'){for(let i=0;i<n.length;i+=2){const nx=x+n[i],ny=y+n[i+1];segs.push({type:'L',fx:x,fy:y,x:nx,y:ny});x=nx;y=ny}pc2x=x;pc2y=y}
+        else if(t==='C'){for(let i=0;i<n.length;i+=6){segs.push({type:'C',fx:x,fy:y,c1x:n[i],c1y:n[i+1],c2x:n[i+2],c2y:n[i+3],x:n[i+4],y:n[i+5]});pc2x=n[i+2];pc2y=n[i+3];x=n[i+4];y=n[i+5]}}
+        else if(t==='c'){for(let i=0;i<n.length;i+=6){const c1x=x+n[i],c1y=y+n[i+1],c2x=x+n[i+2],c2y=y+n[i+3],nx=x+n[i+4],ny=y+n[i+5];segs.push({type:'C',fx:x,fy:y,c1x,c1y,c2x,c2y,x:nx,y:ny});pc2x=c2x;pc2y=c2y;x=nx;y=ny}}
+        else if(t==='S'||t==='s'){for(let i=0;i<n.length;i+=4){const c1x=2*x-pc2x,c1y=2*y-pc2y;let c2x,c2y,nx,ny;if(t==='S'){c2x=n[i];c2y=n[i+1];nx=n[i+2];ny=n[i+3]}else{c2x=x+n[i];c2y=y+n[i+1];nx=x+n[i+2];ny=y+n[i+3]}segs.push({type:'C',fx:x,fy:y,c1x,c1y,c2x,c2y,x:nx,y:ny});pc2x=c2x;pc2y=c2y;x=nx;y=ny}}
+        else if(t==='H'){segs.push({type:'L',fx:x,fy:y,x:n[0],y});x=n[0];pc2x=x;pc2y=y}
+        else if(t==='h'){const nx=x+n[0];segs.push({type:'L',fx:x,fy:y,x:nx,y});x=nx;pc2x=x;pc2y=y}
+    });
+    return segs.filter(s=>s.type!=='M').reverse().map(s=>{
+        if(s.type==='L')return`L${s.fx},${s.fy}`;if(s.type==='C')return`C${s.c2x},${s.c2y},${s.c1x},${s.c1y},${s.fx},${s.fy}`;return''
+    }).join(' ');
+}
+
+
+
+const NS='http://www.w3.org/2000/svg';
+function mkEl(tag,a){const e=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(a))if(v!=null)e.setAttribute(k,String(v));return e}
+function renderSh(s,a){
+    if(s.tag==='path'&&s.d)return mkEl('path',{d:s.d,...a});
+    if((s.tag==='polyline'||s.tag==='polygon')&&s.points)return mkEl(s.tag,{points:s.points,...a});
+    if(s.tag==='line'&&s.x1)return mkEl('line',{x1:s.x1,y1:s.y1,x2:s.x2,y2:s.y2,...a});
+    return null;
+}
+
+// ══════════════════════════════════════════════════
+// GENERATE (anchor-driven circuit merge)
+// ══════════════════════════════════════════════════
+function generate() {
+    logEl.innerHTML='';log('━━━ GENERATING ━━━','info');
+    const preview=document.getElementById('svg-preview');preview.innerHTML='';
+    if(!totalAssetsSVG||!selectedCategory)return;
+
+    const cat=CONFIG.categories[selectedCategory];
+    const fill=document.getElementById('cFill').value;
+    const stroke=document.getElementById('cStroke').value;
+    const sw=parseFloat(document.getElementById('rSW').value);
+    const showSeams=document.getElementById('togSeams').classList.contains('on');
+
+    const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox',CONFIG.viewBox);svg.setAttribute('xmlns',NS);
+    const gA={fill,stroke,'stroke-width':sw,'stroke-linejoin':'round','stroke-linecap':'round'};
+    const seamAttr={fill:'none',stroke,'stroke-width':Math.max(sw*0.6,0.5),'stroke-linejoin':'round','stroke-linecap':'round','stroke-dasharray':'0.75 2'};
+    const dtlAttr={fill:'none',stroke,'stroke-width':Math.max(sw*0.5,0.4),'stroke-linecap':'round'};
+
+    // Read anchor junctions
+    log('Reading junctions...','info');
+    const junctions = readJunctions(cat);
+
+    // Body
+    const bodyG=totalAssetsSVG.getElementById(CONFIG.body_group);
+    if(bodyG){const bg=mkEl('g',{id:'layer-body'});bodyG.querySelectorAll('path').forEach(p=>bg.appendChild(mkEl('path',{d:p.getAttribute('d'),fill:'#ddd',stroke:'none'})));svg.appendChild(bg);log(`Body: ${bodyG.querySelectorAll('path').length}`,'ok')}
+
+    const mods=cat.modules;
+    const moduleKeys=Object.keys(mods);
+    let allSeams=[], allDetails=[];
+
+    // Find key modules
+    const baseKey=moduleKeys.find(k=>mods[k].required);
+    const neckKey=moduleKeys.find(k=>mods[k].join?.type==='PATH_JOIN');
+    const sleeveKey=moduleKeys.find(k=>mods[k].join?.type==='FULL_JOIN');
+
+    const baseId=selections[baseKey];
+    const neckId=neckKey && selections[neckKey]!=='none' ? selections[neckKey] : null;
+    const sleeveId=sleeveKey && selections[sleeveKey]!=='none' ? selections[sleeveKey] : null;
+
+    if(baseId && baseId!=='none'){
+        const baseData=extractGroup(baseId);
+        if(!baseData){log('❌ Base not found','err');return}
+
+        const gg=mkEl('g',{id:'layer-garment'});
+        allSeams.push(...baseData.seams);
+        allDetails.push(...baseData.details);
+
+        // Extract sleeve data
+        let slvData=null, slvR=null, slvL=null;
+        if(sleeveId){
+            slvData=extractGroup(sleeveId);
+            if(slvData){
+                allSeams.push(...slvData.seams);
+                allDetails.push(...slvData.details);
+                slvR=slvData.main.find(s=>s.id.endsWith('_r'));
+                slvL=slvData.main.find(s=>s.id.endsWith('_l'));
+                log(`Sleeves: R=${slvR?.id||'?'}, L=${slvL?.id||'?'}`,'info');
+            }
+        }
+
+        // Extract neck data
+        let neckData=null, neckShape=null;
+        if(neckId){
+            neckData=extractGroup(neckId);
+            if(neckData){
+                allSeams.push(...neckData.seams);
+                allDetails.push(...neckData.details);
+                // Find the actual neck shape by matching its ID to the component ID
+                neckShape=neckData.main.find(s=>s.id===neckId) 
+                    || neckData.main.find(s=>s.id && s.id.startsWith('top_ts_nck'))
+                    || neckData.main.find(s=>s.tag==='polyline'||s.tag==='path');
+                log(`Neck: ${neckShape?.id||'?'}`,'info');
+            }
+        }
+
+        const baseShape=baseData.main.find(s=>s.tag==='polyline'||s.tag==='path')||baseData.main[0];
+
+        // ═══ MERGE LOGIC ═══
+        let merged=null;
+
+        // 4-merge: anchor-driven circuit
+        if(baseShape && neckShape && slvR && slvL && junctions){
+            log('Attempting anchor-driven 4-component merge...','info');
+            merged=mergeCircuit(baseShape, neckShape, slvR, slvL, junctions);
+        }
+
+        // 2-merge fallback: torso + neck
+        if(!merged && baseShape && neckShape){
+            log('Attempting 2-component merge (torso+neck)...','info');
+            merged=joinTwo(baseShape, neckShape);
+        }
+
+        // Render sleeves as separate layer if not in 4-merge circuit
+        if(slvData && !(merged && baseShape && neckShape && slvR && slvL && junctions)){
+            const slvG=mkEl('g',{id:'layer-sleeves'});
+            slvData.main.forEach(s=>{const d=shapeToD(s);if(d)slvG.appendChild(mkEl('path',{d,...gA}))});
+            svg.appendChild(slvG);
+        }
+
+        if(merged){
+            gg.appendChild(mkEl('path',{d:merged,...gA}));
+            log('✅ Merge successful!','ok');
+        } else {
+            log('⚠️ Merge failed — rendering separately','warn');
+            baseData.main.forEach(s=>{const d=shapeToD(s);if(d)gg.appendChild(mkEl('path',{d:d.replace(/Z\s*$/i,'').trim()+' Z',...gA}));else{const el=renderSh(s,gA);if(el)gg.appendChild(el)}});
+            if(neckShape){const d=shapeToD(neckShape);if(d)gg.appendChild(mkEl('path',{d,...gA}))}
+        }
+        svg.appendChild(gg);
+    }
+
+    // ═══ SEAM LINES (from components) ═══
+    if(showSeams && allSeams.length){
+        const sg=mkEl('g',{id:'layer-seams'});
+        allSeams.forEach(s=>{const el=renderSh(s,seamAttr);if(el)sg.appendChild(el)});
+        svg.appendChild(sg);
+        log(`Seams: ${allSeams.length}`,'ok');
+    }
+
+    // ═══ DETAIL LINES (from components — dtl_) ═══
+    if(showSeams && allDetails.length){
+        const dg=mkEl('g',{id:'layer-details'});
+        allDetails.forEach(s=>{const el=renderSh(s,seamAttr);if(el)dg.appendChild(el)});
+        svg.appendChild(dg);
+        log(`Details: ${allDetails.length}`,'ok');
+    }
+
+    // ═══ FIXED SEAMS (always visible from config) ═══
+    if(showSeams && cat.fixed_seams){
+        cat.fixed_seams.forEach(fsId=>{
+            const fsData=extractGroup(fsId);
+            if(fsData){
+                const fg=mkEl('g',{id:'layer-fixed-'+fsId});
+                [...fsData.main,...fsData.seams,...fsData.details].forEach(s=>{
+                    const el=renderSh(s,dtlAttr);if(el)fg.appendChild(el);
+                });
+                svg.appendChild(fg);
+                log(`Fixed: ${fsId}`,'ok');
+            }
+        });
+    }
+
+    // ═══ CONFIG-DRIVEN DETAILS (toggleable + select) ═══
+    cat.details.forEach(det=>{
+        if(det.type==='select'){
+            // Select-type: shoulder seams off/regular/raglan
+            const selectedOpt=detailStates[det.id];
+            if(!selectedOpt || selectedOpt==='none') return;
+            if(!showSeams) return;
+            const dd=extractGroup(selectedOpt);
+            if(dd){
+                const dg=mkEl('g',{id:'layer-'+det.id});
+                [...dd.main,...dd.seams,...dd.details].forEach(s=>{
+                    const el=renderSh(s,dtlAttr);if(el)dg.appendChild(el);
+                });
+                svg.appendChild(dg);
+                log(`${det.label}: ${selectedOpt}`,'ok');
+            }
+        } else {
+            // Toggle-type: on/off
+            if(!detailStates[det.id])return;
+            const dd=extractGroup(det.id);
+            if(dd){
+                const dg=mkEl('g',{id:'layer-'+det.id});
+                [...dd.main,...dd.seams,...dd.details].forEach(s=>{
+                    const isPkt=det.id.includes('pkt');
+                    const attr=isPkt?{fill:'none',stroke,'stroke-width':sw,'stroke-linejoin':'round','stroke-linecap':'round'}:dtlAttr;
+                    const el=renderSh(s,attr);if(el)dg.appendChild(el);
+                });
+                svg.appendChild(dg);
+                log(`${det.label}: ${dd.main.length+dd.seams.length+dd.details.length}`,'ok');
+            }
+        }
+    });
+
+    preview.appendChild(svg);
+    document.getElementById('btnDownload').style.display='';
+    if(window.innerWidth<=800) document.getElementById('mobileDownload').classList.add('show');
+    document.getElementById('topbarTitle').textContent=cat.label+' — Generated';
+    log('━━━ DONE ━━━','ok');
+}
+
+
+// ── Color/slider live bindings ──
+document.getElementById('togSeams').addEventListener('click', function() { this.classList.toggle('on'); });
+document.getElementById('cFill').addEventListener('input',e=>document.getElementById('hFill').textContent=e.target.value);
+document.getElementById('cStroke').addEventListener('input',e=>document.getElementById('hStroke').textContent=e.target.value);
+document.getElementById('rSW').addEventListener('input',e=>document.getElementById('vSW').textContent=e.target.value);
+
+// ── Download with lead capture ──
+let emailCaptured = false;
+
+document.getElementById('btnDownload').addEventListener('click', () => {
+    if (!emailCaptured) {
+        document.getElementById('downloadModal').style.display = 'flex';
+    } else {
+        triggerDownload();
+    }
+});
+
+document.getElementById('leadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+    })
+    .then(() => {
+        emailCaptured = true;
+        document.getElementById('downloadModal').style.display = 'none';
+        triggerDownload();
+    })
+    .catch((error) => alert("Connection error: " + error));
+});
+
+document.getElementById('skipEmail').onclick = () => {
+    emailCaptured = true;
+    document.getElementById('downloadModal').style.display = 'none';
+    triggerDownload();
+};
+
+function triggerDownload() {
+    const svg=document.querySelector('#svg-preview svg');if(!svg)return;
+    // Clone SVG for export
+    const clone=svg.cloneNode(true);
+    // Remove body layer (reference only)
+    const bodyLayer=clone.querySelector('#layer-body');
+    if(bodyLayer) bodyLayer.remove();
+    // Use export viewBox if defined
+    const cat=CONFIG.categories[selectedCategory];
+    if(cat && cat.exportViewBox) clone.setAttribute('viewBox', cat.exportViewBox);
+    const s='<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(clone);
+    const b=new Blob([s],{type:'image/svg+xml'}),u=URL.createObjectURL(b),a=document.createElement('a');
+    a.href=u;a.download=`flatlabs_${selectedCategory}_${Date.now()}.svg`;a.click();URL.revokeObjectURL(u);
+}
+
+// --- Mobile sidebar ---
+function toggleSidebar(){
+    const sb=document.querySelector('.sidebar');
+    const bd=document.getElementById('sidebarBackdrop');
+    const dl=document.getElementById('mobileDownload');
+    const isOpen=sb.classList.contains('open');
+    if(isOpen){closeSidebar()}else{sb.classList.add('open');bd.classList.add('show');if(dl)dl.style.display='none'}
+}
+function closeSidebar(){
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+    const dl=document.getElementById('mobileDownload');
+    if(dl && dl.classList.contains('show'))dl.style.display='flex';
+}
+
+// --- Init ---
+totalAssetsSVG = new DOMParser().parseFromString(EMBEDDED_SVG, 'image/svg+xml');
+
+// Auto-select T-Shirt
+selectedCategory = 'tshirt';
+if (catGrid) {
+    const cards = catGrid.querySelectorAll('.cat-card');
+    cards.forEach(c => { if(c.textContent.includes('T-Shirt')) c.click(); });
+}
+goStep(0);
+
+</script>
+<a href="https://buymeacoffee.com/flatlabs" target="_blank" class="support-button">
+    <span>☕</span>
+    <span>Support Beta</span>
+</a>
+</body>
+</html>
