@@ -1,173 +1,259 @@
-// config.js — Mapeo de grupos SVG a piezas funcionales
-// TÚ defines aquí qué grupo SVG es qué pieza
+:root {
+    --blue: #007AFF; --blue-h: #0056CC; --gray1: #1D1D1F; --gray2: #86868B;
+    --gray3: #D2D2D7; --gray4: #F5F5F7; --white: #FFFFFF; --red: #FF3B30;
+    --green: #34C759; --radius: 14px; --ease: cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;
+    background:var(--gray4);color:var(--gray1);height:100vh;height:100dvh;
+    overflow:hidden;-webkit-font-smoothing:antialiased;font-size:15px;
+}
 
-const FLATLABS_CONFIG = {
-  version: '2.0',
-  
-  // ═══════════════════════════════════════════════════════
-  // MANIQUÍES: Referencias a tus archivos
-  // ═══════════════════════════════════════════════════════
-  mannequins: {
-    sty: {
-      id: 'sty',
-      name: 'Illustration 9-head',
-      file: 'mannequins/sty.svg',
-      viewBox: '0 0 400 800',
-      // Qué grupos extraer para el ghost del cuerpo
-      bodyGroups: ['#Mannequin_GRP'],
-      anchorGroups: ['#construction_points']
-    },
-    iso: {
-      id: 'iso',
-      name: 'ISO EU38',
-      file: 'mannequins/iso.svg',
-      viewBox: '0 0 4535.4 4762.2',
-      bodyGroups: ['#Mannequin_ISO_EU38_GRP'],
-      anchorGroups: ['#construction_points'],
-      status: 'pro'
+/* APP SHELL */
+.app{display:flex;height:100vh;height:100dvh}
+
+/* SIDEBAR */
+.sidebar{
+    width:360px;min-width:360px;background:rgba(255,255,255,.72);
+    backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+    border-right:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;
+    overflow:hidden;position:relative;z-index:10;
+}
+.sidebar-header{padding:20px 24px;border-bottom:1px solid rgba(0,0,0,.06)}
+.app-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.app-sub{font-size:11px;color:var(--gray2);margin-top:1px;letter-spacing:.2px}
+
+/* Mannequin toggle - always visible */
+.man-toggle{
+    display:flex;gap:8px;padding:12px 24px;background:rgba(0,122,255,.03);
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+.man-btn{
+    flex:1;padding:10px 12px;border:1.5px solid var(--gray3);border-radius:10px;
+    background:var(--white);cursor:pointer;font-family:inherit;font-size:12px;
+    font-weight:600;color:var(--gray2);transition:all .2s;position:relative;
+}
+.man-btn.active{border-color:var(--blue);color:var(--blue);background:rgba(0,122,255,.08)}
+.man-btn:disabled{opacity:.5;cursor:not-allowed}
+.man-btn .man-tag{
+    position:absolute;top:-7px;right:-7px;font-size:7px;font-weight:800;
+    padding:2px 5px;border-radius:4px;letter-spacing:.3px;
+}
+.man-tag-free{background:var(--green);color:#fff}
+.man-tag-soon{background:var(--gray1);color:#fff}
+
+/* Steps navigation - 2 STEPS */
+.steps-nav{display:flex;padding:12px 24px;gap:4px;border-bottom:1px solid rgba(0,0,0,.06)}
+.step-dot{flex:1;height:3px;border-radius:2px;background:var(--gray3);transition:background .4s var(--ease)}
+.step-dot.active{background:var(--blue)}
+.step-dot.done{background:var(--gray1)}
+
+/* Steps container - 2 panels */
+.steps-scroll{flex:1;overflow:hidden;position:relative}
+.steps-track{display:flex;width:200%;height:100%;transition:transform .5s var(--ease)}
+.step-panel{width:50%;height:100%;overflow-y:auto;padding:0;-webkit-overflow-scrolling:touch}
+.step-panel::-webkit-scrollbar{width:6px}
+.step-panel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:3px}
+.step-content{padding:20px 24px 100px}
+.step-title{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--gray2);margin-bottom:20px;line-height:1.4}
+.sec-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--gray2);margin:20px 0 10px}
+.sec-label:first-child{margin-top:0}
+
+/* Category cards */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cat-card{
+    background:var(--white);border:2px solid var(--gray3);border-radius:var(--radius);
+    padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s var(--ease);
+    position:relative;overflow:hidden;
+}
+.cat-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,122,255,.12)}
+.cat-card.selected{border-color:var(--blue);background:rgba(0,122,255,.04)}
+.cat-card.selected::after{
+    content:'\2713';position:absolute;top:8px;right:8px;width:22px;height:22px;
+    background:var(--blue);color:white;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+}
+.cat-card.disabled{opacity:.5;filter:grayscale(1);cursor:not-allowed;pointer-events:none}
+.cat-card.disabled::after{
+    content:"SOON";position:absolute;top:8px;right:8px;
+    background:var(--gray3);font-size:8px;padding:2px 6px;border-radius:4px;font-weight:bold;
+}
+.cat-icon{display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--gray2)}
+.cat-card.selected .cat-icon{color:var(--blue)}
+.cat-label{font-size:14px;font-weight:600}
+
+/* Option cards (horizontal scroll) */
+.opt-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.opt-scroll::-webkit-scrollbar{height:4px}
+.opt-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px}
+.opt-card{
+    min-width:90px;flex:0 0 90px;background:var(--white);border:2px solid var(--gray3);
+    border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;
+    transition:all .3s var(--ease);scroll-snap-align:start;
+}
+.opt-card:hover{border-color:var(--blue);transform:translateY(-1px)}
+.opt-card.selected{border-color:var(--blue);background:rgba(0,122,255,.05)}
+.opt-card.none-card{border-style:dashed;opacity:.7}
+.opt-card.none-card.selected{opacity:1}
+.opt-name{font-size:11px;font-weight:500;color:var(--gray2);margin-top:4px}
+.opt-card.selected .opt-name{color:var(--blue);font-weight:600}
+.opt-preview{height:50px;display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.4}
+.opt-card.selected .opt-preview{opacity:.8}
+
+/* Toggles (iOS) */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+.tog-label{font-size:14px;font-weight:500}
+.tog{
+    position:relative;width:44px;height:26px;background:var(--gray3);
+    border-radius:26px;cursor:pointer;transition:background .3s var(--ease);flex-shrink:0;
+}
+.tog.on{background:var(--blue)}
+.tog::after{
+    content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;
+    background:white;border-radius:50%;transition:transform .3s var(--ease);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+}
+.tog.on::after{transform:translateX(18px)}
+
+/* Colors */
+.color-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.color-row label{font-size:13px;font-weight:500;min-width:48px}
+input[type="color"]{width:32px;height:32px;border:2px solid var(--gray3);border-radius:8px;cursor:pointer;padding:2px;-webkit-appearance:none}
+.hex{font-family:"SF Mono",monospace;font-size:11px;color:var(--gray2)}
+
+/* Buttons */
+.btn{
+    width:100%;padding:14px;border:none;border-radius:var(--radius);
+    font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+    transition:all .3s var(--ease);display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover:not(:disabled){background:var(--blue-h);transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,122,255,.25)}
+.btn-blue:active{transform:translateY(0)}
+.btn-blue:disabled{opacity:.35;cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--gray1);border:1.5px solid var(--gray3);margin-top:8px}
+.btn-outline:hover{background:rgba(0,0,0,.03)}
+
+.sidebar-bottom{
+    position:absolute;bottom:0;left:0;right:0;padding:16px 24px;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(20px);
+    border-top:1px solid rgba(0,0,0,.06);display:flex;gap:10px;
+}
+.sidebar-bottom .btn{flex:1}
+
+/* MAIN CANVAS */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--gray4)}
+.topbar{
+    background:rgba(255,255,255,.8);backdrop-filter:blur(40px);
+    border-bottom:1px solid rgba(0,0,0,.06);padding:14px 28px;
+    display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-home{font-size:13px;font-weight:500;color:var(--gray2);text-decoration:none;transition:color .2s}
+.topbar-home:hover{color:var(--gray1)}
+.topbar-actions{display:flex;gap:8px}
+.topbar-download{
+    padding:10px 22px;border:none;background:var(--gray1);color:white;
+    border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:all .3s var(--ease);
+}
+.topbar-download:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+
+.canvas-area{flex:1;padding:28px;overflow:auto;display:flex;align-items:center;justify-content:center}
+.canvas-card{
+    background:white;border-radius:20px;padding:36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.06);transition:box-shadow .4s;
+    min-width:420px;min-height:500px;display:flex;align-items:center;justify-content:center;
+}
+.canvas-card:hover{box-shadow:0 28px 70px rgba(0,0,0,.09)}
+#svg-preview{width:400px;height:700px}
+#svg-preview svg{width:100%;height:100%}
+
+.empty{text-align:center;padding:40px}
+.empty-icon{font-size:56px;opacity:.12;margin-bottom:12px}
+.empty h3{font-size:18px;font-weight:600;margin-bottom:6px}
+.empty p{font-size:13px;color:var(--gray2);line-height:1.5}
+
+/* Log */
+.log{
+    margin-top:10px;background:var(--gray1);border-radius:10px;padding:10px 12px;
+    font-family:"SF Mono",ui-monospace,monospace;font-size:10px;
+    color:#8b949e;max-height:100px;overflow-y:auto;line-height:1.6;
+}
+.log .ok{color:#3fb950} .log .warn{color:#d29922} .log .err{color:#f85149} .log .info{color:#58a6ff}
+
+/* Modals */
+.modal-overlay{
+    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;
+    backdrop-filter:blur(5px);
+}
+.modal-overlay.show{display:flex}
+.modal-content{background:white;padding:30px;border-radius:20px;width:90%;max-width:400px;text-align:center}
+.modal-title{margin-bottom:10px;font-size:18px;font-weight:700}
+.modal-text{font-size:13px;color:var(--gray2);margin-bottom:20px;line-height:1.5}
+
+/* Support button */
+.support-button{
+    position:fixed;bottom:20px;right:20px;background:#FFD700;color:#1d1d1f;
+    padding:12px 18px;border-radius:50px;text-decoration:none;font-weight:600;font-size:14px;
+    display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);
+    z-index:9999;transition:transform .2s,box-shadow .2s;
+}
+.support-button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+
+/* MOBILE */
+.burger-btn{
+    display:none;position:fixed;top:14px;left:14px;z-index:60;
+    width:40px;height:40px;border:none;background:rgba(255,255,255,.85);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);
+    align-items:center;justify-content:center;transition:all .3s var(--ease);
+}
+.burger-btn svg{width:20px;height:20px;color:var(--gray1)}
+.home-btn{
+    display:none;position:fixed;top:14px;right:14px;z-index:60;
+    height:40px;padding:0 16px;border:none;background:rgba(255,255,255,.85);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);
+    align-items:center;justify-content:center;gap:6px;
+    font-family:inherit;font-size:12px;font-weight:600;color:var(--gray1);
+    text-decoration:none;transition:all .3s var(--ease);
+}
+.sidebar-backdrop{
+    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.3);z-index:40;opacity:0;transition:opacity .3s var(--ease);
+}
+.sidebar-backdrop.show{display:block;opacity:1}
+.mobile-download{
+    display:none;position:fixed;bottom:50px;left:50%;transform:translateX(-50%);z-index:60;
+    padding:14px 28px;border:none;background:var(--gray1);color:white;
+    border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;
+    font-family:inherit;box-shadow:0 4px 16px rgba(0,0,0,.2);
+    transition:all .3s var(--ease);gap:8px;align-items:center;justify-content:center;
+}
+.mobile-download.show{display:flex}
+.mobile-download:active{transform:translateX(-50%) scale(.95)}
+
+@media(max-width:800px){
+    .burger-btn{display:flex}
+    .home-btn{display:flex}
+    .app{flex-direction:column;position:relative}
+    .main{position:fixed;top:0;left:0;right:0;bottom:0;height:100dvh;width:100%;z-index:1}
+    .topbar{display:none}
+    .canvas-area{padding:16px;padding-top:60px}
+    .canvas-card{min-width:auto;min-height:auto;padding:20px;border-radius:16px;width:100%;max-width:400px}
+    #svg-preview{width:100%;height:auto;aspect-ratio:4/7;max-height:65dvh}
+    .sidebar{
+        position:fixed;top:0;left:0;bottom:0;z-index:50;width:85vw;max-width:360px;min-width:auto;
+        transform:translateX(-100%);transition:transform .35s var(--ease);
+        border-right:1px solid rgba(0,0,0,.08);box-shadow:4px 0 24px rgba(0,0,0,.1);
     }
-  },
-
-  // ═══════════════════════════════════════════════════════
-  // CATÁLOGO DE PIEZAS: Dónde encontrar cada pieza en el SVG
-  // ═══════════════════════════════════════════════════════
-  // Estructura: categoría > tipo > pieza > {maniquí: selectorSVG}
-  
-  catalog: {
-    tshirt: {
-      // TORSOS — grupos que contienen el cuerpo base
-      torsos: {
-        reg: {
-          id: 'reg',
-          name: 'Regular',
-          selectors: {
-            sty: '#f_top_ts_tor_reg_GRP #f_top_ts_tor_reg', // path específico
-            iso: '#f_top_ts_tor_reg_GRP #f_top_ts_tor_reg'
-          },
-          // Puntos para merge con cuello (en coords del maniquí)
-          anchorPoints: {
-            neckLeft: { sty: {x: 149.73, y: 131.14}, iso: {x: 742.5, y: 793.3} },
-            neckRight: { sty: {x: 250.22, y: 131.14}, iso: {x: 1527.3, y: 793.3} }
-          },
-          compatibleNecks: ['mok', 'v', 'rnd', 'scp']
-        },
-        slim: { id: 'slm', name: 'Slim', status: 'soon' },
-        baggy: { id: 'bag', name: 'Baggy', status: 'soon' }
-      },
-
-      // CUELLOS
-      necks: {
-        mok: {
-          id: 'mok',
-          name: 'Mock Neck',
-          selectors: {
-            sty: '#f_top_ts_nck_mok_GRP',
-            iso: '#f_top_ts_nck_mok_GRP'
-          },
-          // Qué paths extraer dentro del grupo
-          extract: {
-            outline: 'path[id*="outline"]',      // borde principal
-            inline: 'path[id*="inline"]',        // línea interior
-            fill: 'path[id*="inside"], path[fill="#939598"]', // relleno gris
-            seams: 'path[class*="cls-8"], path[class*="cls-9"], path[stroke-dasharray]'
-          },
-          mergeMode: 'overlay', // 'overlay' | 'merge' | 'subtract'
-          zIndex: 10
-        },
-        v: {
-          id: 'v',
-          name: 'V-Neck',
-          selectors: { sty: '#f_top_ts_nck_v_GRP', iso: '#f_top_ts_nck_v_GRP' },
-          status: 'soon'
-        },
-        rnd: {
-          id: 'rnd',
-          name: 'Round',
-          selectors: { sty: '#f_top_ts_nck_rnd_GRP', iso: '#f_top_ts_nck_rnd_GRP' },
-          status: 'soon'
-        }
-      },
-
-      // MANGAS
-      sleeves: {
-        set: {
-          id: 'set',
-          name: 'Set-in',
-          selectors: {
-            sty: {
-              left: '#f_top_ts_slv_set_l',
-              right: '#f_top_ts_slv_set_r'
-            },
-            iso: {
-              left: '#f_top_ts_slv_set_l',
-              right: '#f_top_ts_slv_set_r'
-            }
-          },
-          extract: {
-            shape: 'path[id*="shape"]',    // fill blanco
-            border: 'path[id*="border"]',  // línea exterior
-            hem: 'path[id*="sem_cuf"], line[id*="sem_cuf"]' // dobladillo
-          }
-        },
-        rag: { id: 'rag', name: 'Raglan', status: 'soon' },
-        cap: { id: 'cap', name: 'Cap', status: 'soon' },
-        long: { id: 'lon', name: 'Long', status: 'soon' }
-      },
-
-      // BOLSILLOS
-      pockets: {
-        chest: {
-          id: 'chest',
-          name: 'Chest Pocket',
-          selectors: { sty: '#f_top_ts_pkt_chest_GRP', iso: '#f_top_ts_pkt_chest_GRP' },
-          status: 'soon'
-        }
-      }
-    },
-
-    // Preparado para futuras categorías
-    pants: { status: 'soon' },
-    jacket: { status: 'soon' }
-  },
-
-  // ═══════════════════════════════════════════════════════
-  // UTILIDADES
-  // ═══════════════════════════════════════════════════════
-  
-  // Obtener configuración de pieza (maneja "soon" y missing)
-  getPieceConfig(category, type, pieceId) {
-    const cat = this.catalog[category];
-    if (!cat || cat.status === 'soon') return null;
-    
-    const group = cat[type + 's']; // torsos, necks, sleeves...
-    if (!group) return null;
-    
-    const piece = group[pieceId];
-    if (!piece || piece.status === 'soon') {
-      console.warn(`[Config] ${category}.${type}.${pieceId} not available`);
-      return null;
-    }
-    
-    return piece;
-  },
-
-  // Selector SVG para maniquí específico
-  getSelector(pieceConfig, mannequinType, side = null) {
-    if (!pieceConfig) return null;
-    const sel = pieceConfig.selectors?.[mannequinType];
-    if (!sel) return null;
-    return side ? sel[side] : sel;
-  },
-
-  // Todos los IDs de pieza disponibles para un tipo
-  getAvailable(category, type) {
-    const cat = this.catalog[category];
-    if (!cat || cat.status === 'soon') return [];
-    const group = cat[type + 's'];
-    if (!group) return [];
-    return Object.values(group).filter(p => p.status !== 'soon');
-  }
-};
-
-// Exportar
-window.FLATLABS_CONFIG = FLATLABS_CONFIG;
+    .sidebar.open{transform:translateX(0)}
+    .sidebar-header{padding:16px 20px}
+    .step-content{padding:16px 20px 100px}
+    .sidebar-bottom{padding:12px 20px}
+    .support-button{bottom:12px;right:12px;padding:8px 14px;font-size:11px;z-index:35}
+}
