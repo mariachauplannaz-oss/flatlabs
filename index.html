@@ -1,4 +1,250 @@
-User-agent: *
-Allow: /
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlatLabs — Technical Flat Creator</title>
+  <meta name="description" content="Generate production-ready SVG garment flats. Modular components from your mannequin library.">
+  
+  <!-- Carga en orden: Config → Parser → Renderer → App -->
+  <script src="config.js"></script>
+  <script src="parser.js"></script>
+  <script src="renderer.js"></script>
+  
+  <style>
+    /* [Mismo CSS de antes, simplificado] */
+    :root {
+      --primary: #007AFF;
+      --text: #1D1D1F;
+      --muted: #86868B;
+      --border: #D2D2D7;
+      --bg: #F5F5F7;
+      --garment-stroke: #1a1a1a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
+    .app { display: flex; height: 100vh; }
+    
+    .sidebar { width: 360px; background: rgba(255,255,255,0.8); backdrop-filter: blur(40px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+    .section { margin-bottom: 24px; }
+    .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+    
+    .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .option-card { background: white; border: 2px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .option-card:hover { border-color: var(--primary); }
+    .option-card.active { border-color: var(--primary); background: rgba(0,122,255,0.05); }
+    .option-card.soon { opacity: 0.5; cursor: not-allowed; }
+    
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; }
+    .canvas { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); padding: 40px; width: 100%; max-width: 500px; aspect-ratio: 2/3; display: flex; align-items: center; justify-content: center; }
+    
+    #svg-preview { width: 100%; height: 100%; }
+    #svg-preview svg { width: 100%; height: 100%; color: var(--garment-stroke); }
+    
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: transparent; border: 2px solid var(--border); color: var(--text); }
+    
+    .color-picker { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .color-picker input[type="color"] { width: 40px; height: 40px; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
 
-Sitemap: https://flatlabs.netlify.app/sitemap.xml
+<div class="app">
+  <aside class="sidebar">
+    <div style="margin-bottom: 24px;">
+      <h1 style="font-size: 20px; font-weight: 700;">FlatLabs BETA</h1>
+      <p style="font-size: 11px; color: var(--muted);">Technical Flat Creator</p>
+    </div>
+
+    <!-- Maniquí -->
+    <div class="section">
+      <div class="section-title">Mannequin</div>
+      <div class="option-grid" id="mannequinGrid"></div>
+    </div>
+
+    <!-- Categoría -->
+    <div class="section">
+      <div class="section-title">Category</div>
+      <div class="option-grid" id="categoryGrid"></div>
+    </div>
+
+    <!-- Componentes (dinámico) -->
+    <div class="section" id="componentsSection" style="display: none;">
+      <div class="section-title">Components</div>
+      <div id="componentsList"></div>
+    </div>
+
+    <!-- Estilo -->
+    <div class="section">
+      <div class="section-title">Style</div>
+      <div class="color-picker">
+        <label>Stroke</label>
+        <input type="color" id="colorPicker" value="#1a1a1a" onchange="flatLabs.setColor(this.value)">
+      </div>
+      <label style="display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px;">
+        <input type="checkbox" checked onchange="flatLabs.toggle('showSeams')">
+        Show seam lines
+      </label>
+    </div>
+
+    <button class="btn btn-primary" onclick="downloadSVG()">Download SVG</button>
+    <button class="btn btn-secondary" onclick="flatLabs.render()">Regenerate</button>
+  </aside>
+
+  <main class="main">
+    <div class="canvas">
+      <div id="svg-preview">
+        <div style="text-align: center; color: var(--muted);">
+          <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+          <p>Select a mannequin and category</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// INICIALIZACIÓN DE UI
+// ═══════════════════════════════════════════════════════
+
+function init() {
+  renderMannequinGrid();
+  renderCategoryGrid();
+  
+  // Selección inicial
+  flatLabs.setMannequin('sty');
+  flatLabs.setSelection('category', 'tshirt');
+  renderComponents('tshirt');
+  flatLabs.render();
+}
+
+function renderMannequinGrid() {
+  const grid = document.getElementById('mannequinGrid');
+  const mans = FLATLABS_CONFIG.mannequins;
+  
+  Object.values(mans).forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'option-card' + (m.status === 'pro' ? ' soon' : '');
+    card.innerHTML = `<div style="font-size: 12px; font-weight: 600;">${m.name}</div>
+                     ${m.status === 'pro' ? '<div style="font-size: 9px; color: var(--muted); margin-top: 4px;">PRO</div>' : ''}`;
+    
+    if (m.status !== 'pro') {
+      card.onclick = () => {
+        document.querySelectorAll('#mannequinGrid .option-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        flatLabs.setMannequin(m.id);
+      };
+    }
+    
+    grid.appendChild(card);
+  });
+}
+
+function renderCategoryGrid() {
+  const grid = document.getElementById('categoryGrid');
+  const cats = FLATLABS_CONFIG.catalog;
+  
+  Object.entries(cats).forEach(([id, cat]) => {
+    const card = document.createElement('div');
+    card.className = 'option-card' + (cat.status === 'soon' ? ' soon' : '');
+    card.innerHTML = `<div style="font-size: 12px; font-weight: 600; text-transform: capitalize;">${id}</div>
+                     ${cat.status === 'soon' ? '<div style="font-size: 9px; margin-top: 4px;">SOON</div>' : ''}`;
+    
+    if (cat.status !== 'soon') {
+      card.onclick = () => {
+        document.querySelectorAll('#categoryGrid .option-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        flatLabs.setSelection('category', id);
+        renderComponents(id);
+      };
+    }
+    
+    grid.appendChild(card);
+  });
+}
+
+function renderComponents(categoryId) {
+  const container = document.getElementById('componentsSection');
+  const list = document.getElementById('componentsList');
+  list.innerHTML = '';
+  
+  const cat = FLATLABS_CONFIG.catalog[categoryId];
+  if (!cat || !cat.components) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  
+  cat.components.forEach(compType => {
+    const compSection = document.createElement('div');
+    compSection.style.marginBottom = '16px';
+    
+    const title = document.createElement('div');
+    title.style.cssText = 'font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: capitalize;';
+    title.textContent = compType;
+    compSection.appendChild(title);
+    
+    const options = document.createElement('div');
+    options.style.cssText = 'display: flex; gap: 8px; overflow-x: auto;';
+    
+    const available = FLATLABS_CONFIG.getAvailable(categoryId, compType);
+    
+    available.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.style.cssText = 'padding: 8px 16px; border: 2px solid var(--border); border-radius: 8px; background: white; cursor: pointer; font-size: 12px; white-space: nowrap;';
+      btn.textContent = opt.name;
+      
+      // Estado activo
+      if (flatLabs.selections[compType === 'sleeve' ? 'sleeve' : compType] === opt.id) {
+        btn.style.borderColor = 'var(--primary)';
+        btn.style.background = 'rgba(0,122,255,0.05)';
+      }
+      
+      btn.onclick = () => {
+        flatLabs.setSelection(compType === 'sleeve' ? 'sleeve' : compType, opt.id);
+        renderComponents(categoryId); // Re-render para actualizar estados activos
+      };
+      
+      options.appendChild(btn);
+    });
+    
+    compSection.appendChild(options);
+    list.appendChild(compSection);
+  });
+}
+
+function downloadSVG() {
+  const svg = document.querySelector('#svg-preview svg');
+  if (!svg) return alert('Generate a flat first!');
+  
+  const clone = svg.cloneNode(true);
+  
+  // Opcional: quitar maniquí del export
+  const mannequin = clone.querySelector('.mannequin-layer');
+  if (mannequin) mannequin.remove();
+  
+  const serializer = new XMLSerializer();
+  const source = '<?xml version="1.0" encoding="UTF-8"?>\n' + 
+                 serializer.serializeToString(clone);
+  
+  const blob = new Blob([source], {type: 'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `flatlabs_${flatLabs.selections.category}_${flatLabs.currentMannequin}_${Date.now()}.svg`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+// Iniciar cuando todo esté cargado
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
