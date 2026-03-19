@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://flatlabs.netlify.app/sitemap.xml
