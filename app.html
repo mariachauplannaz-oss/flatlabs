@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>FlatLabs — Technical Flat Creator | Fashion Design Tool | Production-Ready SVG</title>
+<meta name="description" content="FlatLabs is a free technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with ISO standards. Build t-shirts, pants, and jackets with modular components.">
+<meta name="keywords" content="technical flat creator, fashion design tool, production-ready SVG, ISO garment standards, flat sketch generator, tech pack, fashion illustration">
+<meta name="author" content="FlatLabs">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FlatLabs — Technical Flat Creator for Fashion Design">
+<meta property="og:description" content="Free tool to generate production-ready SVG garment flats. Modular components, ISO standards, instant download.">
+<meta property="og:url" content="https://flatlabs.netlify.app">
+<meta property="og:site_name" content="FlatLabs">
+<meta property="og:image" content="https://flatlabs.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FlatLabs — Technical Flat Creator">
+<meta name="twitter:description" content="Generate production-ready SVG garment flats. Free fashion design tool.">
+<meta name="twitter:image" content="https://flatlabs.netlify.app/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "FlatLabs",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "description": "Technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with modular components and ISO garment standards.",
+  "url": "https://flatlabs.netlify.app",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "Free illustration flats. Pro ISO EU38 technical flats coming soon."
+  },
+  "featureList": ["SVG Export", "Modular Components", "Technical Flats", "ISO EU38 Standards", "Fashion Design"],
+  "screenshot": "https://flatlabs.netlify.app/og-image.png"
+}
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Mobile -->
+<button class="burger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<a class="home-btn" href="index.html" aria-label="Back to home">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>
+    Home
+</a>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+<button class="mobile-download" id="mobileDownload" onclick="downloadSVG()" aria-label="Download SVG">⬇ Download SVG</button>
+
+<div class="app">
+    <aside class="sidebar" id="sidebar" role="complementary">
+        <header class="sidebar-header">
+            <div class="app-title">FlatLabs BETA</div>
+            <div class="app-sub">Technical Flat Creator for Fashion Design</div>
+        </header>
+
+        <nav class="man-toggle" aria-label="Mannequin type">
+            <button class="man-btn active" id="btnSty" onclick="setMannequin('sty')" aria-label="Illustration mannequin - Free">
+                Illustration <span class="man-tag man-tag-free">FREE</span>
+            </button>
+            <button class="man-btn" id="btnIso" onclick="setMannequin('iso')" aria-label="ISO EU38 mannequin - Pro">
+                ISO EU38 <span class="man-tag man-tag-soon">PRO</span>
+            </button>
+        </nav>
+
+        <div class="steps-nav" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="2">
+            <div class="step-dot active" data-step="0"></div>
+            <div class="step-dot" data-step="1"></div>
+        </div>
+
+        <div class="steps-scroll">
+            <div class="steps-track" id="stepsTrack">
+                <section class="step-panel" aria-label="Step 1: Choose garment">
+                    <div class="step-content">
+                        <h2 class="step-title">Garment</h2>
+                        <p class="step-desc">Choose a category to start designing</p>
+                        <div class="sec-label">Category</div>
+                        <div class="cat-grid" id="catGrid" role="radiogroup" aria-label="Garment categories"></div>
+                    </div>
+                </section>
+
+                <section class="step-panel" aria-label="Step 2: Components and style">
+                    <div class="step-content" id="step1Content">
+                        <h2 class="step-title">Components & Style</h2>
+                        <p class="step-desc">Configure shape, color, and details</p>
+                        <div id="componentsContainer"></div>
+
+                        <div class="sec-label">Style</div>
+                        <div class="color-row">
+                            <label for="cFill">Fill</label>
+                            <input type="color" id="cFill" value="#4A90D9" aria-label="Fill color">
+                            <span class="hex" id="hFill">#4A90D9</span>
+                        </div>
+
+                        <div class="tog-row" style="display:none">
+                            <span class="tog-label">Pocket</span>
+                            <div class="tog" id="togPocket" role="switch" aria-checked="false" aria-label="Toggle pocket" tabindex="0"></div>
+                        </div>
+                        <div class="tog-row">
+                            <span class="tog-label">Seams</span>
+                            <div class="tog on" id="togSeams" role="switch" aria-checked="true" aria-label="Toggle seam lines" tabindex="0"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <button class="btn btn-outline" id="btnBack" style="display:none" onclick="goStep(0)">Back</button>
+            <button class="btn btn-blue" id="btnNext" disabled onclick="nextAction()">Next</button>
+        </div>
+    </aside>
+
+    <main class="main" role="main">
+        <div class="topbar">
+            <a href="index.html" class="topbar-home" aria-label="Back to homepage">← Home</a>
+            <div class="topbar-title" id="topbarTitle">Canvas</div>
+            <div class="topbar-actions">
+                <button class="topbar-download" id="btnDownload" style="display:none" onclick="downloadSVG()" aria-label="Download SVG file">⬇ Download SVG</button>
+            </div>
+        </div>
+        <div class="canvas-area">
+            <!-- Front canvas (always visible) -->
+            <div class="canvas-card" id="canvas-card-front">
+                <div class="canvas-label">FRONT</div>
+                <div id="svg-preview" role="img" aria-label="Front garment preview">
+                    <div class="empty">
+                        <div class="empty-icon">✨</div>
+                        <h3>Ready to Create</h3>
+                        <p>Choose a garment category<br>and configure your design</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Back canvas (ISO only) -->
+            <div class="canvas-card" id="canvas-card-back" style="display:none">
+                <div class="canvas-label">BACK</div>
+                <div id="svg-preview-back" role="img" aria-label="Back garment preview"></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Email Modal -->
+<div class="modal-overlay" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+    <div class="modal-content">
+        <h3 class="modal-title" id="emailModalTitle">Almost there!</h3>
+        <p class="modal-text">This is a BETA version. Enter your email to download your SVG and get notified about new modules.</p>
+        <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm" onsubmit="handleEmailSubmit(event)">
+            <input type="hidden" name="form-name" value="leads-flatlabs">
+            <input type="email" name="email" placeholder="you@email.com" required
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:15px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
+                onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray3)'"
+                aria-label="Email address">
+            <button type="submit" class="btn btn-blue" style="width:100%">Download SVG</button>
+        </form>
+        <button onclick="skipEmail()" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">Not interested, download anyway →</button>
+        <button onclick="document.getElementById('emailModal').classList.remove('show')" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
+        <div style="margin-top:25px;padding-top:20px;border-top:1px solid var(--gray3);text-align:center">
+            <p style="font-size:14px;color:var(--gray2);margin-bottom:15px">Did FlatLabs save you time? Support the development!</p>
+            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:#FFD700;color:#1d1d1f;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">☕ Buy me a coffee</a>
+        </div>
+    </div>
+</div>
+
+<!-- Pro Modal -->
+<div class="modal-overlay" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
+    <div class="modal-content">
+        <h3 class="modal-title" id="proModalTitle">🔒 FlatLabs Pro</h3>
+        <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming soon.</strong></p>
+        <button class="btn btn-blue" style="width:100%" onclick="document.getElementById('proModal').classList.remove('show')">Got it</button>
+    </div>
+</div>
+
+<a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" class="support-button" aria-label="Support FlatLabs development">
+    <span>☕</span><span>Support Beta</span>
+</a>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

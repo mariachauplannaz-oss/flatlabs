@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlatLabs — Simple fashion flats generator</title>
+<meta name="description" content="FlatLabs is a modular fashion flat generator. Pick a garment, choose components, get a clean SVG.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-muted: #8a8a8a;
+    --surface: #FFFFFF;
+    --surface-warm: #F5F5F5;
+    --surface-dark: #1a1a1a;
+    --accent: #045490;
+    --accent-hover: #26282c;
+    --accent-soft: rgba(4,84,144,.08);
+    --coastal: #84B7CE;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+    --ease: cubic-bezier(.4,0,.2,1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+    font-family: var(--sans);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+::selection { background: rgba(132,183,206,.25); }
+
+/* NAV */
+nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 24px;
+    background: rgba(250,249,247,.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    display: flex; align-items: center; justify-content: space-between;
+}
+
+.logo { font-size: 20px; font-weight: 700; letter-spacing: -.5px; }
+.logo span { color: var(--accent); }
+
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { font-size: 13px; color: var(--ink-muted); text-decoration: none; font-weight: 500; }
+.nav-links a:hover { color: var(--ink); }
+
+.nav-cta {
+    background: var(--ink); color: var(--surface);
+    padding: 8px 18px; border-radius: 100px;
+    font-size: 12px; font-weight: 600;
+    transition: all .3s var(--ease);
+}
+.nav-cta:hover { background: var(--accent); }
+
+/* LAYOUT BASE */
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+section { padding: 100px 0; }
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+}
+
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--ink-muted); }
+
+.hero-body {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 36px;
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* BUTTONS */
+.btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: all .3s var(--ease);
+    border: none; cursor: pointer;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+.btn-ghost {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent; color: var(--ink-muted);
+    padding: 14px 24px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    border: 1.5px solid rgba(0,0,0,.1);
+    transition: all .3s;
+    cursor: pointer;
+}
+.btn-ghost:hover { border-color: rgba(0,0,0,.2); color: var(--ink); }
+
+.scroll-hint {
+    margin-top: 48px;
+    font-size: 20px; color: var(--ink-muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    animation: floatDown 2.5s ease-in-out infinite;
+}
+@keyframes floatDown {
+    0%,100% { transform: translateY(0); opacity:.5; }
+    50% { transform: translateY(6px); opacity:1; }
+}
+
+/* SECTION LABEL */
+.section-label {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-muted);
+    font-weight: 500; margin-bottom: 16px;
+}
+
+/* PROBLEM */
+.problem h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700; line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 28px;
+}
+
+.problem-narrative {
+    font-size: 16px; color: var(--ink-soft);
+    line-height: 1.8; font-weight: 400;
+}
+.problem-narrative p { margin-bottom: 20px; }
+.problem-narrative strong { font-weight: 600; color: var(--ink); }
+
+.price-callout {
+    margin: 32px 0;
+    padding: 24px;
+    background: var(--surface-warm);
+    border-radius: 12px;
+    border-left: 3px solid var(--coastal);
+}
+.price-callout p { margin-bottom: 12px; }
+.price-callout p:last-child { margin-bottom: 0; color: var(--ink); font-weight: 500; }
+
+/* IDEA / DARK SECTION */
+.idea {
+    background: var(--surface-dark);
+    color: white;
+}
+
+.idea h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700; line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+}
+
+.idea > .container > p {
+    font-size: 16px; color: rgba(255,255,255,.55);
+    line-height: 1.7;
+    margin-bottom: 48px;
+}
+
+.idea .section-label { color: rgba(255,255,255,.8); }
+
+.steps { display: flex; flex-direction: column; gap: 32px; }
+
+.step {
+    display: flex; gap: 20px; align-items: flex-start;
+}
+
+.step-num {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border: 1.5px solid rgba(255,255,255,.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600;
+    color: var(--coastal);
+}
+
+.step-text h3 {
+    font-size: 17px; font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.step-text p {
+    font-size: 15px; color: rgba(255,255,255,.8);
+    line-height: 1.6;
+}
+
+.garment-icons {
+    display: flex; gap: 40px; justify-content: center;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.garment-icon {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+
+.garment-icon svg { 
+    width: 44px; height: 44px;
+    opacity: .4; transition: opacity .3s; 
+}
+.garment-icon:hover svg { opacity: .7; }
+
+.garment-icon span {
+    font-size: 11px; color: rgba(255,255,255,.8);
+    font-weight: 500; letter-spacing: .5px;
+}
+
+/* DISCLAIMER */
+.disclaimer { text-align: center; }
+
+.disclaimer h2 {
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 700; line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+.disclaimer p {
+    font-size: 16px; color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.disclaimer em {
+    font-size: 20px; color: var(--accent);
+    display: block; margin: 28px 0;
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* VALIDATION */
+.validation { text-align: center; padding-bottom: 80px; }
+
+.validation-buttons {
+    display: flex; gap: 12px; justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.btn-validate {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 24px; border-radius: 100px;
+    font-size: 15px; font-weight: 600;
+    border: none; cursor: pointer;
+    font-family: var(--sans);
+    transition: all .3s var(--ease);
+}
+
+.btn-yes {
+    background: var(--surface-dark); color: white;
+}
+.btn-yes:hover { background: var(--accent); transform: translateY(-2px); }
+.btn-yes.clicked {
+    background: var(--accent-soft); color: var(--accent);
+    border: 1.5px solid rgba(4,84,144,.2);
+    pointer-events: none;
+}
+
+.btn-email {
+    background: var(--accent); color: white;
+}
+.btn-email:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+.email-form {
+    display: none;
+    max-width: 380px; margin: 0 auto;
+    animation: slideUp .4s var(--ease);
+}
+.email-form.show { display: block; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.email-row {
+    display: flex; gap: 8px;
+}
+
+.email-input {
+    flex: 1; padding: 14px 18px;
+    border: 1.5px solid rgba(0,0,0,.1);
+    border-radius: 100px;
+    font-size: 14px; font-family: var(--sans);
+    outline: none;
+}
+.email-input:focus { border-color: var(--accent); }
+
+.email-submit {
+    padding: 14px 22px;
+    background: var(--ink); color: white;
+    border: none; border-radius: 100px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all .3s;
+    white-space: nowrap;
+}
+.email-submit:hover { background: var(--accent); }
+
+.email-note {
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 10px;
+}
+
+.email-success {
+    display: none;
+    padding: 16px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 12px;
+    font-size: 14px; font-weight: 500;
+    animation: slideUp .4s var(--ease);
+}
+.email-success.show { display: block; }
+
+.validation-count {
+    font-size: 12px; color: var(--ink-muted);
+    margin-top: 16px;
+}
+
+/* FOOTER */
+footer {
+    padding: 24px;
+    border-top: 1px solid rgba(0,0,0,.05);
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 720px; margin: 0 auto;
+}
+
+footer span, footer a {
+    font-size: 12px; color: var(--ink-muted);
+    text-decoration: none;
+}
+footer a:hover { color: var(--ink-soft); }
+
+/* REVEAL ANIMATION */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* MOBILE - MÁRGENES CORREGIDOS */
+@media (max-width: 640px) {
+    nav { padding: 14px 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+
+    .container { padding: 0 20px; }
+    section { padding: 60px 0; }
+
+    .hero { 
+        min-height: 90vh; 
+        padding-top: 70px;
+    }
+
+    .hero h1 { 
+        font-size: 28px; 
+        letter-spacing: -0.5px;
+        padding: 0 4px;
+    }
+
+    .hero-body { 
+        font-size: 16px; 
+        padding: 0 8px;
+    }
+
+    .step { flex-direction: column; gap: 10px; }
+    .step-num { width: 36px; height: 36px; font-size: 13px; }
+
+    .garment-icons { gap: 24px; }
+    .garment-icon svg { width: 36px; height: 36px; }
+
+    .price-callout { padding: 20px; margin: 24px 0; }
+    .price-callout p { font-size: 15px; }
+
+    .email-row { flex-direction: column; }
+    .validation-buttons { flex-direction: column; align-items: center; }
+    .btn-validate { width: 100%; max-width: 280px; justify-content: center; }
+
+    footer { 
+        flex-direction: column; 
+        gap: 8px; 
+        text-align: center;
+        padding: 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+    <div class="logo">Flat<span>Labs</span></div>
+    <div class="nav-links">
+        <a href="#problem">Why</a>
+        <a href="#how">How it works</a>
+        <a href="app.html" class="nav-cta">Try the studio</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <h1>You shouldn't need to be an Illustrator expert to show someone <em>what a shirt looks like.</em></h1>
+        <p class="hero-body">Whether you're designing a collection, pitching an idea to your boss, or sending specs to a factory — at some point you need a flat. A simple, clean technical drawing of a garment. And right now, getting one is way harder than it should be.</p>
+        <div class="hero-actions">
+            <a href="app.html" class="btn-primary">
+                Try it — it's free
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#problem" class="btn-ghost">See why this exists</a>
+        </div>
+        <div class="scroll-hint">Keep scrolling to learn more</div>
+    </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+    <div class="container">
+        <div class="section-label reveal">01 — The problem</div>
+        <h2 class="reveal">I just needed a flat.<br>Here's what I found instead.</h2>
+
+        <div class="problem-narrative reveal">
+            <p>You'd think in 2026 there would be a simple way to get a clean technical drawing of a t-shirt. There isn't.</p>
+            <p>Here's what actually happens: you Google "fashion flat template." You scroll through dozens of results that all look slightly different — different proportions, different styles, different quality. Nothing matches what you have in your head.</p>
+            <p>You find something close enough, maybe on a marketplace. You pay for it. You open the file and it's a mess — <strong>ungrouped layers, weird anchor points, no logical structure.</strong> You try to edit it: change the neckline, adjust the sleeves. Thirty minutes later you're still fighting with the pen tool.</p>
+            <p>And none of it is made for production. Different templates use different measurements, different scales, different conventions. Nothing is consistent.</p>
+        </div>
+
+        <div class="price-callout reveal">
+            <p>Or you find a tool that actually works. A real professional solution with accurate measurements and proper construction. Great — that'll be <strong>€5,000. Maybe more.</strong></p>
+            <p style="margin-top:12px">So you're left with two options: spend hours doing repetitive manual work, or spend thousands on software that should be accessible to anyone who works with garments.</p>
+            <p style="margin-top:12px;color:var(--ink);font-weight:500;">There's something broken about that.</p>
+        </div>
+    </div>
+</section>
+
+<!-- IDEA -->
+<section class="idea" id="how">
+    <div class="container">
+        <div class="section-label reveal">02 — The idea</div>
+        <h2 class="reveal">What if you could just... pick a shirt and go?</h2>
+        <p class="reveal">That's the idea behind FlatLabs. You pick a garment type. You choose the components — neckline, sleeves, torso shape. They snap together automatically. You get a clean SVG you can actually use. No pen tool. No hunting for templates.</p>
+
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h3>Pick a garment</h3>
+                    <p>T-shirt, pants, jacket. Start with a base shape that makes sense.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h3>Choose your components</h3>
+                    <p>Mix and match: round neck or V-neck, set-in sleeves or long, add a pocket, change the seam style.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h3>Export</h3>
+                    <p>Download a clean, layered SVG. Open it in Illustrator, drop it in a tech pack, or send it to a factory.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="garment-icons reveal">
+            <div class="garment-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32.5894 41.9812H12.2318C11.3024 41.9803 10.424 41.8895 9.96697 40.8777L9.94967 40.8385C9.57552 40.0081 9.95347 39.4707 10.2095 38.7151C10.889 36.7098 11.1382 34.5185 11.3283 32.4223L11.4789 29.9422C11.4929 29.6738 11.5369 29.4083 11.5451 29.1395L11.5438 23.1286C11.4935 22.068 11.2869 21.0138 11.2436 19.9546C9.22086 19.862 9.46986 22.2818 7.81175 21.9943C5.1695 21.5363 3.30809 18.9185 1.77831 16.9334C1.43204 16.484 0.92864 15.98 0.784673 15.4207C0.32562 13.6374 2.79601 12.712 4.00676 12.0412L8.13809 9.71224C8.6082 9.43525 9.07827 9.16089 9.52686 8.84946C10.5791 8.11891 11.5957 7.25875 12.927 7.14044L13.7573 7.10655C15.255 6.99044 16.6423 6.42967 18.0818 6.05083C18.6583 5.99505 18.9269 6.54175 19.2718 6.90508C20.5876 8.29127 22.2906 8.65356 24.1229 8.64283C25.9008 8.63238 27.8 8.19208 28.9716 6.75663C29.6863 5.88105 29.4636 5.94377 30.6301 6.27414L33.0581 6.92524C33.4586 7.01247 33.8553 7.07317 34.2651 7.10125C35.853 7.2101 36.4692 7.40927 37.842 8.39027L39.125 9.25708L45.4384 12.8368C46.0444 13.1912 47.1305 13.7534 47.2425 14.5516L47.2603 14.6496C47.4394 15.3698 46.9317 15.9498 46.5134 16.4606L44.9036 18.5623C43.8075 19.9259 42.0232 21.8012 40.2482 21.9885L40.2065 21.9927C39.4198 22.0762 39.1632 21.8225 38.7942 21.2212C38.341 20.4827 37.6409 19.6242 36.71 20.129C36.6543 20.3867 36.6555 20.6584 36.6348 20.9208L36.4944 22.3123C36.448 22.6531 36.4554 23.0058 36.4505 23.3494L36.4578 29.4632C36.4667 29.7263 36.5255 29.975 36.5355 30.2364L36.5647 31.5362C36.5712 31.6265 36.6025 31.7076 36.6093 31.7958L36.6571 32.5779L37.1772 36.2147C37.2759 36.7998 37.3663 37.4034 37.5469 37.9685C37.6908 38.4186 38.084 39.343 38.1447 39.694C38.1503 39.7263 38.1543 39.7563 38.1654 39.7876C38.5007 40.7285 37.5651 41.7612 36.6814 41.9361L36.641 41.9439C36.2045 42.0311 35.6843 41.9809 35.2362 41.9811L32.5894 41.9812Z" fill="white"/>
+                </svg>
+                <span>T-Shirt</span>
+            </div>
+            <div class="garment-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25.8 30.5809L24.0272 22.0138C23.8861 22.3255 23.8519 22.6787 23.778 23.0111L22.2237 30.4218L21.466 34.5598L20.4073 41.302C20.2097 42.4318 19.0706 42.3686 18.2404 42.3691L12.4416 42.3701C12.2562 42.37 12.0524 42.381 11.8708 42.3402L11.8361 42.3319C10.6125 42.0537 10.6719 41.1105 10.6725 40.1356L10.6831 31.5095L10.7899 27.5976C10.7997 27.231 10.8622 26.8642 10.8792 26.4966L10.8914 24.6537C10.9009 24.2719 10.9698 23.8956 10.982 23.5162L11.0015 21.5742C11.01 21.3021 11.0602 21.0346 11.0704 20.7622L11.1881 17.6689L11.3765 14.8799C11.4661 13.8102 11.6452 12.7353 11.8594 11.684L12.2532 9.71786C12.3126 9.42405 12.2936 9.10338 12.2935 8.80403L12.2924 7.47705C12.2923 7.18844 12.2506 6.79896 12.3836 6.53678C12.7005 5.91185 13.1171 5.63331 13.8406 5.58799L33.5629 5.58203C35.1583 5.58105 35.7035 5.91011 35.7073 7.50372L35.7098 8.68028C35.7111 9.07417 35.7576 9.45592 35.8191 9.8455L35.995 10.8356C36.0053 10.8972 36.0326 10.9547 36.0463 11.0156L36.2448 11.948C36.3884 12.6854 36.4822 13.434 36.5453 14.1828L36.6881 16.2233C36.7042 16.4748 36.6846 16.7786 36.7402 17.0215L36.7701 17.1562C36.8792 17.6553 36.8283 18.2263 36.8519 18.7383C36.8611 18.9374 36.9061 19.1353 36.9126 19.3323L36.9328 20.8307C36.9448 21.0554 36.9905 21.2787 36.9978 21.504L37.0144 23.0844C37.0256 23.3708 37.0909 23.6529 37.1037 23.9414L37.1323 25.8809C37.1383 26.0432 37.171 26.2033 37.1758 26.3654L37.2283 28.654C37.2349 28.8338 37.2792 29.0088 37.2842 29.1888L37.2908 30.7932C37.2966 30.9853 37.3404 31.1733 37.3453 31.3645L37.3522 39.6626C37.3526 40.7783 37.6006 41.9018 36.2228 42.3199L36.155 42.3401C36.0127 42.3733 35.8587 42.3656 35.7136 42.3667L30.2397 42.3695C28.2167 42.3686 27.7933 42.5797 27.4682 40.2539L25.8 30.5809Z" fill="white"/>
+                </svg>
+                <span>Pants</span>
+            </div>
+            <div class="garment-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24.4577 42.0266L24.0868 41.6265C22.6719 43.081 21.8215 43.1016 19.8489 43.1026L16.2541 43.1028C14.125 43.1014 12.1325 41.96 11.5668 39.8001C11.4874 39.4969 11.4669 39.186 11.4 38.881L10.9561 39.111C9.15933 39.9526 6.85589 39.3165 6.04059 37.433C5.86031 37.0165 5.4562 35.4373 5.45428 35.0085L5.34961 33.3292L5.35027 28.4307C5.35866 28.2157 5.40905 28.0065 5.42259 27.7912C5.64741 24.2085 6.25945 20.4827 7.58128 17.1279C8.81217 14.0038 10.549 11.7122 13.8047 10.444L15.6684 9.80206C16.084 9.67953 16.5033 9.58222 16.9022 9.40855L16.8542 9.19428C16.3033 7.48447 18.0863 5.51005 19.7463 5.17503C20.1068 5.10228 20.4659 5.08287 20.8291 5.03633L21.7501 4.95083C21.9107 4.9363 22.0686 4.90236 22.2301 4.89495L23.2507 4.88867L26.3159 4.96395C28.1066 5.08452 30.4005 5.555 31.046 7.5222L31.1252 7.76975C31.2723 8.24206 31.2434 8.9668 31.0569 9.43756L33.4228 10.191C35.8927 10.9957 38.1141 12.6057 39.3746 14.9065L40.605 17.6701C40.8233 18.1244 40.9078 18.6473 41.0777 19.1182L42.0097 23.15C42.0558 23.3015 42.0648 23.4519 42.0894 23.6073L42.5068 26.7353L42.5745 27.869C42.6537 28.6648 42.6578 29.2462 42.6584 30.0476L42.6331 33.5665C42.6236 33.7575 42.573 33.941 42.5621 34.132C42.5408 34.5048 42.5765 34.9085 42.5183 35.275C42.4475 35.7209 42.1541 36.9104 42.0046 37.3093C41.5813 38.4384 40.5204 39.2975 39.3213 39.4515C38.4672 39.5612 37.3152 39.399 36.624 38.8611L36.6015 38.8432C36.5689 39.0441 36.5549 39.251 36.5103 39.4494C36.0231 41.617 34.2799 43.0109 32.0513 43.0975L27.7875 43.1027C26.5206 43.1018 25.576 43.0715 24.5611 42.1253L24.4577 42.0266Z" fill="white"/>
+                </svg>
+                <span>Jacket</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section class="disclaimer" id="disclaimer">
+    <div class="container">
+        <div class="section-label reveal">03 — Honest disclaimer</div>
+        <h2 class="reveal">This is a proof of concept.</h2>
+        <p class="reveal">What you see here is the beginning — not the finished product. The mannequin isn't using real production measurements yet. The garment options are limited.</p>
+        <em class="reveal">Does this make sense to you?</em>
+        <p class="reveal">Because honestly — I'm not sure if I'm the only person who thinks this should have existed years ago. If you've ever wasted time searching for a flat, fighting with a template, or paying too much for something that should be simple, then maybe this resonates.</p>
+    </div>
+</section>
+
+<!-- VALIDATION -->
+<section class="validation" id="validate">
+    <div class="container">
+        <div class="validation-buttons">
+            <button class="btn-validate btn-yes" id="btnYes" onclick="handleYes()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                This makes sense
+            </button>
+            <button class="btn-validate btn-email" id="btnEmail" onclick="showEmail()">
+                Keep me posted
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+
+        <div class="email-form" id="emailForm">
+            <div class="email-row">
+                <input type="email" class="email-input" id="emailInput" placeholder="your@email.com">
+                <button class="email-submit" onclick="submitEmail()">Send</button>
+            </div>
+            <div class="email-note">No spam. Just updates when the real version is ready.</div>
+        </div>
+
+        <div class="email-success" id="emailSuccess">
+            Got it — you'll be the first to know. Thank you.
+        </div>
+
+        <div class="validation-count" id="validationCount"></div>
+
+        <div style="margin-top:28px">
+            <a href="app.html" class="btn-primary" style="display:inline-flex">
+                Try it — it's free
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+        <div style="margin-top:20px">
+            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="font-size:13px;color:var(--ink-muted);text-decoration:none;">☕ Building this takes time. Coffee helps</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <span>&copy; 2026 FlatLabs</span>
+    <div style="display:flex;gap:20px;align-items:center">
+        <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener">Want to buy me a coffee?</a>
+        <a href="mailto:hello@flatlabs.com">Contact</a>
+    </div>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Validation logic
+let votes = JSON.parse(localStorage.getItem('fl_votes') || '{"yes":0,"emails":[]}');
+
+function updateCount() {
+    const total = votes.yes + votes.emails.length;
+    const el = document.getElementById('validationCount');
+    if (total > 0) el.textContent = `${total} ${total === 1 ? 'person has' : 'people have'} said this makes sense`;
+}
+
+function handleYes() {
+    const btn = document.getElementById('btnYes');
+    if (btn.classList.contains('clicked')) return;
+    btn.classList.add('clicked');
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Noted — thank you';
+    votes.yes++;
+    localStorage.setItem('fl_votes', JSON.stringify(votes));
+    updateCount();
+}
+
+function showEmail() {
+    document.getElementById('emailForm').classList.add('show');
+    document.getElementById('emailInput').focus();
+}
+
+function submitEmail() {
+    const input = document.getElementById('emailInput');
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+        input.style.borderColor = '#ef4444';
+        setTimeout(() => input.style.borderColor = '', 1500);
+        return;
+    }
+    votes.emails.push(email);
+    localStorage.setItem('fl_votes', JSON.stringify(votes));
+    document.getElementById('emailForm').classList.remove('show');
+    document.getElementById('emailSuccess').classList.add('show');
+    document.getElementById('btnEmail').style.display = 'none';
+    updateCount();
+}
+
+document.getElementById('emailInput')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitEmail();
+});
+
+updateCount();
+</script>
+
+</body>
+</html>
