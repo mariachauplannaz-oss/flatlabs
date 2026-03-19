@@ -1,0 +1,8 @@
+# FlatLabs robots.txt
+# https://flatlabs.app
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://flatlabs.app/sitemap.xml

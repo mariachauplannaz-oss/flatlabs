@@ -7,18 +7,27 @@
 <meta name="description" content="FlatLabs is a free technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with ISO standards. Build t-shirts, pants, and jackets with modular components.">
 <meta name="keywords" content="technical flat creator, fashion design tool, production-ready SVG, ISO garment standards, flat sketch generator, tech pack, fashion illustration">
 <meta name="author" content="FlatLabs">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://flatlabs.app/app.html">
+
+<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="FlatLabs — Technical Flat Creator for Fashion Design">
 <meta property="og:description" content="Free tool to generate production-ready SVG garment flats. Modular components, ISO standards, instant download.">
-<meta property="og:url" content="https://flatlabs.netlify.app">
+<meta property="og:url" content="https://flatlabs.app/app.html">
 <meta property="og:site_name" content="FlatLabs">
-<meta property="og:image" content="https://flatlabs.netlify.app/og-image.png">
+<meta property="og:image" content="https://flatlabs.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FlatLabs — Technical Flat Creator">
 <meta name="twitter:description" content="Generate production-ready SVG garment flats. Free fashion design tool.">
-<meta name="twitter:image" content="https://flatlabs.netlify.app/og-image.png">
+<meta name="twitter:image" content="https://flatlabs.app/og-image.png">
+
+<!-- Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,7 +36,7 @@
   "applicationCategory": "DesignApplication",
   "operatingSystem": "Web",
   "description": "Technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with modular components and ISO garment standards.",
-  "url": "https://flatlabs.netlify.app",
+  "url": "https://flatlabs.app",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -35,9 +44,15 @@
     "description": "Free illustration flats. Pro ISO EU38 technical flats coming soon."
   },
   "featureList": ["SVG Export", "Modular Components", "Technical Flats", "ISO EU38 Standards", "Fashion Design"],
-  "screenshot": "https://flatlabs.netlify.app/og-image.png"
+  "screenshot": "https://flatlabs.app/og-image.png"
 }
 </script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -155,7 +170,7 @@
             <input type="hidden" name="form-name" value="leads-flatlabs">
             <input type="email" name="email" placeholder="you@email.com" required
                 style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:15px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
-                onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray3)'"
+                onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--gray3)'"
                 aria-label="Email address">
             <button type="submit" class="btn btn-blue" style="width:100%">Download SVG</button>
         </form>
@@ -163,7 +178,7 @@
         <button onclick="document.getElementById('emailModal').classList.remove('show')" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
         <div style="margin-top:25px;padding-top:20px;border-top:1px solid var(--gray3);text-align:center">
             <p style="font-size:14px;color:var(--gray2);margin-bottom:15px">Did FlatLabs save you time? Support the development!</p>
-            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:#FFD700;color:#1d1d1f;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">☕ Buy me a coffee</a>
+            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:var(--accent);color:var(--accent-text);text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">☕ Buy me a coffee</a>
         </div>
     </div>
 </div>
