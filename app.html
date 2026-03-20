@@ -76,10 +76,10 @@
         </header>
 
         <nav class="man-toggle" aria-label="Mannequin type">
-            <button class="man-btn active" id="btnSty" onclick="setMannequin('sty')" aria-label="Illustration mannequin - Free">
+            <button class="man-btn active" id="btnSty" aria-label="Illustration mannequin - Free">
                 Illustration <span class="man-tag man-tag-free">FREE</span>
             </button>
-            <button class="man-btn" id="btnIso" onclick="setMannequin('iso')" aria-label="ISO EU38 mannequin - Pro">
+            <button class="man-btn" id="btnIso" aria-label="ISO EU38 mannequin - Pro">
                 ISO EU38 <span class="man-tag man-tag-soon">PRO</span>
             </button>
         </nav>
@@ -127,8 +127,8 @@
         </div>
 
         <div class="sidebar-bottom">
-            <button class="btn btn-outline" id="btnBack" style="display:none" onclick="goStep(0)">Back</button>
-            <button class="btn btn-blue" id="btnNext" disabled onclick="nextAction()">Next</button>
+            <button class="btn btn-outline" id="btnBack" style="display:none">Back</button>
+            <button class="btn btn-blue" id="btnNext" disabled>Next</button>
         </div>
     </aside>
 
@@ -137,7 +137,7 @@
             <a href="index.html" class="topbar-home" aria-label="Back to homepage">← Home</a>
             <div class="topbar-title" id="topbarTitle">Canvas</div>
             <div class="topbar-actions">
-                <button class="topbar-download" id="btnDownload" style="display:none" onclick="downloadSVG()" aria-label="Download SVG file">⬇ Download SVG</button>
+                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">⬇ Download SVG</button>
             </div>
         </div>
         <div class="canvas-area">
@@ -166,7 +166,7 @@
     <div class="modal-content">
         <h3 class="modal-title" id="emailModalTitle">Almost there!</h3>
         <p class="modal-text">This is a BETA version. Enter your email to download your SVG and get notified about new modules.</p>
-        <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm" onsubmit="handleEmailSubmit(event)">
+        <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm">
             <input type="hidden" name="form-name" value="leads-flatlabs">
             <input type="email" name="email" placeholder="you@email.com" required
                 style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:15px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
@@ -174,8 +174,8 @@
                 aria-label="Email address">
             <button type="submit" class="btn btn-blue" style="width:100%">Download SVG</button>
         </form>
-        <button onclick="skipEmail()" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">Not interested, download anyway →</button>
-        <button onclick="document.getElementById('emailModal').classList.remove('show')" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
+        <button id="btnSkipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">Not interested, download anyway →</button>
+        <button id="btnCloseEmailModal" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
         <div style="margin-top:25px;padding-top:20px;border-top:1px solid var(--gray3);text-align:center">
             <p style="font-size:14px;color:var(--gray2);margin-bottom:15px">Did FlatLabs save you time? Support the development!</p>
             <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:var(--accent);color:var(--accent-text);text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">☕ Buy me a coffee</a>
@@ -188,7 +188,7 @@
     <div class="modal-content">
         <h3 class="modal-title" id="proModalTitle">🔒 FlatLabs Pro</h3>
         <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming soon.</strong></p>
-        <button class="btn btn-blue" style="width:100%" onclick="document.getElementById('proModal').classList.remove('show')">Got it</button>
+        <button class="btn btn-blue" id="btnCloseProModal" style="width:100%">Got it</button>
     </div>
 </div>
 
