@@ -168,13 +168,12 @@
         <p class="modal-text">This is a BETA version. Enter your email to download your SVG and get notified about new modules.</p>
         <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm">
             <input type="hidden" name="form-name" value="leads-flatlabs">
-            <input type="email" name="email" placeholder="you@email.com" required
+            <input type="email" name="email" placeholder="you@email.com" required id="emailInput"
                 style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:15px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
-                onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--gray3)'"
                 aria-label="Email address">
             <button type="submit" class="btn btn-blue" style="width:100%">Download SVG</button>
         </form>
-        <button id="btnSkipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">Not interested, download anyway →</button>
+        <button id="btnSkipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s">Not interested, download anyway →</button>
         <button id="btnCloseEmailModal" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
         <div style="margin-top:25px;padding-top:20px;border-top:1px solid var(--gray3);text-align:center">
             <p style="font-size:14px;color:var(--gray2);margin-bottom:15px">Did FlatLabs save you time? Support the development!</p>
