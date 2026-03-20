@@ -78,16 +78,6 @@ function doTriggerDownload() { triggerDownload(state, log); }
 function doEmailSubmit(e) { handleEmailSubmit(e, state, doTriggerDownload); }
 function doSkipEmail() { skipEmail(state, doTriggerDownload); }
 
-// ═══ EXPOSE TO HTML ═══
-window.setMannequin = setMannequin;
-window.toggleSidebar = toggleSidebar;
-window.closeSidebar = closeSidebar;
-window.downloadSVG = doDownload;
-window.nextAction = nextAction;
-window.goStep = (n) => goStep(n, state, doUpdateButton);
-window.handleEmailSubmit = doEmailSubmit;
-window.skipEmail = doSkipEmail;
-
 // ═══ INIT ═══
 async function init() {
     initCategories(state, doUpdateButton);
@@ -114,6 +104,16 @@ async function init() {
     document.getElementById('btnCloseProModal')?.addEventListener('click', () => {
         document.getElementById('proModal').classList.remove('show');
     });
+
+    // Email input focus/blur styles
+    const emailInput = document.getElementById('emailInput');
+    emailInput?.addEventListener('focus', function() { this.style.borderColor = 'var(--accent)'; });
+    emailInput?.addEventListener('blur', function() { this.style.borderColor = 'var(--gray3)'; });
+
+    // Skip email hover
+    const btnSkip = document.getElementById('btnSkipEmail');
+    btnSkip?.addEventListener('mouseover', function() { this.style.opacity = '1'; });
+    btnSkip?.addEventListener('mouseout', function() { this.style.opacity = '.6'; });
 }
 
 init();
