@@ -58,15 +58,15 @@
 <body>
 
 <!-- Mobile -->
-<button class="burger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
 <a class="home-btn" href="index.html" aria-label="Back to home">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>
     Home
 </a>
-<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
-<button class="mobile-download" id="mobileDownload" onclick="downloadSVG()" aria-label="Download SVG">⬇ Download SVG</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">⬇ Download SVG</button>
 
 <div class="app">
     <aside class="sidebar" id="sidebar" role="complementary">

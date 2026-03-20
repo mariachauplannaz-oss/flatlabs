@@ -94,6 +94,11 @@ async function init() {
     initToggles();
     await loadSVG();
     goStep(0, state, doUpdateButton);
+    
+    // Mobile event listeners
+    document.getElementById('burgerBtn')?.addEventListener('click', toggleSidebar);
+    document.getElementById('sidebarBackdrop')?.addEventListener('click', closeSidebar);
+    document.getElementById('mobileDownload')?.addEventListener('click', doDownload);
 }
 
 init();
