@@ -95,10 +95,25 @@ async function init() {
     await loadSVG();
     goStep(0, state, doUpdateButton);
     
-    // Mobile event listeners
+    // Event listeners (ES6 modules don't work with inline onclick)
     document.getElementById('burgerBtn')?.addEventListener('click', toggleSidebar);
     document.getElementById('sidebarBackdrop')?.addEventListener('click', closeSidebar);
     document.getElementById('mobileDownload')?.addEventListener('click', doDownload);
+    document.getElementById('btnDownload')?.addEventListener('click', doDownload);
+    document.getElementById('btnSty')?.addEventListener('click', () => setMannequin('sty'));
+    document.getElementById('btnIso')?.addEventListener('click', () => setMannequin('iso'));
+    document.getElementById('btnBack')?.addEventListener('click', () => goStep(0, state, doUpdateButton));
+    document.getElementById('btnNext')?.addEventListener('click', nextAction);
+    
+    // Modal listeners
+    document.getElementById('leadForm')?.addEventListener('submit', doEmailSubmit);
+    document.getElementById('btnSkipEmail')?.addEventListener('click', doSkipEmail);
+    document.getElementById('btnCloseEmailModal')?.addEventListener('click', () => {
+        document.getElementById('emailModal').classList.remove('show');
+    });
+    document.getElementById('btnCloseProModal')?.addEventListener('click', () => {
+        document.getElementById('proModal').classList.remove('show');
+    });
 }
 
 init();
