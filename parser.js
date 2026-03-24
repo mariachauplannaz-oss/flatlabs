@@ -121,12 +121,12 @@ function parseView(viewPrefix, root, store) {
 
 function extractFromGroup(g, cleanId) {
     const extracted = { main:null, main_l:null, main_r:null, seams:[], fills:[], borders:[], shapes:[] };
-
+ 
     g.querySelectorAll('path, polyline, line').forEach(el => {
         const childId = cleanId(el.getAttribute('id') || '');
         const pathD = getPathD(el);
         if (!pathD) return;
-
+ 
         // If element has no ID, check if parent group ID contains _sem_
         if (!childId) {
             const parentId = cleanId(el.parentElement?.getAttribute('id') || el.parentElement?.parentElement?.getAttribute('id') || '');
@@ -135,10 +135,8 @@ function extractFromGroup(g, cleanId) {
             }
             return;
         }
-
+ 
         if (childId.includes('_sem_') || childId.match(/_sem$/)) {
-
-        if (childId.includes('_sem_')) {
             extracted.seams.push(pathD);
         } else if (childId.includes('_fil') || childId.includes('_inside')) {
             extracted.fills.push(pathD);
@@ -158,7 +156,7 @@ function extractFromGroup(g, cleanId) {
             else extracted.shapes.push(pathD);
         }
     });
-
+ 
     return extracted;
 }
 
