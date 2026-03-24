@@ -127,6 +127,17 @@ function extractFromGroup(g, cleanId) {
         const pathD = getPathD(el);
         if (!pathD) return;
 
+        // If element has no ID, check if parent group ID contains _sem_
+        if (!childId) {
+            const parentId = cleanId(el.parentElement?.getAttribute('id') || el.parentElement?.parentElement?.getAttribute('id') || '');
+            if (parentId.includes('_sem_')) {
+                extracted.seams.push(pathD);
+            }
+            return;
+        }
+
+        if (childId.includes('_sem_') || childId.match(/_sem$/)) {
+
         if (childId.includes('_sem_')) {
             extracted.seams.push(pathD);
         } else if (childId.includes('_fil') || childId.includes('_inside')) {
