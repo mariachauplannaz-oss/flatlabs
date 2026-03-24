@@ -1,8 +1,8 @@
 # FlatLabs robots.txt
-# https://flatlabs.app
+# https://flatsgenerator.com
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://flatlabs.app/sitemap.xml
+Sitemap: https://flatsgenerator.com/sitemap.xml
