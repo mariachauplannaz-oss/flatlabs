@@ -32,8 +32,13 @@ function renderGarment(svgEl, components, selections, cfg, log, ghostMarkup) {
         svgEl.appendChild(ghost);
     }
 
+    // Get component names for IDs
+    const torsoName = selections.torso || Object.keys(components.torsos)[0] || 'torso';
+    const neckName = selections.neck || 'neck';
+    const sleeveName = selections.sleeve || 'sleeve';
+
     // Get components
-    const torso = components.torsos[selections.torso || Object.keys(components.torsos)[0]];
+    const torso = components.torsos[torsoName];
     const neck = selections.neck && selections.neck !== 'none' ? components.necks[selections.neck] : null;
     const sleeve = selections.sleeve && selections.sleeve !== 'none' ? components.sleeves[selections.sleeve] : null;
 
@@ -45,38 +50,43 @@ function renderGarment(svgEl, components, selections, cfg, log, ghostMarkup) {
     }
 
     if (merged) {
-        svgEl.appendChild(mkEl('path', { d:merged, ...gA }));
+        svgEl.appendChild(mkEl('path', { id:'torso_' + torsoName + '_nck_' + neckName, d:merged, ...gA }));
         log('Merge OK', 'ok');
     } else if (torso && torso.main) {
-        svgEl.appendChild(mkEl('path', { d:torso.main, ...gA }));
-        if (neck && neck.main) svgEl.appendChild(mkEl('path', { d:neck.main, ...gA }));
+        svgEl.appendChild(mkEl('path', { id:'torso_' + torsoName, d:torso.main, ...gA }));
+        if (neck && neck.main) svgEl.appendChild(mkEl('path', { id:'nck_' + neckName, d:neck.main, ...gA }));
         log('Rendered separate', 'warn');
     }
 
     // Neck fills
     if (neck && neck.fills) {
-        neck.fills.forEach(d => {
-            svgEl.appendChild(mkEl('path', { d, fill:'#939598', stroke:'#1a1a1a', 'stroke-width': String(parseFloat(sw)*0.3), 'stroke-linejoin':'bevel' }));
+        neck.fills.forEach((d,i) => {
+            svgEl.appendChild(mkEl('path', { id:'nck_' + neckName + '_fill_' + (i+1), d, fill:'#939598', stroke:'#1a1a1a', 'stroke-width': String(parseFloat(sw)*0.3), 'stroke-linejoin':'bevel' }));
         });
     }
 
     // Sleeves (OVERLAY)
     if (sleeve) {
         log('Adding sleeves...', 'info');
-        if (sleeve.main_l) svgEl.appendChild(mkEl('path', { d:sleeve.main_l, ...gA }));
-        if (sleeve.main_r) svgEl.appendChild(mkEl('path', { d:sleeve.main_r, ...gA }));
+        if (sleeve.main_l) svgEl.appendChild(mkEl('path', { id:'slv_' + sleeveName + '_shape_l', d:sleeve.main_l, ...gA }));
+        if (sleeve.main_r) svgEl.appendChild(mkEl('path', { id:'slv_' + sleeveName + '_shape_r', d:sleeve.main_r, ...gA }));
         if (sleeve.borders) {
-            sleeve.borders.forEach(d => {
-                svgEl.appendChild(mkEl('path', { d, fill:'none', stroke:'#1a1a1a', 'stroke-width':sw, 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+            sleeve.borders.forEach((d,i) => {
+                svgEl.appendChild(mkEl('path', { id:'slv_' + sleeveName + '_border_' + (i+1), d, fill:'none', stroke:'#1a1a1a', 'stroke-width':sw, 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
             });
         }
     }
 
     // Seams
     if (showSeams) {
-        const allSeams = [...(torso?.seams||[]), ...(neck?.seams||[]), ...(sleeve?.seams||[])];
-        allSeams.forEach(d => {
-            svgEl.appendChild(mkEl('path', { d, ...seamA, 'stroke-dasharray': cfg.seamDash }));
+        const torsoSeams = (torso?.seams||[]).map(d => ({d, src:'torso'}));
+        const neckSeams = (neck?.seams||[]).map(d => ({d, src:'nck'}));
+        const sleeveSeams = (sleeve?.seams||[]).map(d => ({d, src:'slv'}));
+        const allSeams = [...torsoSeams, ...neckSeams, ...sleeveSeams];
+        const seamCount = { torso:0, nck:0, slv:0 };
+        allSeams.forEach(({d, src}) => {
+            seamCount[src]++;
+            svgEl.appendChild(mkEl('path', { id:'sem_' + src + '_' + seamCount[src], d, ...seamA, 'stroke-dasharray': cfg.seamDash }));
         });
         if (allSeams.length) log('Seams: ' + allSeams.length, 'ok');
     }
@@ -86,7 +96,7 @@ function renderGarment(svgEl, components, selections, cfg, log, ghostMarkup) {
     if (togPocket && togPocket.classList.contains('on') && Object.keys(components.pockets).length) {
         const pkt = components.pockets[Object.keys(components.pockets)[0]];
         if (pkt && pkt.main) {
-            svgEl.appendChild(mkEl('path', { d:pkt.main, fill:'none', stroke:'#1a1a1a', 'stroke-width':sw, 'stroke-linejoin':'round', 'stroke-linecap':'round' }));
+            svgEl.appendChild(mkEl('path', { id:'pocket', d:pkt.main, fill:'none', stroke:'#1a1a1a', 'stroke-width':sw, 'stroke-linejoin':'round', 'stroke-linecap':'round' }));
             log('Pocket added', 'ok');
         }
     }
