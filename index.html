@@ -84,7 +84,7 @@ nav {
     transition: all .3s var(--ease);
 }
 .nav-cta:hover { background: var(--accent); color: var(--accent-text); }
-
+    
 /* LAYOUT BASE */
 .container {
     max-width: 720px;
@@ -458,6 +458,11 @@ footer a:hover { color: var(--ink); }
     </div>
 </nav>
 
+<form name="validation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="form-name" value="validation">
+    <input name="action" value="this-makes-sense">
+</form>
+    
 <section class="hero">
     <div class="container">
         <h1>You shouldn't need to be an Illustrator expert to show someone <em>what a shirt looks like.</em></h1>
@@ -623,7 +628,7 @@ footer a:hover { color: var(--ink); }
     <span>&copy; 2026 FlatLabs</span>
     <div style="display:flex;gap:20px;align-items:center">
         <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener">Want to buy me a coffee?</a>
-        <a href="mailto:hello@flatlabs.app">Contact</a>
+        <a href="mailto:flatsgenerator@gmail.com">Contact</a>
     </div>
 </footer>
 
@@ -648,7 +653,7 @@ function updateCount() {
     }
 }
 
-function handleYes() {
+async function handleYes() {
     const btn = document.getElementById('btnYes');
     if (btn.classList.contains('clicked')) return;
 
@@ -658,6 +663,14 @@ function handleYes() {
     votes.yes++;
     localStorage.setItem('fl_votes', JSON.stringify(votes));
     updateCount();
+
+    try {
+        await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ 'form-name': 'validation', 'action': 'this-makes-sense' }).toString()
+        });
+    } catch(e) { /* silent fail — localStorage already captured it */ }
 }
 
 function showEmail() {
