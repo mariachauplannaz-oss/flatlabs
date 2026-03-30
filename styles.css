@@ -214,6 +214,23 @@ input[type="color"]{width:32px;height:32px;border:2px solid var(--gray3);border-
 .support-button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(255,154,110,.35)}
 
 /* MOBILE */
+.empty-start-btn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;   /* ← cambia a: color: var(--accent-text); */
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@media (min-width: 801px) {
+    .empty-start-btn { display: none; }
+}
+
 .burger-btn{
     display:none;position:fixed;top:14px;left:14px;z-index:60;
     width:40px;height:40px;border:none;background:rgba(255,255,255,.9);
