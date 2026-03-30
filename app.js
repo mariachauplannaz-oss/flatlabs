@@ -94,6 +94,7 @@ async function init() {
     document.getElementById('btnIso')?.addEventListener('click', () => setMannequin('iso'));
     document.getElementById('btnBack')?.addEventListener('click', () => goStep(0, state, doUpdateButton));
     document.getElementById('btnNext')?.addEventListener('click', nextAction);
+    document.getElementById('emptyStartBtn')?.addEventListener('click', toggleSidebar);
     
     // Modal listeners
     document.getElementById('leadForm')?.addEventListener('submit', doEmailSubmit);
