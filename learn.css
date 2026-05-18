@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water-Based Screen Print — Eco-Friendly Ink for T-Shirt Graphics | FlatLabs</title>
+<meta name="description" content="Water-based screen printing uses eco-friendly pigment ink that integrates into the fabric for a soft hand feel. Learn how to spec it correctly in your tech pack.">
+
+<link rel="canonical" href="https://flatsgenerator.com/learn/printing/water-based-screen">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Water-Based Screen Print — Eco-Friendly Ink for T-Shirt Graphics">
+<meta property="og:description" content="Water-based screen printing creates a soft hand feel on light fabrics. Learn how to spec it in your tech pack.">
+<meta property="og:url" content="https://flatsgenerator.com/learn/printing/water-based-screen">
+<meta property="og:site_name" content="FlatLabs">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Water-Based Screen Print — Eco-Friendly Ink for T-Shirt Graphics","author":{"@type":"Organization","name":"FlatLabs"},"publisher":{"@type":"Organization","name":"FlatLabs","url":"https://flatsgenerator.com"},"mainEntityOfPage":"https://flatsgenerator.com/learn/printing/water-based-screen"}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../learn.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="logo">Flat<em>Labs</em></a>
+  <div class="nav-links">
+    <a href="/#problem">Why</a>
+    <a href="/#how">How it works</a>
+    <a href="/learn/">Glossary</a>
+    <a href="/app.html" class="nav-cta">Try the studio</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container container--narrow">
+
+    <!-- BREADCRUMB — "Printing" is text (no index page) -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="breadcrumb-trail">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/learn/">Glossary</a>
+        <span class="sep">/</span>
+        <span class="crumb-static">Printing</span>
+        <span class="sep">/</span>
+        <span aria-current="page">Water-Based Screen Print</span>
+      </div>
+    </nav>
+
+    <header class="article-header reveal">
+      <div class="article-tag">
+        <span>Print</span>
+        <span class="sep">·</span>
+        <span class="id">FT-PRT-001</span>
+      </div>
+      <h1>Water-Based Screen Print — <em>Eco-friendly ink that integrates into the fabric</em></h1>
+
+      <div class="article-meta">
+        <div class="meta-item">
+          <span class="meta-label">Ink type</span>
+          <span class="meta-value">Pigment / Water-based</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Hand feel</span>
+          <span class="meta-value">Very soft</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Best for</span>
+          <span class="meta-value">Light fabrics, large graphics</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Eco</span>
+          <span class="meta-value">Low VOC, no PVC</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="article-body">
+
+      <div class="lede-block reveal">
+        <p>Water-based screen printing is the premium choice for t-shirt graphics on light-colored fabrics. Unlike plastisol, which sits on top of the fabric as a plastic layer, water-based ink penetrates into the fiber — becoming part of the fabric rather than a coating on it. The result is a print that feels almost like the fabric itself, with no rubber-like hand feel and no cracking over time.</p>
+        <p class="lede-secondary">This is the technique used by most premium basics brands for chest logos, large back graphics, and any print where hand feel is part of the product experience.</p>
+      </div>
+
+      <div class="highlight reveal" style="margin-left: 0 !important;">
+        <span class="highlight-label">Quick answer</span>
+        <p>Use water-based for light-colored fabrics where you want a soft, breathable print. Use plastisol for dark fabrics or when you need maximum color opacity and durability.</p>
+      </div>
+
+      <section class="reveal">
+        <h2 data-num="01">Water-based vs. plastisol</h2>
+        <div class="print-compare reveal">
+            <div class="print-card active">
+                <div class="print-card-name">Water-Based</div>
+                <div class="print-card-tag">You are here — Soft feel</div>
+                <div class="print-card-desc">Ink integrates into fabric. Soft hand feel, breathable, eco-friendly. Best on white and light colors.</div>
+            </div>
+            <div class="print-card">
+                <div class="print-card-name">Plastisol</div>
+                <div class="print-card-tag">High opacity alternative</div>
+                <div class="print-card-desc">Sits on top of fabric. Vibrant on darks, durable, but thicker feel. Standard for bold graphics on dark tees.</div>
+            </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2 data-num="02">Why it doesn't work well on dark fabrics</h2>
+        <p>Water-based ink is translucent — it integrates with the fabric color beneath it rather than covering it. On a white or light-colored fabric, the ink color reads true. On a navy or black fabric, the ink is absorbed into the dark base and loses vibrancy — colors look washed out, and white becomes grey.</p>
+        <p>There are discharge variants of water-based ink that work on darks by removing the fabric dye before depositing the ink color, but this adds complexity and cost. For straightforward printing on dark fabrics, plastisol is the more practical choice.</p>
+      </section>
+
+      <section class="reveal">
+        <h2 data-num="03">Production specs for your tech pack</h2>
+        <table class="spec-table">
+            <thead><tr><th>Spec</th><th>Value</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td>Print method</td><td>Screen printing</td><td>Not DTG or sublimation</td></tr>
+                <tr><td>Ink type</td><td>Water-based pigment</td><td>Low VOC, no PVC or phthalates</td></tr>
+                <tr><td>Fabric suitability</td><td>White and light colors</td><td>Not recommended for dark fabrics</td></tr>
+                <tr><td>Color reference</td><td>Pantone TCX or Pantone C</td><td>Specify per color in design</td></tr>
+                <tr><td>Placement</td><td>Specify in mm from reference point</td><td>e.g. "Center chest, 7 cm below neckband seam"</td></tr>
+                <tr><td>Strike-off</td><td>Required before bulk</td><td>Printed sample for approval before full run</td></tr>
+            </tbody>
+        </table>
+        <div class="pro-note">
+          <div class="pro-note-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pro-note-text">
+            <span class="pro-note-label">Inside the studio</span>
+            <p><strong>In FlatLabs PRO</strong>, the print section of your spec sheet includes placement coordinates, ink type, color reference, and strike-off requirement — everything your print supplier needs to produce consistently.</p>
+          </div>
+        </div>
+      </section>
+
+    </article>
+
+    <section class="cta-section reveal">
+      <span class="kicker">Put it to work</span>
+      <h2></h2>
+      <p></p>
+      <a href="/app.html" class="btn-primary">
+        Try FlatLabs free
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <div class="related reveal">
+      <div class="related-header">
+        <h3>Related <em>topics</em></h3>
+        <span class="label">04 entries</span>
+      </div>
+      <div class="related-grid">
+        <a href="plastisol-guide" class="related-card">
+          <div class="related-card-cat">Print</div>
+          <div class="related-card-name">Plastisol Print</div>
+          <div class="related-card-desc">High-opacity alternative for dark fabrics</div>
+        </a>
+        <a href="../embellishments/embroidery-basics" class="related-card">
+          <div class="related-card-cat">Embroidery</div>
+          <div class="related-card-name">Flat Embroidery</div>
+          <div class="related-card-desc">Thread-based alternative to screen printing</div>
+        </a>
+        <a href="../fabrics/lightweight-jersey" class="related-card">
+          <div class="related-card-cat">Fabric</div>
+          <div class="related-card-name">Lightweight Jersey</div>
+          <div class="related-card-desc">Common substrate for water-based screen prints</div>
+        </a>
+        <a href="../color/pantone-tcx-system" class="related-card">
+          <div class="related-card-cat">Color</div>
+          <div class="related-card-name">Pantone TCX</div>
+          <div class="related-card-desc">Color standard for specifying print ink colors</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 FlatLabs</span>
+  <div class="footer-links">
+    <a href="/learn/">Glossary</a>
+    <a href="/legal/contact.html">Contact</a>
+    <a href="/legal/privacy.html">Privacy</a>
+    <a href="/legal/terms.html">Terms</a>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
