@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlatLabs — Technical Fashion Flats. Launching July 2026.</title>
+<meta name="description" content="FlatLabs builds production-ready technical flats and tech packs for fashion designers and small brands. No pen tool, no templates. Launching with t-shirts, pants and hoodies for SS27.">
+<link rel="canonical" href="https://flatsgenerator.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FlatLabs — Technical Fashion Flats. Launching July 2026.">
+<meta property="og:description" content="FlatLabs builds production-ready technical flats and tech packs in minutes. No pen tool, no templates. Launching SS27.">
+<meta property="og:url" content="https://flatsgenerator.com/">
+<meta property="og:site_name" content="FlatLabs">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #212B31;
+  --ink-soft: #5F7385;
+  --surface: #FFFFFF;
+  --surface-warm: #ffefd4;
+  --surface-dark: #212B31;
+  --accent: #ff9a6e;
+  --accent-hover: #f08860;
+  --accent-text: #212B31;
+  --accent-soft: rgba(255,154,110,.12);
+  --cool-mist: #A8B5C0;
+  --cool-mist-soft: rgba(168,181,192,.18);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--sans);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+::selection { background: rgba(255,154,110,.25); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 40px;
+  height: 60px;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(33,43,49,.07);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: var(--sans);
+  font-size: 17px; font-weight: 700;
+  letter-spacing: -.4px; color: var(--ink);
+  text-decoration: none;
+}
+.logo em { font-style: normal; color: var(--accent); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-size: 13px; color: var(--ink-soft);
+  text-decoration: none; font-weight: 500;
+  letter-spacing: .1px;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink); color: white !important;
+  padding: 9px 20px; border-radius: 100px;
+  font-size: 12px !important; font-weight: 600 !important;
+  letter-spacing: .3px;
+  transition: background .25s var(--ease) !important;
+}
+.nav-cta:hover { background: var(--accent) !important; color: var(--ink) !important; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 60px;
+  padding-right: 40px;
+  gap: 40px;
+}
+.hero-text { padding: 80px 0; }
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+}
+.hero-kicker::before {
+  content: '';
+  display: block; width: 28px; height: 1.5px;
+  background: var(--accent);
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4.5vw, 62px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+.hero-body {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  max-width: 460px;
+  margin-bottom: 40px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: var(--accent-text);
+  padding: 14px 28px; border-radius: 100px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: all .3s var(--ease);
+  border: none; cursor: pointer; font-family: var(--sans);
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,154,110,.3); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--ink-soft);
+  padding: 14px 24px; border-radius: 100px;
+  font-size: 14px; font-weight: 500; text-decoration: none;
+  border: 1.5px solid rgba(33,43,49,.15);
+  transition: all .25s; cursor: pointer; font-family: var(--sans);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--ink); }
+
+.hero-beta-badge {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-beta-badge .dot { color: var(--accent); }
+.hero-beta-badge a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color .2s;
+}
+.hero-beta-badge a:hover { color: var(--accent); }
+
+/* Hero illustration */
+.hero-visual {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  padding: 60px 20px;
+}
+.hero-flat-wrap {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%;
+}
+.hero-flat-wrap img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 16px 40px rgba(33,43,49,.1));
+}
+
+/* PROBLEM */
+.problem {
+  background: var(--surface-dark);
+  color: white;
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.problem-bg-num {
+  position: absolute;
+  top: -20px; left: -10px;
+  font-family: var(--serif);
+  font-size: clamp(140px, 22vw, 320px);
+  font-weight: 900;
+  color: rgba(255,255,255,.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -8px;
+  max-width: 100%;
+  overflow: hidden;
+}
+.problem-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 80px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+.section-label {
+  font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; font-weight: 600;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: block; width: 20px; height: 1.5px;
+  background: currentColor; flex-shrink: 0;
+}
+.problem .section-label { color: var(--cool-mist); }
+.problem h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.8px;
+  color: white;
+  margin-bottom: 0;
+}
+.problem h2 em {
+  font-style: italic; font-weight: 400;
+  color: rgba(255,255,255,.5);
+}
+.problem-narrative p {
+  font-size: 16px; color: rgba(255,255,255,.7);
+  line-height: 1.8; margin-bottom: 20px;
+}
+.problem-narrative p:last-child { margin-bottom: 0; }
+.problem-narrative strong { font-weight: 600; color: white; }
+.price-callout {
+  margin-top: 36px;
+  padding: 28px 32px;
+  border: 1px solid rgba(168,181,192,.2);
+  border-left: 3px solid var(--cool-mist);
+  border-radius: 2px;
+}
+.price-callout p {
+  font-size: 15px; color: rgba(255,255,255,.65);
+  line-height: 1.7; margin-bottom: 12px;
+}
+.price-callout p:last-child { margin-bottom: 0; color: rgba(255,255,255,.9); font-weight: 500; }
+
+.problem-block { margin-bottom: 32px; }
+.problem-block:last-child { margin-bottom: 0; }
+.problem-block-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cool-mist);
+  margin-bottom: 12px;
+  display: block;
+}
+.problem-block p {
+  font-size: 16px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+.problem-block p strong { font-weight: 600; color: white; }
+
+.problem-deco {
+  position: absolute;
+  bottom: -60px; right: -40px;
+  opacity: .07;
+  pointer-events: none;
+}
+
+/* HOW IT WORKS */
+.how {
+  background: var(--surface-warm);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.how-bg-num {
+  position: absolute;
+  top: -30px; right: -20px;
+  font-family: var(--serif);
+  font-size: clamp(140px, 22vw, 320px);
+  font-weight: 900;
+  color: rgba(33,43,49,.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -8px;
+  max-width: 100%;
+  overflow: hidden;
+}
+.how-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 60px;
+  position: relative;
+  z-index: 1;
+}
+.how-header { max-width: 620px; margin-bottom: 72px; }
+.how .section-label { color: var(--ink-soft); margin-bottom: 20px; }
+.how h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.8px;
+  color: var(--ink);
+}
+.how h2 em { font-style: italic; font-weight: 400; color: var(--ink-soft); }
+.how-body {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-top: 16px;
+  max-width: 560px;
+}
+
+/* GLOSSARY GRID */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.gl-term-card {
+  background: white;
+  border: 1px solid rgba(33,43,49,.1);
+  border-radius: 12px;
+  padding: 22px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.gl-term-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(255,154,110,.15);
+  transform: translateY(-2px);
+}
+.gl-term-cat {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.gl-term-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.gl-term-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.gl-term-link {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.glossary-cta {
+  margin-top: 36px;
+  text-align: center;
+}
+.glossary-cta a {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(33,43,49,.2);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.glossary-cta a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* DISCLAIMER */
+.disclaimer {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.disclaimer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 80px;
+  align-items: center;
+}
+.disclaimer .section-label { color: var(--ink-soft); margin-bottom: 20px; }
+.disclaimer h2 {
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.5vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.disclaimer h2 em { font-style: italic; font-weight: 400; }
+.disclaimer p {
+  font-size: 16px; color: var(--ink-soft);
+  line-height: 1.8; margin-bottom: 16px;
+}
+.disclaimer p em {
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--accent);
+}
+.disclaimer-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.disclaimer-pocket-wrap { position: relative; }
+.disclaimer-pocket-wrap svg { width: 320px; max-width: 100%; }
+
+/* VALIDATION */
+.validation {
+  padding: 100px 0 80px;
+  text-align: center;
+  border-top: 1px solid rgba(33,43,49,.07);
+}
+.validation-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.validation h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.8px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.validation h2 em { font-style: italic; font-weight: 400; color: var(--ink-soft); }
+.validation-sub {
+  font-size: 16px; color: var(--ink-soft);
+  margin-bottom: 40px; line-height: 1.6;
+}
+.validation-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.btn-validate {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 26px; border-radius: 100px;
+  font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer;
+  font-family: var(--sans);
+  transition: all .3s var(--ease);
+}
+.btn-yes { background: var(--surface-dark); color: white; }
+.btn-yes:hover { background: var(--accent); color: var(--accent-text); }
+.btn-yes.clicked {
+  background: var(--accent-soft); color: var(--accent-text);
+  border: 1.5px solid var(--accent); pointer-events: none;
+}
+.btn-email { background: var(--accent); color: var(--accent-text); }
+.btn-email:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.email-form {
+  display: none; max-width: 360px; margin: 0 auto;
+  animation: slideUp .4s var(--ease);
+}
+.email-form.show { display: block; }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.email-row { display: flex; gap: 8px; }
+.email-input {
+  flex: 1; padding: 13px 18px;
+  border: 1.5px solid rgba(33,43,49,.15);
+  border-radius: 100px;
+  font-size: 14px; font-family: var(--sans);
+  outline: none; background: white;
+  transition: border .2s;
+}
+.email-input:focus { border-color: var(--accent); }
+.email-submit {
+  padding: 13px 22px;
+  background: var(--ink); color: white;
+  border: none; border-radius: 100px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all .3s; font-family: var(--sans);
+}
+.email-submit:hover { background: var(--accent); color: var(--accent-text); }
+.email-note { font-size: 11px; color: var(--ink-soft); margin-top: 10px; }
+.email-success {
+  display: none; padding: 16px;
+  background: var(--accent-soft); color: var(--accent-text);
+  border-radius: 12px; font-size: 14px; font-weight: 500;
+  animation: slideUp .4s var(--ease);
+}
+.email-success.show { display: block; }
+.validation-count { font-size: 12px; color: var(--ink-soft); margin-top: 16px; }
+
+/* FINAL CTA */
+.final-cta {
+  background: var(--surface-dark);
+  color: white;
+  padding: 100px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(168,181,192,.10), transparent 60%);
+  pointer-events: none;
+}
+.final-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.final-cta h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: white;
+  margin-bottom: 16px;
+}
+.final-cta p {
+  font-size: 17px;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 40px;
+}
+.final-cta .btn-primary {
+  font-size: 15px;
+  padding: 16px 32px;
+}
+.final-cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-ghost-light {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: rgba(255,255,255,.6);
+  padding: 16px 28px; border-radius: 100px;
+  font-size: 14px; font-weight: 500; text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,.2);
+  transition: all .25s;
+}
+.btn-ghost-light:hover { border-color: var(--accent); color: var(--accent); }
+
+/* FOOTER */
+footer {
+  padding: 36px 60px;
+  border-top: 1px solid rgba(33,43,49,.07);
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.footer-copy {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.footer-links {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-links a {
+  font-size: 12px; color: var(--ink-soft); text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-legal {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-legal a {
+  font-size: 11px;
+  color: var(--cool-mist);
+  text-decoration: none;
+  letter-spacing: .3px;
+  transition: color .2s;
+}
+.footer-legal a:hover { color: var(--ink-soft); }
+
+/* REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .65s var(--ease), transform .65s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+/* MOBILE */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 18px; }
+  .nav-links a:not(.nav-cta) { display: none; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 96px 20px 60px;
+    gap: 32px;
+    min-height: auto;
+  }
+  .hero-text { padding: 0; }
+  .hero-visual { justify-content: center; padding: 20px 0; }
+  .hero-flat-wrap img { max-width: 280px; }
+
+  .problem { padding: 80px 0; }
+  .problem-inner {
+    grid-template-columns: 1fr;
+    padding: 0 20px; gap: 32px;
+  }
+  .problem-bg-num { font-size: clamp(120px, 30vw, 200px); top: -10px; left: -8px; }
+
+  .how { padding: 80px 0; }
+  .how-inner { padding: 0 20px; }
+  .how-header { margin-bottom: 48px; }
+  .how-bg-num { font-size: clamp(120px, 30vw, 200px); }
+  .glossary-grid { grid-template-columns: 1fr; }
+
+  .disclaimer { padding: 80px 0; }
+  .disclaimer-inner {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+    gap: 40px;
+  }
+  .disclaimer-visual { display: none; }
+
+  .validation { padding: 72px 0 56px; }
+  .validation-inner { padding: 0 20px; }
+
+  .final-cta { padding: 72px 24px; }
+  .final-cta p { font-size: 15px; margin-bottom: 32px; }
+  .final-cta-actions { flex-direction: column; align-items: center; }
+
+  footer { padding: 28px 20px; }
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: clamp(30px, 8vw, 38px);
+    letter-spacing: -.6px;
+    line-height: 1.12;
+  }
+  .hero-body { font-size: 15px; }
+  .hero-actions { gap: 10px; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+  .hero-flat-wrap img { max-width: 240px; }
+
+  .price-callout { padding: 20px 22px; }
+
+  .email-row { flex-direction: column; }
+  .validation-buttons { flex-direction: column; align-items: stretch; }
+  .btn-validate { width: 100%; justify-content: center; }
+
+  .final-cta .btn-primary, .btn-ghost-light { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<form name="validation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="form-name" value="validation">
+  <input name="action" value="this-makes-sense">
+</form>
+
+<nav>
+  <a href="/" class="logo">Flat<em>Labs</em></a>
+  <div class="nav-links">
+    <a href="#problem">Why</a>
+    <a href="#how">How it works</a>
+    <a href="learn/index.html">Glossary</a>
+    <a href="#validate" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-kicker reveal">Launching July 2026 · Beta open now</div>
+    <h1 class="reveal reveal-delay-1">
+      Fashion flats <em>shouldn't take</em> an afternoon. So we're building the tool that fixes it.
+    </h1>
+    <p class="hero-body reveal reveal-delay-2">
+      FlatLabs is a web tool that builds production-ready technical flats in minutes. No pen tool, no fighting with templates. Launching with t-shirts, pants and hoodies for the SS27 season. The full glossary is open now while we build the rest.
+    </p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#validate" class="btn-primary">
+        Join the waitlist
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="learn/index.html" class="btn-ghost">Explore the glossary</a>
+    </div>
+    <div class="hero-beta-badge reveal" style="transition-delay:.4s">
+      <span class="dot">●</span>
+      T-shirt beta is live. <a href="app.html">Try it</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-flat-wrap reveal reveal-delay-2">
+      <img src="assets/img/T-shirt_example.png" alt="Technical flat - T-shirt">
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="problem" id="problem">
+  <div class="problem-bg-num">01</div>
+  <div class="problem-inner">
+    <div class="problem-left">
+      <div class="section-label reveal">The problem</div>
+      <h2 class="reveal reveal-delay-1">This is where your <em>time</em> gets wasted.</h2>
+    </div>
+    <div class="problem-right">
+      <div class="problem-narrative reveal">
+        <div class="problem-block">
+          <span class="problem-block-label">The reality</span>
+          <p>You designed the collection. You sourced the fabric. You're ready to produce. And now? You're stuck dragging anchor points for three hours to draw a t-shirt that already exists in a thousand variations on the internet.</p>
+        </div>
+        <div class="problem-block">
+          <span class="problem-block-label">The pain point</span>
+          <p>Free templates are unusable. <strong>Ungrouped. Misproportioned. Fragile.</strong> They aren't built for production — they're built to frustrate you.</p>
+        </div>
+        <div class="problem-block">
+          <span class="problem-block-label">The gap</span>
+          <p>You shouldn't have to choose between <strong>"free templates that don't work"</strong> and <strong>"enterprise software priced like a luxury car."</strong> FlatLabs fills the gap with technically correct flats for the 80% of cases where you need a clean, professional drawing — fast. <strong>Need full custom construction or a unique silhouette? That still belongs with your patternmaker.</strong> This is for everything else. There's something broken about that. We're fixing it. Shipping in July 2026.</p>
+        </div>
+      </div>
+      <div class="price-callout reveal reveal-delay-1">
+        <p>The professional alternative? Real measurements, proper construction, full kit. <strong>€3,000 — minimum.</strong> More if you want the whole suite.</p>
+        <p style="margin-top:12px;color:rgba(255,255,255,.85);font-weight:500;">FlatLabs is the tool that should have existed between those two extremes. <strong>Now it does.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="problem-deco">
+    <svg width="420" height="340" viewBox="0 0 420 340" fill="none">
+      <path d="M 60 30 L 380 60 L 420 300 L 30 340 Z" stroke="white" stroke-width="2" fill="none" opacity=".6"/>
+      <path d="M 65 40 L 375 69 L 414 295 L 38 332 Z" stroke="white" stroke-width="1" stroke-dasharray="6 4" fill="none" opacity=".5"/>
+      <line x1="30" y1="340" x2="60" y2="30" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity=".4"/>
+      <line x1="420" y1="300" x2="380" y2="60" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity=".4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- GLOSSARY SECTION -->
+<section class="how" id="how">
+  <div class="how-bg-num">02</div>
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-label reveal">Available now</div>
+      <h2 class="reveal reveal-delay-1">While we build, learn the terms you'll see in <em>every tech pack.</em></h2>
+      <p class="how-body reveal reveal-delay-2">The full FlatLabs glossary is open. Fabrics, seams, finishes, threads — 24 terms explained simply, no upsell, no login. Built for designers, students, and small brands.</p>
+    </div>
+
+    <div class="glossary-grid reveal reveal-delay-1">
+
+      <a href="learn/fabrics/midweight-jersey.html" class="gl-term-card">
+        <span class="gl-term-cat">Fabric</span>
+        <span class="gl-term-name">Midweight Jersey</span>
+        <span class="gl-term-desc">The industry standard for high-quality T-shirts.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+      <a href="learn/seams/iso-514-overlock.html" class="gl-term-card">
+        <span class="gl-term-cat">Seam</span>
+        <span class="gl-term-name">4-Thread Overlock</span>
+        <span class="gl-term-desc">Secure and elastic seam for joining knitted panels.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+      <a href="learn/color/pantone-tcx-system.html" class="gl-term-card">
+        <span class="gl-term-cat">Color</span>
+        <span class="gl-term-name">Pantone TCX</span>
+        <span class="gl-term-desc">The global standard for textile color on cotton.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+      <a href="learn/trims/care-labels-standards.html" class="gl-term-card">
+        <span class="gl-term-cat">Label</span>
+        <span class="gl-term-name">Care & Content Label</span>
+        <span class="gl-term-desc">Required label for legal and care information.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+      <a href="learn/printing/water-based-screen.html" class="gl-term-card">
+        <span class="gl-term-cat">Print</span>
+        <span class="gl-term-name">Water-based Screen Print</span>
+        <span class="gl-term-desc">Eco-friendly ink that integrates into the fabric.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+      <a href="learn/finishes/sanforized-standards.html" class="gl-term-card">
+        <span class="gl-term-cat">Finish</span>
+        <span class="gl-term-name">Sanforized</span>
+        <span class="gl-term-desc">Pre-shrinking process to ensure dimensional stability.</span>
+        <span class="gl-term-link">Read more →</span>
+      </a>
+
+    </div>
+
+    <div class="glossary-cta reveal">
+      <a href="learn/index.html">Browse all 24 terms →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- DISCLAIMER / WHERE WE ARE -->
+<section class="disclaimer" id="disclaimer">
+  <div class="disclaimer-inner">
+    <div>
+      <div class="section-label reveal">Where we are</div>
+      <h2 class="reveal reveal-delay-1">Building in public. <em>Honestly.</em></h2>
+      <p class="reveal reveal-delay-2">The T-shirt module is live in beta. Pick components, export an SVG. The full version (with manufacturing wizard, tech pack PDF, pants and hoodies) ships in July 2026 for the SS27 season.</p>
+      <p class="reveal reveal-delay-2"><em>Does this make sense to you?</em></p>
+      <p class="reveal reveal-delay-3">If you've ever wasted time searching for a flat, fighting with a template, or paying too much for something that should be simple, then maybe this resonates. Let us know.</p>
+    </div>
+
+    <div class="disclaimer-visual reveal reveal-delay-2">
+      <div class="disclaimer-pocket-wrap">
+        <svg viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="60" x2="320" y2="60" stroke="#e8e0d0" stroke-width="1" stroke-dasharray="6 4"/>
+          <line x1="0" y1="64" x2="320" y2="64" stroke="#e8e0d0" stroke-width=".7" stroke-dasharray="6 4"/>
+          <line x1="0" y1="300" x2="320" y2="300" stroke="#e8e0d0" stroke-width="1" stroke-dasharray="6 4"/>
+          <line x1="0" y1="304" x2="320" y2="304" stroke="#e8e0d0" stroke-width=".7" stroke-dasharray="6 4"/>
+          <rect x="60" y="90" width="200" height="170" rx="3" stroke="#212B31" stroke-width="2.5" fill="white"/>
+          <line x1="63" y1="104" x2="257" y2="104" stroke="#212B31" stroke-width="1.2" stroke-dasharray="5 3.5"/>
+          <line x1="63" y1="110" x2="257" y2="110" stroke="#212B31" stroke-width=".8" stroke-dasharray="5 3.5" opacity=".6"/>
+          <line x1="71" y1="104" x2="71" y2="255" stroke="#212B31" stroke-width=".8" stroke-dasharray="4 3" opacity=".5"/>
+          <line x1="249" y1="104" x2="249" y2="255" stroke="#212B31" stroke-width=".8" stroke-dasharray="4 3" opacity=".5"/>
+          <line x1="63" y1="249" x2="257" y2="249" stroke="#212B31" stroke-width=".8" stroke-dasharray="4 3" opacity=".5"/>
+          <line x1="60" y1="78" x2="260" y2="78" stroke="#ff9a6e" stroke-width="1" opacity=".6"/>
+          <line x1="60" y1="74" x2="60" y2="82" stroke="#ff9a6e" stroke-width="1" opacity=".6"/>
+          <line x1="260" y1="74" x2="260" y2="82" stroke="#ff9a6e" stroke-width="1" opacity=".6"/>
+          <text x="160" y="73" font-family="'DM Sans', sans-serif" font-size="10" fill="#ff9a6e" text-anchor="middle" opacity=".8">12 cm</text>
+          <text x="160" y="188" font-family="'DM Sans', sans-serif" font-size="11" fill="#5F7385" text-anchor="middle" opacity=".6" font-weight="600" letter-spacing="1">CHEST POCKET</text>
+          <text x="160" y="202" font-family="'DM Sans', sans-serif" font-size="9" fill="#5F7385" text-anchor="middle" opacity=".5">patch · double topstitch</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALIDATION + EMAIL CAPTURE -->
+<section class="validation" id="validate">
+  <div class="validation-inner">
+    <div class="section-label reveal" style="justify-content:center">Get on the list</div>
+    <h2 class="reveal reveal-delay-1">If this <em>resonates</em>,<br>let me know.</h2>
+    <p class="validation-sub reveal reveal-delay-2">If you've ever needed a professional flat and refused to spend €3k on software to get it, tap the button.</p>
+
+    <div class="validation-buttons reveal reveal-delay-2">
+      <button class="btn-validate btn-yes" id="btnYes" type="button" onclick="handleYes()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        This makes sense
+      </button>
+      <button class="btn-validate btn-email" id="btnEmail" type="button" onclick="showEmail()">
+        Be notified at launch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <form name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="email-form" id="emailForm">
+      <input type="hidden" name="form-name" value="waitlist">
+      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <div class="email-row">
+        <input type="email" name="email" class="email-input" id="emailInput" placeholder="your@email.com" required>
+        <button type="submit" class="email-submit">Send</button>
+      </div>
+      <div class="email-note">No spam. One email when we launch in July.</div>
+    </form>
+
+    <div class="email-success" id="emailSuccess">You're on the list. We'll email you in July when the full version ships.</div>
+    <div class="validation-count" id="validationCount"></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner reveal">
+    <h2>Join the SS27 launch list.</h2>
+    <p>Get one email in July when FlatLabs is fully launched. Until then, the glossary is yours to explore.</p>
+    <div class="final-cta-actions">
+      <a href="#validate" class="btn-primary">
+        Be notified at launch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="learn/index.html" class="btn-ghost-light">Open the glossary</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">&copy; 2026 FlatLabs</span>
+  <div class="footer-links">
+    <a href="#problem">Why</a>
+    <a href="#how">How it works</a>
+    <a href="learn/index.html">Glossary</a>
+    <a href="legal/contact.html">Contact</a>
+  </div>
+  <div class="footer-legal">
+    <a href="legal/privacy.html">Privacy</a>
+    <a href="legal/terms.html">Terms</a>
+    <a href="legal/legal.html">Legal Notice</a>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+let votes = JSON.parse(localStorage.getItem('fl_votes') || '{"yes":0,"emails":[]}');
+
+function updateCount() {
+  const total = votes.yes + votes.emails.length;
+  const el = document.getElementById('validationCount');
+  if (total > 0) {
+    el.textContent = `${total} ${total === 1 ? 'person has' : 'people have'} said this makes sense`;
+  }
+}
+
+async function handleYes() {
+  const btn = document.getElementById('btnYes');
+  if (btn.classList.contains('clicked')) return;
+  btn.classList.add('clicked');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Noted — thank you';
+  votes.yes++;
+  localStorage.setItem('fl_votes', JSON.stringify(votes));
+  updateCount();
+  try {
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ 'form-name': 'validation', 'action': 'this-makes-sense' }).toString()
+    });
+  } catch(e) {}
+}
+
+function showEmail() {
+  document.getElementById('emailForm').classList.add('show');
+  document.getElementById('emailInput').focus();
+}
+
+async function submitEmail(event) {
+  event.preventDefault();
+  const form = document.getElementById('emailForm');
+  const input = document.getElementById('emailInput');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = '#ef4444';
+    setTimeout(() => { input.style.borderColor = ''; }, 1500);
+    return;
+  }
+  const formData = new FormData(form);
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    });
+    if (!response.ok) throw new Error('failed');
+    votes.emails.push(email);
+    localStorage.setItem('fl_votes', JSON.stringify(votes));
+    form.classList.remove('show');
+    document.getElementById('emailSuccess').classList.add('show');
+    document.getElementById('btnEmail').style.display = 'none';
+    updateCount();
+    form.reset();
+  } catch(e) {
+    input.style.borderColor = '#ef4444';
+    setTimeout(() => { input.style.borderColor = ''; }, 1500);
+  }
+}
+
+document.getElementById('emailForm').addEventListener('submit', submitEmail);
+updateCount();
+</script>
+</body>
+</html>
