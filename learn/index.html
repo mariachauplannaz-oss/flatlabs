@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Tech Pack Glossary — Fabrics, Seams & Production Terms | FlatLabs</title>
+<meta name="description" content="The fashion production glossary you actually need. Fabrics, seams, finishes, labels, threads — explained simply for designers, students, and small brands.">
+
+<link rel="canonical" href="https://flatsgenerator.com/learn/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fashion Tech Pack Glossary | FlatLabs">
+<meta property="og:description" content="Fabrics, seams, finishes, labels — explained simply for designers and small brands.">
+<meta property="og:url" content="https://flatsgenerator.com/learn/">
+<meta property="og:site_name" content="FlatLabs">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Fashion Tech Pack Glossary",
+  "description": "Technical fashion production terms explained for designers, students, and small brands.",
+  "url": "https://flatsgenerator.com/learn/",
+  "publisher": { "@type": "Organization", "name": "FlatLabs", "url": "https://flatsgenerator.com" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="logo">Flat<em>Labs</em></a>
+  <div class="nav-links">
+    <a href="/#problem">Why</a>
+    <a href="/#how">How it works</a>
+    <a href="/learn/" class="active">Glossary</a>
+    <a href="/app.html" class="nav-cta">Try the studio</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+
+    <header class="learn-hero">
+      <div>
+        <span class="kicker">Knowledge base · No paywalls</span>
+        <h1>The terms you'll see in <em>every tech pack.</em></h1>
+        <p class="lede">Fabrics, seams, finishes, labels — explained simply. No jargon, no upsell. Built for designers, students, and small brands who actually work with garments.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-num">24</span>
+          <span class="stat-label">Terms covered<br>and counting</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">12</span>
+          <span class="stat-label">Categories<br>by use</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">Free</span>
+          <span class="stat-label">Always.<br>No login.</span>
+        </div>
+      </div>
+    </header>
+
+  </div>
+
+  <!-- TABS (sticky) -->
+  <div class="tabs-wrap">
+    <div class="tabs-inner">
+      <span class="tabs-label">Browse by</span>
+      <div class="gl-tabs" role="tablist" id="glTabs"></div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <section class="grid-section">
+      <div class="section-heading">
+        <h2 id="sectionHeading">Fabric <em>terms</em></h2>
+        <span class="section-count" id="sectionCount">— terms</span>
+      </div>
+      <div class="gl-grid" id="glGrid"></div>
+    </section>
+
+    <section class="cta-section">
+      <div class="kicker">Apply it</div>
+      <h2>From definition <em>to</em> production.</h2>
+      <p>Select your fabric, seam type, and finish inside the FlatLabs studio — and they show up automatically in your spec sheet PDF.</p>
+      <a href="/app.html" class="btn-primary">
+        Try FlatLabs free
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 FlatLabs</span>
+  <div class="footer-links">
+    <a href="/learn/">Glossary</a>
+    <a href="/legal/contact.html">Contact</a>
+    <a href="/legal/privacy.html">Privacy</a>
+    <a href="/legal/terms.html">Terms</a>
+  </div>
+</footer>
+
+<script>
+const GLOSSARY = [
+  { id:'FT-TEX-001', category:'Fabric',     name:'Lightweight Jersey',      tooltip:'Breathable and soft, perfect for summer garments or inner layers.',         production:'140-150 g/m²', url:'/learn/fabrics/lightweight-jersey.html' },
+  { id:'FT-TEX-002', category:'Fabric',     name:'Midweight Jersey',        tooltip:'The industry standard for high-quality T-shirts.',                          production:'180 g/m²',     url:'/learn/fabrics/midweight-jersey.html' },
+  { id:'FT-TEX-003', category:'Fabric',     name:'Heavyweight Jersey',      tooltip:'Thick, structured fabric for a premium "Oversized" look.',                  production:'220-240 g/m²', url:'/learn/fabrics/heavyweight-jersey.html' },
+  { id:'FT-TEX-004', category:'Fabric',     name:'1×1 Rib',                 tooltip:'Highly elastic knitted fabric used for finishing.',                         production:'95% Cot, 5% Ela', url:'/learn/fabrics/rib-knit-basics.html' },
+  { id:'ISO-514',    category:'Seam',       name:'4-Thread Overlock',       tooltip:'Secure and elastic seam for joining knitted panels.',                       production:'ISO 514',      url:'/learn/seams/iso-514-overlock.html' },
+  { id:'ISO-406',    category:'Seam',       name:'Coverseam',               tooltip:'Professional flat finish for hems and sleeve openings.',                    production:'ISO 406',      url:'/learn/seams/iso-406-coverseam.html' },
+  { id:'ND-BP-01',   category:'Needle',     name:'Ball Point (SES)',        tooltip:'Designed to pass between fabric loops without cutting fibers.',              production:'70/10-80/12',  url:'/learn/needles/ball-point-ses.html' },
+  { id:'LAB-WVN-01', category:'Label',      name:'Main Brand Label',        tooltip:'Woven label for brand identification.',                                     production:'Woven Polyester', url:'/learn/trims/woven-labels.html' },
+  { id:'LAB-CARE-01',category:'Label',      name:'Care & Content Label',    tooltip:'Required label for legal and care information.',                            production:'Satin or Nylon', url:'/learn/trims/care-labels-standards.html' },
+  { id:'LAB-SIZE-01',category:'Label',      name:'Size Label',              tooltip:'Small woven label indicating the garment size.',                            production:'EU/US Sizing', url:'/learn/trims/size-labeling.html' },
+  { id:'THR-P-27',   category:'Thread',     name:'Polyester Thread Tex 27', tooltip:'Standard high-tenacity thread for general sewing.',                        production:'Tex 27 / Ticket 120', url:'/learn/threads/polyester-tex-27.html' },
+  { id:'THR-C-18',   category:'Thread',     name:'Coverseam Thread Tex 18', tooltip:'Finer thread for soft, low-profile seams.',                                production:'Tex 18 / Ticket 180', url:'/learn/threads/low-profile-seams.html' },
+  { id:'SPI-1012',   category:'Stitch',     name:'10-12 SPI',               tooltip:'Standard stitch density for knitted garments.',                            production:'10-12 SPI',    url:'/learn/construction/stitches-per-inch.html' },
+  { id:'PKG-POLY-01',category:'Packing',    name:'Recycled Polybag',        tooltip:'Protective bag for storage and shipping.',                                  production:'35×45 cm',     url:'/learn/packing/recycled-polybags.html' },
+  { id:'PKG-FOLD-01',category:'Packing',    name:'Standard Flat Fold',      tooltip:'Garment is folded flat to fit the polybag.',                               production:'Flat Fold',    url:'/learn/packing/folding-guides.html' },
+  { id:'FT-CLR-001', category:'Color',      name:'Pantone TCX',             tooltip:'The global standard for textile color on cotton.',                         production:'Pantone FHI',  url:'/learn/color/pantone-tcx-system.html' },
+  { id:'FT-DYE-001', category:'Dyeing',     name:'Piece Dyed',              tooltip:'Fabric is dyed in rolls before the garment is cut.',                       production:'Reactive',     url:'/learn/dyeing/piece-dyed-process.html' },
+  { id:'FT-DYE-002', category:'Dyeing',     name:'Garment Dyed',            tooltip:'The finished garment is dyed after being sewn.',                           production:'Post-Assembly', url:'/learn/dyeing/garment-dye-guide.html' },
+  { id:'FT-PRT-001', category:'Print',      name:'Water-based Screen Print',tooltip:'Eco-friendly ink that integrates into the fabric.',                        production:'Pigment Ink',  url:'/learn/printing/water-based-screen.html' },
+  { id:'FT-PRT-002', category:'Print',      name:'Plastisol Print',         tooltip:'Standard durable ink with vibrant color opacity.',                         production:'PVC-Free',     url:'/learn/printing/plastisol-guide.html' },
+  { id:'FT-EMB-001', category:'Embroidery', name:'Flat Embroidery',         tooltip:'Classic thread-based logo or design.',                                     production:'Rayon/Poly',   url:'/learn/embellishments/embroidery-basics.html' },
+  { id:'FT-FIN-001', category:'Finish',     name:'Silicon Wash',            tooltip:'Gives the fabric an ultra-soft, silky touch.',                             production:'Softener',     url:'/learn/finishes/silicon-wash.html' },
+  { id:'FT-FIN-002', category:'Finish',     name:'Enzyme Wash',             tooltip:'Removes surface fuzz for a clean, pill-resistant look.',                   production:'Bio-Polishing', url:'/learn/finishes/enzyme-wash.html' },
+  { id:'FT-FIN-003', category:'Finish',     name:'Sanforized',              tooltip:'Pre-shrinking process to ensure dimensional stability.',                   production:'Pre-shrunk',   url:'/learn/finishes/sanforized-standards.html' },
+];
+
+const cats = {};
+GLOSSARY.forEach(t => { cats[t.category] = (cats[t.category] || 0) + 1; });
+
+const tabsEl = document.getElementById('glTabs');
+let activeCat = 'Fabric';
+
+Object.entries(cats).forEach(([cat, count]) => {
+  const btn = document.createElement('button');
+  btn.className = 'gl-tab' + (cat === activeCat ? ' active' : '');
+  btn.dataset.cat = cat;
+  btn.setAttribute('role', 'tab');
+  btn.setAttribute('aria-selected', cat === activeCat ? 'true' : 'false');
+  btn.innerHTML = `${cat}<span class="gl-tab-count">${String(count).padStart(2, '0')}</span>`;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gl-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    activeCat = cat;
+    renderGrid(cat);
+  });
+  tabsEl.appendChild(btn);
+});
+
+function renderGrid(cat) {
+  const grid = document.getElementById('glGrid');
+  const heading = document.getElementById('sectionHeading');
+  const countEl = document.getElementById('sectionCount');
+  const terms = GLOSSARY.filter(t => t.category === cat);
+
+  heading.innerHTML = `${cat} <em>terms</em>`;
+  countEl.textContent = `${String(terms.length).padStart(2, '0')} ${terms.length === 1 ? 'term' : 'terms'}`;
+
+  grid.innerHTML = terms.map(t => `
+    <a class="gl-card" href="${t.url}">
+      <div class="gl-card-top">
+        <span class="gl-card-id">${t.id}</span>
+        <span class="gl-card-production">${t.production}</span>
+      </div>
+      <span class="gl-card-name">${t.name}</span>
+      <span class="gl-card-tooltip">${t.tooltip}</span>
+      <div class="gl-card-footer">
+        <span class="gl-card-link">Read more →</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+renderGrid(activeCat);
+</script>
+
+</body>
+</html>
