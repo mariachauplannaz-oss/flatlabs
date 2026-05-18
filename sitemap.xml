@@ -1,15 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://flatsgenerator.com/</loc>
-    <lastmod>2026-03-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
     <loc>https://flatsgenerator.com/app.html</loc>
-    <lastmod>2026-03-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://flatsgenerator.com/learn/index.html</loc>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <url><loc>https://flatsgenerator.com/learn/fabrics/lightweight-jersey.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/fabrics/midweight-jersey.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/fabrics/heavyweight-jersey.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/fabrics/rib-knit-basics.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/seams/iso-514-overlock.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/seams/iso-406-coverseam.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/needles/ball-point-ses.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/trims/woven-labels.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/trims/care-labels-standards.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/trims/size-labeling.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/threads/polyester-tex-27.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/threads/low-profile-seams.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/construction/stitches-per-inch.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/packing/recycled-polybags.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/packing/folding-guides.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/color/pantone-tcx-system.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/dyeing/piece-dyed-process.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/dyeing/garment-dye-guide.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/printing/water-based-screen.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/printing/plastisol-guide.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/embellishments/embroidery-basics.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://flatsgenerator.com/learn/finishes/silicon-wash.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/finishes/enzyme-wash.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://flatsgenerator.com/learn/finishes/sanforized-standards.html</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://flatsgenerator.com/legal/privacy.html</loc><lastmod>2026-05-04</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://flatsgenerator.com/legal/terms.html</loc><lastmod>2026-05-04</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://flatsgenerator.com/legal/legal.html</loc><lastmod>2026-05-04</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://flatsgenerator.com/legal/contact.html</loc><lastmod>2026-05-04</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+
 </urlset>
