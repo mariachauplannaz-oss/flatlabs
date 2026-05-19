@@ -66,13 +66,13 @@
     Home
 </a>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">⬇ Download SVG</button>
+<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">↓ Download SVG</button>
 
 <div class="app">
     <aside class="sidebar" id="sidebar" role="complementary">
         <header class="sidebar-header">
-            <div class="app-title">FlatLabs BETA</div>
-            <div class="app-sub">Technical Flat Creator for Fashion Design</div>
+            <div class="app-title">FlatLabs</div>
+            <div class="app-sub">Technical flat creator</div>
         </header>
 
         <nav class="man-toggle" aria-label="Mannequin type">
@@ -106,12 +106,17 @@
                         <p class="step-desc">Configure shape, color, and details</p>
                         <div id="componentsContainer"></div>
 
-                        <div class="sec-label">Style</div>
-                        <div class="color-row">
-                            <label for="cFill">Fill</label>
-                            <input type="color" id="cFill" value="#4A90D9" aria-label="Fill color">
-                            <span class="hex" id="hFill">#4A90D9</span>
-                        </div>
+                        <div class="sec-label">Color</div>
+                        <label class="pantone-chip" for="cFill" id="pantoneChip" style="--pantone:#4A90D9">
+                            <span class="pantone-swatch" aria-hidden="true">
+                                <input type="color" id="cFill" value="#4A90D9" aria-label="Fill color">
+                            </span>
+                            <span class="pantone-meta">
+                                <span class="pantone-brand">PANTONE<sup>®</sup></span>
+                                <span class="pantone-code" id="hFill">19-4052 TCX</span>
+                                <span class="pantone-name" id="pantoneHex">#4A90D9</span>
+                            </span>
+                        </label>
 
                         <div class="tog-row" style="display:none">
                             <span class="tog-label">Pocket</span>
@@ -137,7 +142,7 @@
             <a href="index.html" class="topbar-home" aria-label="Back to homepage">← Home</a>
             <div class="topbar-title" id="topbarTitle">Canvas</div>
             <div class="topbar-actions">
-                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">⬇ Download SVG</button>
+                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">↓ Download SVG</button>
             </div>
         </div>
         <div class="canvas-area">
@@ -146,10 +151,10 @@
                 <div class="canvas-label">FRONT</div>
                 <div id="svg-preview" role="img" aria-label="Front garment preview">
                     <div class="empty">
-                        <div class="empty-icon">✨</div>
-                        <h3>Ready to Create</h3>
-                        <p>Choose a garment category<br>and configure your design</p>
-                        <button class="empty-start-btn" id="emptyStartBtn">+ Start designing</button>
+                        <div class="empty-icon" aria-hidden="true"></div>
+                        <h3>Ready to create</h3>
+                        <p>Choose a garment category<br>and configure your design.</p>
+                        <button class="empty-start-btn" id="emptyStartBtn">Start designing →</button>
                     </div>
                 </div>
             </div>
@@ -165,8 +170,8 @@
 <!-- Email Modal -->
 <div class="modal-overlay" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
     <div class="modal-content">
-        <h3 class="modal-title" id="emailModalTitle">Almost there!</h3>
-        <p class="modal-text">This is a BETA version. Enter your email to download your SVG and get notified about new modules.</p>
+        <h3 class="modal-title" id="emailModalTitle">One more step.</h3>
+        <p class="modal-text">FlatLabs is in <strong>beta.</strong> Drop your email to download the SVG and get notified when new modules ship.</p>
         <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm">
             <input type="hidden" name="form-name" value="leads-flatlabs">
             <input type="email" name="email" placeholder="you@email.com" required id="emailInput"
@@ -176,9 +181,9 @@
         </form>
         <button id="btnSkipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s">Not interested, download anyway →</button>
         <button id="btnCloseEmailModal" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
-        <div style="margin-top:25px;padding-top:20px;border-top:1px solid var(--gray3);text-align:center">
-            <p style="font-size:14px;color:var(--gray2);margin-bottom:15px">Did FlatLabs save you time? Support the development!</p>
-            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:var(--accent);color:var(--accent-text);text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">☕ Buy me a coffee</a>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);text-align:center">
+            <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Did FlatLabs save you time?</p>
+            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 18px;background:#fff;color:var(--ink);border:1px solid var(--border);text-decoration:none;border-radius:100px;font-weight:600;font-size:13px;font-family:inherit;transition:all .2s">Buy me a coffee →</a>
         </div>
     </div>
 </div>
@@ -186,16 +191,14 @@
 <!-- Pro Modal -->
 <div class="modal-overlay" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
     <div class="modal-content">
-        <h3 class="modal-title" id="proModalTitle">🔒 FlatLabs Pro</h3>
-        <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming soon.</strong></p>
+        <h3 class="modal-title" id="proModalTitle">FlatLabs Pro</h3>
+        <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming July 2026.</strong></p>
         <button class="btn btn-blue" id="btnCloseProModal" style="width:100%">Got it</button>
     </div>
 </div>
 
-<a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" class="support-button" aria-label="Support FlatLabs development">
-    <span>☕</span><span>Support Beta</span>
-</a>
 
-<script type="module" src="app.js"></script>
+
+<script src="app.js"></script>
 </body>
 </html>
