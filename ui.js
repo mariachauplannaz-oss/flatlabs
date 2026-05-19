@@ -115,9 +115,11 @@ export function initToggles() {
         this.setAttribute('aria-checked', this.classList.contains('on'));
     };
     const cFill = document.getElementById('cFill');
-    if (cFill) cFill.oninput = function() {
-        document.getElementById('hFill').textContent = this.value;
-    };
+if (cFill) cFill.oninput = function() {
+    document.getElementById('hFill').textContent = this.value;
+    document.getElementById('pantoneHex').textContent = this.value;
+    document.getElementById('pantoneChip').style.setProperty('--pantone', this.value);
+};
 }
 
 export function toggleSidebar() {
