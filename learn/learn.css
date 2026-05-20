@@ -129,7 +129,6 @@ nav.site-nav {
   grid-template-columns: 1.6fr 1fr;
   gap: 80px;
   align-items: end;
-  border-bottom: 1px solid var(--rule);
 }
 .kicker {
   display: inline-flex; align-items: center; gap: 12px;
@@ -200,6 +199,7 @@ nav.site-nav {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
 }
 .tabs-inner {
   max-width: 1000px;
