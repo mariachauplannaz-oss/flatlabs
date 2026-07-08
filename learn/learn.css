@@ -4,21 +4,33 @@
    Coral accent (#FF6B57) + 5-group color system — Playfair Display + DM Sans.
    ────────────────────────────────────────────────────────── */
 
-/* ── Learn overrides (base.css provides shared tokens) ── */
 :root {
-  /* Learn-specific neutrals */
+  --ink: #212B31;
+  --ink-soft: #5F7385;
   --ink-faint: rgba(33,43,49,.55);
-  --surface: #FFFFFF;           /* override: learn pages use white bg, not base warm gray */
+  --rule: rgba(33,43,49,.1);
+  --rule-soft: rgba(33,43,49,.06);
+  --surface: #FFFFFF;
+  --surface-paper: #f5f8fc;
   --surface-card: #fafbfd;
+  --surface-dark: #212B31;
 
-  /* Learn-specific accent extensions */
+  /* Coral accent system */
+  --accent: #FF6B57;          /* primary */
+  --accent-hover: #E85946;
   --accent-deep: #C2402D;
+  --accent-text: #FFFFFF;
+  --accent-soft: rgba(255,107,87,.12);
   --accent-soft-2: rgba(255,107,87,.18);
 
   /* 5-group color system — driven by [data-group] on <main> (articles) and
      the hub's tabs/#glGrid. Falls back to brand coral when no group is set. */
   --group: var(--accent);
   --group-soft: var(--accent-soft);
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --ease: cubic-bezier(.4,0,.2,1);
 }
 
 [data-group="materials"]    { --group: #1366E0; --group-soft: rgba(19,102,224,.12); }
@@ -280,17 +292,6 @@ nav.site-nav {
 }
 .gl-card:hover::after { border-color: var(--group); }
 .gl-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.gl-card-cat {
-  align-self: flex-start;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--group);
-  background: var(--group-soft);
-  padding: 4px 10px;
-  border-radius: 100px;
-}
 .gl-card-id {
   font-size: 10px;
   font-weight: 700;
@@ -311,7 +312,7 @@ nav.site-nav {
 }
 .gl-card-tooltip { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; flex: 1; }
 .gl-card-footer {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: flex-end;
   margin-top: 4px; padding-top: 12px;
   border-top: 1px solid var(--rule-soft);
 }
