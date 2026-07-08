@@ -4,40 +4,33 @@
    Coral accent (#FF6B57) + 5-group color system — Playfair Display + DM Sans.
    ────────────────────────────────────────────────────────── */
 
+/* ── Learn overrides (base.css provides shared tokens) ── */
 :root {
-  --ink: #212B31;
-  --ink-soft: #5F7385;
+  /* Learn-specific neutrals */
   --ink-faint: rgba(33,43,49,.55);
-  --rule: rgba(33,43,49,.1);
-  --rule-soft: rgba(33,43,49,.06);
-  --surface: #FFFFFF;
-  --surface-paper: #f5f8fc;
+  --surface: #FFFFFF;           /* override: learn pages use white bg, not base warm gray */
   --surface-card: #fafbfd;
-  --surface-dark: #212B31;
 
-  /* Coral accent system */
-  --accent: #FF6B57;          /* primary */
-  --accent-hover: #E85946;
+  /* Learn-specific accent extensions */
   --accent-deep: #C2402D;
-  --accent-text: #FFFFFF;
-  --accent-soft: rgba(255,107,87,.12);
   --accent-soft-2: rgba(255,107,87,.18);
 
-  /* 5-group color system — driven by [data-group] on <main> (articles) and
-     the hub's tabs/#glGrid. Falls back to brand coral when no group is set. */
+  /* 5-group color system — driven by [data-group] on <main> (articles).
+     Falls back to brand coral when no group is set. index.html's GROUPS
+     array is the source of truth for these 5 colors (cards/tabs get them
+     via inline style, set directly from GROUPS); this block is a synced
+     mirror for static article pages, which have no JS to set an inline
+     override — keep these values identical to GROUPS or colors will
+     drift apart again between articles and the glossary hub. */
   --group: var(--accent);
   --group-soft: var(--accent-soft);
-
-  --serif: 'Playfair Display', Georgia, serif;
-  --sans: 'DM Sans', -apple-system, sans-serif;
-  --ease: cubic-bezier(.4,0,.2,1);
 }
 
-[data-group="materials"]    { --group: #1366E0; --group-soft: rgba(19,102,224,.12); }
-[data-group="construction"] { --group: #7C3AED; --group-soft: rgba(124,58,237,.12); }
-[data-group="colordye"]     { --group: #DB2777; --group-soft: rgba(219,39,119,.12); }
-[data-group="decoration"]   { --group: #B8790A; --group-soft: rgba(184,121,10,.12); }
-[data-group="trims"]        { --group: #15803D; --group-soft: rgba(21,128,61,.12); }
+[data-group="materials"]     { --group: #2BA8D6; --group-soft: rgba(43,168,214,.12); }
+[data-group="construction"]  { --group: #8B7BC4; --group-soft: rgba(139,123,196,.12); }
+[data-group="color-dye"]     { --group: #2BBFA4; --group-soft: rgba(43,191,164,.12); }
+[data-group="decoration"]    { --group: #F0A040; --group-soft: rgba(240,160,64,.12); }
+[data-group="trims-packing"] { --group: #4CB86A; --group-soft: rgba(76,184,106,.12); }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
@@ -292,6 +285,17 @@ nav.site-nav {
 }
 .gl-card:hover::after { border-color: var(--group); }
 .gl-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.gl-card-cat {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--group);
+  background: var(--group-soft);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
 .gl-card-id {
   font-size: 10px;
   font-weight: 700;
@@ -312,7 +316,7 @@ nav.site-nav {
 }
 .gl-card-tooltip { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; flex: 1; }
 .gl-card-footer {
-  display: flex; align-items: center; justify-content: flex-end;
+  display: flex; align-items: center; justify-content: space-between;
   margin-top: 4px; padding-top: 12px;
   border-top: 1px solid var(--rule-soft);
 }
