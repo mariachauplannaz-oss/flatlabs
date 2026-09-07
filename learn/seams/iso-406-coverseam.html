@@ -215,5 +215,10 @@ const observer = new IntersectionObserver((entries) => {
 reveals.forEach(el => observer.observe(el));
 </script>
 
+<script type="module">
+  import { track } from '/tracker.js';
+  track('page_view', { path: location.pathname });
+</script>
+
 </body>
 </html>
