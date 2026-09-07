@@ -26,12 +26,6 @@
     --lime:         #C6FF3D;
     --lime-soft:    #F4FFE3;
 
-    /* Danger (same values as checkout.html's local #checkoutError tokens —
-       that page defines its own copy since it doesn't load this stylesheet) */
-    --danger-bg:     #fff5f3;
-    --danger-border: rgba(192, 57, 43, .25);
-    --danger-text:   #b3361f;
-
     /* Legacy aliases (preserved so JS / inline styles keep working) */
     --gray1:        var(--ink);
     --gray2:        var(--ink-soft);
@@ -144,24 +138,22 @@ body {
     border-bottom: 1px solid var(--border);
 }
 .step-dot {
-    flex: 1; height: 6px;
-    border-radius: 3px;
+    flex: 1; height: 3px;
+    border-radius: 2px;
     background: var(--border);
-    cursor: pointer;
     transition: background .4s var(--ease);
 }
 .step-dot.active { background: var(--accent); }
 .step-dot.done   { background: var(--ink); }
-.step-dot:hover { opacity: 0.7; }
 
 /* Steps container */
 .steps-scroll { flex: 1; overflow: hidden; position: relative; }
 .steps-track {
-    display: flex; width: 400%; height: 100%;
+    display: flex; width: 300%; height: 100%;
     transition: transform .45s var(--ease);
 }
 .step-panel {
-    width: 25%; height: 100%;
+    width: 33.333%; height: 100%;
     overflow-y: auto; padding: 0;
     -webkit-overflow-scrolling: touch;
 }
@@ -271,13 +263,10 @@ body {
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
 }
-.opt-scroll::-webkit-scrollbar { height: 8px; }
+.opt-scroll::-webkit-scrollbar { height: 4px; }
 .opt-scroll::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.25);
-    border-radius: 4px;
-}
-.opt-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,0.45);
+    background: var(--border);
+    border-radius: 2px;
 }
 .opt-card {
     min-width: 96px; flex: 0 0 96px;
@@ -350,74 +339,6 @@ body {
     display: flex; align-items: center; justify-content: center;
     cursor: help;
     z-index: 2;
-}
-/* Print zone detail panel — base styling moved here (out of ui.js's inline
-   style.cssText) so .zone-panel--missing-method's background can actually
-   override it; an inline style always beats a class selector regardless of
-   the class's specificity. */
-.zone-panel {
-    padding: 12px;
-    margin: 8px 0 12px;
-    background: var(--surface);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-/* Not-yet-selected state — unlike .opt-card.disabled (compat-lock, still
-   clickable for its tooltip), this panel must be fully inert until its zone
-   card is selected above. */
-.zone-panel--disabled {
-    opacity: .4;
-    pointer-events: none;
-}
-/* Print step Generate-blocking validation — same visual language as
-   checkout.html's #checkoutError (danger red), via the --danger-* tokens
-   defined above (that page defines its own local copy of the same values,
-   since it doesn't load this stylesheet). */
-.print-validation-warning {
-    margin: 0 0 12px;
-    padding: 12px 14px;
-    background: var(--danger-bg);
-    border: 1px solid var(--danger-border);
-    border-radius: 10px;
-    color: var(--danger-text);
-    font-size: 12.5px;
-    line-height: 1.5;
-}
-.print-validation-warning__zone-link {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    cursor: pointer;
-    font-weight: 600;
-}
-.print-validation-warning__zone-link:hover {
-    opacity: .75;
-}
-.zone-panel--missing-method {
-    border: 2.5px solid var(--danger-text);
-    background: rgba(179, 54, 31, .05);
-}
-.print-compat-warning {
-    margin: 10px 0 4px;
-    padding: 10px 12px;
-    background: #FFF8E1;
-    border: 1px solid #FFD54F;
-    border-radius: 8px;
-    color: #5D4037;
-    font-size: 12px;
-    line-height: 1.5;
-}
-/* Front/Back toggle alert state — whole button recolors (not a small badge)
-   when its side has an unresolved missing-method zone. Uses !important:
-   this must visually win over .active, :hover, AND body.iso-mode .man-btn.active
-   (a higher-specificity rule elsewhere that would otherwise beat a plain
-   class match) — chasing each of those selectors' specificity individually
-   would be fragile, and an alert state should never be silently masked by
-   an unrelated interaction/mode state. */
-.man-btn--alert {
-    background: var(--danger-bg) !important;
-    border-color: var(--danger-border) !important;
-    color: var(--danger-text) !important;
-    box-shadow: none !important;
 }
 .opt-card .warn-icon {
     position: absolute;
@@ -640,13 +561,17 @@ input[type="color"] {
     gap: 18px;
 }
 .topbar-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.topbar-title {
     font-family: var(--mono);
     font-size: 11px;
     font-weight: 500;
     color: var(--ink-soft);
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-right: auto;
 }
 .topbar-home {
     font-size: 13px;
@@ -911,11 +836,7 @@ input[type="color"] {
         height: 100dvh; width: 100%;
         z-index: 1;
     }
-    @media (max-width: 1100px) {
-    .topbar { gap: 12px; padding: 12px 20px; }
-    .topbar-home { font-size: 12px; }
-    .topbar-download { padding: 9px 16px; font-size: 12px; }
-   }
+    .topbar { display: none; }
     .canvas-area { padding: 16px; padding-top: 60px; }
     .canvas-card {
         min-width: auto; min-height: auto;
