@@ -3,24 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlatLabs — Technical fashion flats. Launching Q4 2026.</title>
-<meta name="description" content="FlatLabs generates clean editable vectors, ISO measurements, and factory-usable exports in minutes. Launching Q4 2026 for SS27 with t-shirts, pants and hoodies. The glossary is open now.">
+<title>FlatLabs — Editable Technical Fashion Flats &amp; Tech Pack Generator</title>
+<meta name="description" content="Generate editable technical fashion flats, ISO measurements, and factory-ready clothing templates in minutes. The smart CAD alternative for fashion designers who hate fighting Illustrator.">
 <link rel="canonical" href="https://flatsgenerator.com/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="FlatLabs — Technical fashion flats. Launching Q4 2026.">
-<meta property="og:description" content="FlatLabs generates clean editable vectors, ISO measurements, and factory-usable exports in minutes. Launching SS27.">
+<meta property="og:title" content="FlatLabs | Instant Technical Fashion Flats (Illustrator Alternative)">
+<meta property="og:description" content="Stop redrawing flats from scratch. Generate clean, editable SVG vectors, ISO standard measurements, and factory-ready tech pack templates in minutes.">
 <meta property="og:url" content="https://flatsgenerator.com/">
 <meta property="og:site_name" content="FlatLabs">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FlatLabs | Instant Technical Fashion Flats">
+<meta name="twitter:description" content="Generate editable SVG flats, ISO measurements, and factory-ready tech pack templates in minutes. The smart Illustrator alternative.">
+<meta name="twitter:image" content="https://flatsgenerator.com/og-image.png">
+<meta property="og:image" content="https://flatsgenerator.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FlatLabs — editable technical fashion flats and tech pack templates">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#FF6B57">
+<meta name="author" content="FlatLabs">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='DM Sans, -apple-system, sans-serif' font-weight='700' fill='%23FF6B57'%3EF%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://flatsgenerator.com/#org",
+      "name": "FlatLabs",
+      "url": "https://flatsgenerator.com/",
+      "description": "Editable technical fashion flats and factory-ready tech pack templates for apparel designers."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://flatsgenerator.com/#website",
+      "url": "https://flatsgenerator.com/",
+      "name": "FlatLabs",
+      "publisher": { "@id": "https://flatsgenerator.com/#org" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "FlatLabs",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web",
+      "url": "https://flatsgenerator.com/",
+      "description": "Generate editable technical fashion flats, ISO measurements, and factory-ready clothing templates in minutes.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@id": "https://flatsgenerator.com/#org" }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 
 <style>
 :root {
-  /* Neutrals */
+  /* Neutrals — WHITE base */
   --bg:           #FFFFFF;
   --surface:      #F7F7F5;
+  --surface-2:    #F2F2EE;
   --border:       #E8E8E3;
   --ink:          #111111;
   --ink-soft:     #6B7280;
@@ -33,11 +79,27 @@
   --accent-soft:  rgba(255,107,87,.10);
   --accent-text:  #111111;
 
-  /* Functional accents — used sparingly for category / status tags */
-  --cyan:         #00AEEF;
-  --cyan-soft:    #EAF7FD;
+  /* Functional accents — now used as section backgrounds + step themes */
+  --cyan:         #2BA8D6;
+  --cyan-soft:    #E8F4FA;
+  --cyan-bg:      #F0F7FB;
+  --cyan-deep:    #1A6A8C;
+
   --lime:         #C6FF3D;
   --lime-soft:    #F4FFE3;
+  --lime-deep:    #5A7A1A;
+
+  --peach:        #FFB89F;
+  --peach-soft:   #FFF1E8;
+  --peach-bg:     #FFF5EE;
+
+  --butter:       #FFE48A;
+  --butter-soft:  #FFF8DB;
+  --butter-bg:    #FFFAEB;
+
+  --violet:       #8B7BC4;
+  --violet-soft:  #F0EDF8;
+  --violet-deep:  #4A3D7A;
 
   --serif: 'Playfair Display', Georgia, serif;
   --sans:  'DM Sans', -apple-system, sans-serif;
@@ -62,7 +124,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 0 40px;
   height: 64px;
-  background: rgba(252,252,250,.92);
+  background: rgba(255,255,255,.92);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
@@ -88,7 +150,7 @@ nav {
   letter-spacing: .2px;
   transition: background .25s var(--ease) !important;
 }
-.nav-cta:hover { background: var(--accent) !important; color: white !important; }
+.nav-cta:hover { background: var(--accent); color: white !important; }
 
 /* ── HERO ── */
 .hero {
@@ -109,11 +171,11 @@ nav {
   font-family: var(--mono);
   font-size: 11px; font-weight: 500;
   letter-spacing: 1px; text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin-bottom: 36px;
   padding: 6px 12px 6px 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--peach-soft);
+  border: 1px solid var(--peach);
   border-radius: 100px;
 }
 .hero-kicker .dot {
@@ -140,15 +202,16 @@ nav {
   letter-spacing: -1px;
   margin-top: 14px;
   line-height: 1.15;
-  max-width: 14ch;
+  max-width: 18ch;
 }
 .hero-body {
   font-size: 17px;
   color: var(--ink-soft);
   line-height: 1.65;
   max-width: 520px;
-  margin-bottom: 40px;
+  margin-bottom: 14px;
 }
+.hero-body:last-of-type { margin-bottom: 40px; }
 .hero-body strong { color: var(--ink); font-weight: 600; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
@@ -239,6 +302,212 @@ nav {
   background: currentColor; flex-shrink: 0; opacity: .4;
 }
 
+/* ── HOW IT WORKS ── */
+.how {
+  padding: 140px 0 120px;
+  position: relative;
+  overflow: hidden;
+  background: var(--peach-bg);
+  border-top: 1px solid var(--border);
+}
+.how-bg-num {
+  position: absolute;
+  top: -40px; right: -20px;
+  font-family: var(--serif);
+  font-size: clamp(180px, 26vw, 380px);
+  font-weight: 900;
+  color: rgba(17,17,17,.035);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -10px;
+}
+.how-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 60px;
+  position: relative;
+  z-index: 1;
+}
+.how-header {
+  max-width: 720px;
+  margin-bottom: 80px;
+}
+.how h2 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 4.6vw, 68px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1.6px;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.how h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 80px;
+}
+.step-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 22px;
+  padding: 32px 28px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  align-items: start;
+  transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.step-item:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(17,17,17,.06);
+}
+.step-num-label { color: var(--accent); }
+.step-item .step-illustration {
+  background: transparent;
+  padding: 0;
+  display: flex; align-items: flex-start; justify-content: center;
+}
+.step-item .step-illustration svg {
+  width: 64px; height: auto;
+}
+.step-illustration {
+  display: flex; align-items: center; justify-content: flex-start;
+}
+.step-content { display: flex; flex-direction: column; gap: 8px; }
+.step-num-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.step-item h3 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -.8px;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.step-item p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.step-pro-tag {
+  display: inline-flex; align-self: flex-start;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #5A7A1A;
+  background: var(--lime-soft);
+  padding: 5px 10px;
+  border-radius: 100px;
+}
+
+/* Trinity */
+.trinity {
+  border-top: 1px solid var(--border);
+  padding-top: 56px;
+}
+.trinity-header {
+  display: flex; flex-direction: column;
+  gap: 8px;
+  margin-bottom: 48px;
+  max-width: 640px;
+  text-align: center;
+  align-items: center;
+  margin-left: auto; margin-right: auto;
+}
+.trinity-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.trinity-tagline {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.5px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.trinity-grid {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+.trinity-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  text-align: center;
+}
+.trinity-item svg { flex-shrink: 0; }
+.trinity-name {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.trinity-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--lime-deep);
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 5px 12px 5px 10px;
+  border-radius: 100px;
+}
+.trinity-status::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 3px var(--lime-soft);
+}
+.trinity-item.soon svg path { fill: #C5CAD0; }
+.trinity-item.soon .trinity-name { color: var(--ink-dim); }
+.trinity-status.soon { color: var(--ink-dim); }
+.trinity-status.soon::before { background: var(--ink-dim); box-shadow: 0 0 0 3px var(--surface-2); }
+.trinity-cta {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background .2s;
+}
+.trinity-cta:hover { background: var(--accent); }
+
 /* ── PROBLEM ── */
 .problem {
   background: var(--surface-dark);
@@ -275,12 +544,13 @@ nav {
 
 .problem h2 {
   font-family: var(--serif);
-  font-size: clamp(40px, 4.6vw, 68px);
+  font-size: clamp(40px, 4.6vw, 64px);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -1.6px;
   color: #fff;
   margin-bottom: 0;
+  text-wrap: balance;
 }
 .problem h2 em {
   font-style: italic; font-weight: 400;
@@ -291,9 +561,9 @@ nav {
 .problem-block:last-child { margin-bottom: 0; }
 .problem-block-label {
   font-family: var(--mono);
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 1.2px; text-transform: uppercase;
-  color: var(--accent);
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #FFB0A0;
   margin-bottom: 14px;
   display: block;
 }
@@ -323,20 +593,272 @@ nav {
   color: #fff; font-weight: 500;
 }
 
-/* ── GLOSSARY ── */
-.glossary {
-  background: var(--bg);
+/* ── PRICING ── */
+.pricing {
   padding: 140px 0 120px;
+  background: var(--bg);
   position: relative;
   overflow: hidden;
 }
-.glossary-bg-num {
+.price-card[data-tier="free"] {
+  background: #fff;
+  border-color: var(--border);
+}
+.price-card[data-tier="free"]:hover { border-color: var(--ink); }
+.price-card[data-tier="free"] .price-name { color: var(--ink-soft); }
+.price-card[data-tier="free"] .price-features li::before { background: var(--ink); }
+
+.price-card[data-tier="ppd"] {
+  background: rgba(255, 107, 87, 0.07);
+  border-color: rgba(255, 107, 87, 0.22);
+}
+.price-card[data-tier="ppd"]:hover { border-color: var(--accent); }
+.price-card[data-tier="ppd"] .price-name { color: var(--accent); }
+.price-card[data-tier="ppd"] .price-features li::before { background: var(--accent); }
+.pricing-bg-num {
   position: absolute;
   top: -40px; right: -20px;
   font-family: var(--serif);
   font-size: clamp(180px, 26vw, 380px);
   font-weight: 900;
-  color: rgba(17,17,17,.04);
+  color: rgba(17,17,17,.035);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -10px;
+}
+.pricing-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 60px;
+  position: relative; z-index: 1;
+}
+.pricing-header {
+  max-width: 720px;
+  margin-bottom: 64px;
+}
+.pricing h2 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 4.6vw, 68px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1.6px;
+  color: var(--ink);
+  margin-bottom: 24px;
+  text-wrap: balance;
+}
+.pricing h2 em { font-style: italic; font-weight: 400; color: var(--ink-soft); }
+.pricing-intro {
+  font-size: 17px; color: var(--ink-soft);
+  line-height: 1.65; max-width: 620px;
+}
+.pricing-intro strong { color: var(--ink); font-weight: 500; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.price-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 28px 32px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.price-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(17,17,17,.06);
+}
+.price-card.featured {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.price-card.featured:hover { background: #000; }
+.price-tag {
+  position: absolute;
+  top: 18px; right: 18px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 100px;
+}
+.price-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+.price-card.featured .price-name { color: rgba(255,255,255,.6); }
+.price-amount {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.price-card.featured .price-amount { color: #fff; }
+.price-amount .price-period {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+  margin-left: 4px;
+}
+.price-card.featured .price-period { color: rgba(255,255,255,.55); }
+.price-tier-range {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.6px;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.price-tier-range + .price-tier-range { margin-top: 4px; }
+.price-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 14px 0 24px;
+}
+.price-card.featured .price-desc { color: rgba(255,255,255,.7); }
+.price-included {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.price-card.featured .price-included { color: rgba(255,255,255,.55); }
+.price-features {
+  list-style: none;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.price-features li {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px;
+  padding-left: 0;
+}
+.price-card.featured .price-features li { color: rgba(255,255,255,.85); }
+.price-features li::before {
+  content: '';
+  flex-shrink: 0;
+  margin-top: 7px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.price-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+  margin: -10px 0 24px;
+  letter-spacing: .2px;
+}
+.price-card.featured .price-note { color: rgba(255,255,255,.4); }
+.price-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: auto;
+  padding: 14px 22px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: var(--sans);
+  transition: all .25s var(--ease);
+  background: var(--ink);
+  color: #fff;
+}
+.price-cta:hover { background: var(--accent); transform: translateY(-1px); }
+.price-card.featured .price-cta {
+  background: var(--accent);
+  color: #fff;
+}
+.price-card.featured .price-cta:hover { background: var(--accent-hover); }
+.price-card.outlined .price-cta {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.price-card.outlined .price-cta:hover {
+  background: var(--ink); color: #fff; border-color: var(--ink);
+}
+.price-card.soon { background: var(--surface); border-color: var(--border); }
+.price-card.soon:hover { transform: none; box-shadow: none; }
+.price-card.soon .price-name { color: var(--ink-soft); }
+.price-card.soon .price-amount { color: var(--ink-soft); }
+.price-card.soon .price-amount .price-period { color: var(--ink-dim); }
+.price-card.soon .price-desc { color: var(--ink-dim); }
+.price-card.soon .price-included { color: var(--ink-dim); }
+.price-card.soon .price-features li { color: var(--ink-dim); }
+.price-card.soon .price-tag { background: var(--ink-dim); color: #fff; }
+.price-card.soon .price-cta {
+  background: var(--surface-2);
+  color: var(--ink-dim);
+  border: 1px solid var(--border);
+  cursor: default;
+  pointer-events: none;
+}
+
+.pro-teaser-blur {
+  filter: blur(5px);
+  opacity: .8;
+  user-select: none;
+  pointer-events: none;
+}
+
+.pricing-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  max-width: 760px;
+}
+.pricing-footer p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.pricing-footer p strong { color: var(--ink); font-weight: 500; }
+
+/* ── GLOSSARY ── */
+.glossary {
+  background: var(--cyan-bg);
+  padding: 140px 0 120px;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.glossary-bg-num {
+  position: absolute;
+  top: -30px; right: 20px; left: auto;
+  font-family: var(--serif);
+  font-size: clamp(180px, 26vw, 380px);
+  font-weight: 900;
+  color: rgba(17,17,17,.06);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -352,9 +874,6 @@ nav {
 .glossary-header {
   max-width: 760px;
   margin-bottom: 64px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
 }
 .glossary h2 {
   font-family: var(--serif);
@@ -376,78 +895,6 @@ nav {
   max-width: 620px;
 }
 .glossary-body strong { color: var(--ink); font-weight: 500; }
-
-.glossary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 8px;
-}
-.gl-term-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px 22px 20px;
-  text-decoration: none;
-  color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: border-color .2s, transform .2s, box-shadow .2s;
-  position: relative;
-}
-.gl-term-card:hover {
-  border-color: var(--ink);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(17,17,17,.06);
-}
-.gl-term-cat {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 4px 9px;
-  border-radius: 100px;
-  align-self: flex-start;
-  background: var(--surface);
-  color: var(--ink-soft);
-}
-/* Functional accent colors per category */
-.gl-term-card[data-cat="fabric"] .gl-term-cat { background: var(--cyan-soft); color: #0078A8; }
-.gl-term-card[data-cat="seam"]   .gl-term-cat { background: var(--lime-soft); color: #5A7A1A; }
-.gl-term-card[data-cat="color"]  .gl-term-cat { background: var(--accent-soft); color: #C24433; }
-.gl-term-card[data-cat="label"]  .gl-term-cat { background: var(--surface); color: var(--ink); }
-.gl-term-card[data-cat="print"]  .gl-term-cat { background: var(--cyan-soft); color: #0078A8; }
-.gl-term-card[data-cat="finish"] .gl-term-cat { background: var(--lime-soft); color: #5A7A1A; }
-
-.gl-term-name {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -.6px;
-  color: var(--ink);
-  margin-top: 2px;
-}
-.gl-term-desc {
-  font-size: 13px;
-  color: var(--ink-soft);
-  line-height: 1.55;
-}
-.gl-term-link {
-  margin-top: auto;
-  padding-top: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
 
 .glossary-cta {
   margin-top: 40px;
@@ -475,16 +922,28 @@ nav {
   letter-spacing: .5px;
 }
 
-/* ── WHERE WE ARE ── */
-.disclaimer {
+/* ── STATUS ── */
+.status {
   padding: 140px 0 120px;
-  background: var(--surface);
+  background: var(--bg);
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-.disclaimer-inner {
+.status-bg-num {
+  position: absolute;
+  top: -40px; right: -20px;
+  font-family: var(--serif);
+  font-size: clamp(180px, 26vw, 380px);
+  font-weight: 900;
+  color: rgba(17,17,17,.035);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -10px;
+}
+.status-inner {
   max-width: 1180px;
   margin: 0 auto;
   padding: 0 60px;
@@ -492,8 +951,10 @@ nav {
   grid-template-columns: 1fr 440px;
   gap: 80px;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
-.disclaimer h2 {
+.status h2 {
   font-family: var(--serif);
   font-size: clamp(40px, 4.6vw, 72px);
   font-weight: 700;
@@ -503,147 +964,209 @@ nav {
   margin-bottom: 32px;
   text-wrap: balance;
 }
-.disclaimer h2 em {
+.status h2 em {
   font-style: italic; font-weight: 400; color: var(--ink-soft);
 }
-.disclaimer p {
+.status p {
   font-size: 17px; color: var(--ink-soft);
   line-height: 1.65; margin-bottom: 18px;
   max-width: 560px;
 }
-.disclaimer p strong { color: var(--ink); font-weight: 500; }
-.disclaimer-prompt {
+.status p strong { color: var(--ink); font-weight: 500; }
+.status-prompt {
   margin-top: 32px;
   padding: 24px 28px;
-  background: #fff;
-  border: 1px solid var(--border);
+  background: var(--butter-bg);
+  border: 1px solid var(--butter);
   border-radius: 14px;
   max-width: 560px;
 }
-.disclaimer-prompt p {
-  font-size: 16px;
+.status-prompt p {
+  font-size: 17px;
   color: var(--ink);
-  margin-bottom: 8px;
-  line-height: 1.6;
-}
-.disclaimer-prompt p:last-child {
   margin-bottom: 0;
-  color: var(--ink-soft);
-  font-style: italic;
-  font-family: var(--serif);
-  font-size: 18px;
+  line-height: 1.65;
 }
-.disclaimer-visual {
+.status-prompt-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 18px;
+  background: var(--ink); color: #fff;
+  padding: 11px 20px; border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 13px; font-weight: 600;
+  text-decoration: none;
+  transition: all .25s var(--ease);
+}
+.status-prompt-cta:hover { background: var(--accent); transform: translateY(-1px); }
+.status-visual {
   display: flex; align-items: center; justify-content: center;
   position: relative;
 }
-.disclaimer-pocket-wrap svg { width: 360px; max-width: 100%; }
+.status-pocket-wrap svg { width: 360px; max-width: 100%; }
 
-/* ── VALIDATION ── */
-.validation {
-  padding: 140px 0 100px;
-  text-align: center;
-  background: var(--bg);
+/* ── ROADMAP / COMING-SOON ROW ── */
+.roadmap {
+  max-width: 1180px;
+  margin: 80px auto 0;
+  padding: 0 60px;
+  position: relative;
+  z-index: 1;
 }
-.validation-inner {
-  max-width: 640px;
+.roadmap-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.roadmap-label .roadmap-hint { color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.roadmap-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+}
+.roadmap-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(17,17,17,.06); }
+.roadmap-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink);
+}
+.roadmap-icon svg { width: 24px; height: 24px; }
+.roadmap-name {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.roadmap-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 2px;
+}
+.roadmap-status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ink-dim);
+}
+.roadmap-card.is-live {
+  border-color: var(--cyan);
+  background: var(--cyan-bg);
+}
+.roadmap-card.is-live .roadmap-icon { background: #fff; color: var(--cyan-deep); }
+.roadmap-card.is-live .roadmap-status { color: var(--cyan-deep); }
+.roadmap-card.is-live .roadmap-status::before {
+  background: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(43,168,214,.2);
+  animation: roadmapPulse 2s var(--ease) infinite;
+}
+@keyframes roadmapPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(43,168,214,.2); }
+  50% { box-shadow: 0 0 0 5px rgba(43,168,214,.05); }
+}
+
+/* ── FINAL CTA ── */
+.final-cta {
+  padding: 160px 0 140px;
+  background: var(--surface-dark);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.final-cta-bg-num {
+  position: absolute;
+  top: -40px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-size: clamp(200px, 30vw, 460px);
+  font-weight: 900;
+  color: rgba(255,255,255,.025);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -10px;
+}
+.final-cta-inner {
+  max-width: 820px;
   margin: 0 auto;
   padding: 0 24px;
+  position: relative;
+  z-index: 1;
 }
-.validation .section-label { justify-content: center; }
-.validation .section-label::before { display: none; }
-.validation h2 {
+.final-cta .section-label { color: rgba(255,255,255,.5); justify-content: center; }
+.final-cta .section-label::before { display: none; }
+.final-cta .section-label .num { color: var(--accent); }
+.final-cta h2 {
   font-family: var(--serif);
-  font-size: clamp(40px, 4.6vw, 72px);
+  font-size: clamp(44px, 6vw, 80px);
   font-weight: 700;
-  letter-spacing: -1.8px;
-  line-height: .98;
-  margin-bottom: 18px;
-  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -2px;
+  color: #fff;
+  margin-bottom: 28px;
   text-wrap: balance;
 }
-.validation h2 em { font-style: italic; font-weight: 400; color: var(--ink-soft); }
-.validation-sub {
-  font-size: 17px; color: var(--ink-soft);
-  margin-bottom: 44px; line-height: 1.6;
-  max-width: 520px; margin-left: auto; margin-right: auto;
+.final-cta h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.final-cta p {
+  font-size: 17px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.65;
+  margin: 0 auto 40px;
+  max-width: 580px;
 }
-.validation-buttons {
+.final-cta p strong { color: #fff; font-weight: 500; }
+.final-cta-buttons {
   display: flex; gap: 10px;
-  justify-content: center; flex-wrap: wrap;
-  margin-bottom: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.btn-validate {
+.btn-primary-light {
   display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--ink);
   padding: 15px 26px; border-radius: 100px;
-  font-size: 14px; font-weight: 600;
-  border: none; cursor: pointer;
-  font-family: var(--sans);
+  font-size: 14px; font-weight: 600; text-decoration: none;
   transition: all .25s var(--ease);
 }
-.btn-yes { background: var(--ink); color: #fff; }
-.btn-yes:hover { background: var(--accent); color: #fff; }
-.btn-yes.clicked {
-  background: var(--lime-soft); color: var(--ink);
-  border: 1px solid var(--lime);
-  pointer-events: none;
+.btn-primary-light:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+.btn-ghost-dark {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: #fff;
+  padding: 14px 22px; border-radius: 100px;
+  font-size: 14px; font-weight: 500; text-decoration: none;
+  border: 1px solid rgba(255,255,255,.2);
+  transition: all .25s;
 }
-.btn-email {
-  background: var(--accent); color: #fff;
-  border: 1px solid var(--accent);
-}
-.btn-email:hover { background: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-1px); }
-
-.email-form {
-  display: none; max-width: 400px; margin: 0 auto;
-  animation: fadeIn .35s var(--ease);
-}
-.email-form.show { display: block; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.email-row { display: flex; gap: 8px; }
-.email-input {
-  flex: 1; padding: 14px 18px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  font-size: 14px; font-family: var(--sans);
-  outline: none; background: #fff;
-  transition: border .2s;
-}
-.email-input:focus { border-color: var(--ink); }
-.email-submit {
-  padding: 14px 24px;
-  background: var(--ink); color: #fff;
-  border: none; border-radius: 100px;
-  font-size: 13px; font-weight: 600; cursor: pointer;
-  transition: all .25s; font-family: var(--sans);
-}
-.email-submit:hover { background: var(--accent); }
-.email-note {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-dim);
-  margin-top: 12px;
-  letter-spacing: .3px;
-}
-.email-success {
-  display: none; padding: 18px;
-  background: var(--lime-soft); color: var(--ink);
-  border: 1px solid var(--lime);
-  border-radius: 14px;
-  font-size: 14px; font-weight: 500;
-  animation: fadeIn .35s var(--ease);
-}
-.email-success.show { display: block; }
-.validation-count {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-dim);
-  margin-top: 20px;
-  letter-spacing: .3px;
-}
+.btn-ghost-dark:hover { border-color: #fff; background: rgba(255,255,255,.05); }
 
 /* ── FOOTER ── */
 footer {
@@ -690,7 +1213,7 @@ footer {
 }
 .footer-legal a:hover { color: var(--ink-soft); }
 
-/* ── REVEAL (lighter, only used on visuals) ── */
+/* ── REVEAL ── */
 .fade {
   opacity: 0;
   transition: opacity .55s var(--ease);
@@ -714,6 +1237,13 @@ footer {
   .hero-flat-wrap img { max-width: 260px; }
   .hero-tick { display: none; }
 
+  .how { padding: 88px 0; }
+  .how-inner { padding: 0 20px; }
+  .how-header { margin-bottom: 48px; }
+  .how-bg-num { font-size: clamp(120px, 32vw, 200px); }
+  .steps-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 56px; }
+  .trinity-grid { grid-template-columns: 1fr; }
+
   .problem { padding: 88px 0; }
   .problem-inner {
     grid-template-columns: 1fr;
@@ -721,22 +1251,32 @@ footer {
   }
   .problem-bg-num { font-size: clamp(120px, 32vw, 200px); top: -10px; left: -8px; }
 
+  .pricing { padding: 88px 0; }
+  .pricing-inner { padding: 0 20px; }
+  .pricing-header { margin-bottom: 48px; }
+  .pricing-bg-num { font-size: clamp(120px, 32vw, 200px); }
+  .pricing-grid { grid-template-columns: 1fr; gap: 14px; }
+
   .glossary { padding: 88px 0; }
   .glossary-inner { padding: 0 20px; }
   .glossary-header { margin-bottom: 48px; }
   .glossary-bg-num { font-size: clamp(120px, 32vw, 200px); }
-  .glossary-grid { grid-template-columns: 1fr; }
 
-  .disclaimer { padding: 88px 0; }
-  .disclaimer-inner {
+  .status { padding: 88px 0; }
+  .status-inner {
     grid-template-columns: 1fr;
     padding: 0 20px;
     gap: 40px;
   }
-  .disclaimer-visual { display: none; }
+  .status-bg-num { font-size: clamp(120px, 32vw, 200px); }
+  .status-visual { display: none; }
 
-  .validation { padding: 80px 0 60px; }
-  .validation-inner { padding: 0 20px; }
+  .roadmap { padding: 0 20px; margin-top: 56px; }
+  .roadmap-grid { grid-template-columns: 1fr 1fr; }
+  .roadmap-label { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+  .final-cta { padding: 100px 0 80px; }
+  .final-cta-inner { padding: 0 20px; }
 
   footer { padding: 36px 20px 28px; }
 }
@@ -754,27 +1294,26 @@ footer {
   .btn-text { width: 100%; justify-content: center; }
 
   .price-callout { padding: 22px 22px; }
+  .price-card { padding: 28px 24px; }
+  .price-amount { font-size: 48px; }
 
-  .email-row { flex-direction: column; }
-  .validation-buttons { flex-direction: column; align-items: stretch; }
-  .btn-validate { width: 100%; justify-content: center; }
+  .final-cta-buttons { flex-direction: column; align-items: stretch; }
+  .btn-primary-light, .btn-ghost-dark { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
 
-<form name="validation" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input name="form-name" value="validation">
-  <input name="action" value="this-makes-sense">
-</form>
-
 <nav>
   <a href="/" class="logo">Flat<em>Labs</em></a>
   <div class="nav-links">
-    <a href="#problem">Why</a>
-    <a href="learn/">Glossary</a>
-    <a href="#disclaimer">Status</a>
-    <a href="#validate" class="nav-cta">Join the waitlist</a>
+    <a href="#problem">Why FlatLabs</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#glossary">Open Glossary</a>
+    <a href="#status">Product Status</a>
+    <a href="/account.html" class="nav-account" id="navAccount" style="display:none">My account</a>
+    <a href="/login.html" class="nav-login" id="navLogin">Sign in</a>
+    <a href="app.html?src=home&cta=nav" class="nav-cta">Launch App (Free)</a>
   </div>
 </nav>
 
@@ -783,25 +1322,24 @@ footer {
   <div class="hero-text">
     <div class="hero-kicker">
       <span class="dot"></span>
-      Launching Q4 2026 · Beta open now
+      Early access · SS27 Production Ready
     </div>
     <h1>
       Technical flats
       <span class="line-2">are not supposed to take half your day.</span>
     </h1>
     <p class="hero-body">
-      FlatLabs generates <strong>clean editable vectors</strong>, ISO measurements, and factory-usable exports in minutes — instead of hours spent fighting Illustrator templates. Launching Q4 2026 with t-shirts, pants and hoodies for the SS27 season. The glossary is already live while we build the rest.
+      FlatLabs generates <strong>editable technical flats</strong>, ISO measurements, and factory-ready exports in minutes — without rebuilding the same garment foundations from scratch every single season.
+    </p>
+    <p class="hero-body">
+      Built for fashion designers, independent apparel brands, and clothing production teams working on real timelines.
     </p>
     <div class="hero-actions">
-      <a href="#validate" class="btn-primary">
-        Join the waitlist
+      <a href="app.html?src=home&cta=hero" class="btn-primary">
+        Start Designing (Free)
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a href="learn/" class="btn-ghost">Explore the glossary</a>
-      <a href="app.html" class="btn-text">
-        <span class="pulse"></span>
-        Try the T-shirt beta
-      </a>
+      <a href="#glossary" class="btn-ghost">Browse Tech Pack Glossary</a>
     </div>
   </div>
 
@@ -815,135 +1353,545 @@ footer {
   </div>
 </section>
 
+<!-- ───── HOW IT WORKS ───── -->
+<section class="how" id="how" data-screen-label="02 How it works">
+  <div class="how-bg-num">/01</div>
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-label">How it works</div>
+      <h2>Pick. Snap. <em>Export.</em></h2>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-item" data-step="01">
+        <div class="step-illustration">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" style="height:72px;width:auto">
+            <path fill="none" stroke="#fb8f6c" stroke-width="9" stroke-miterlimit="10" d="M192.51,57.41s-.92,41.73-42.4,41.73-42.26-42.29-42.26-42.29"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-linejoin="round" d="M221.98,246.14c7.83-.18,9.42-6.1,9.42-10.01s.09-153.59.09-159.19-2.67-8.01-6.48-9.25-41.02-12.96-41.02-12.96c0,0-6.65,10.12-33.78,10.12s-33.98-10.12-33.98-10.12c0,0-37.21,11.72-41.02,12.96s-6.48,3.65-6.48,9.25.09,155.27.09,159.19,1.59,9.84,9.42,10.01c3.88.09,139.85.09,143.73,0Z"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-miterlimit="10" d="M198.77,59.4s-4.44,46.19-48.51,46.19h-.3c-44.08,0-48.51-46.19-48.51-46.19"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-miterlimit="10" d="M186.28,55.45s.68,37.51-36.33,37.51h.32c-37.01,0-36.33-37.51-36.33-37.51"/>
+          </svg>
+        </div>
+        <div class="step-content">
+          <div class="step-num-label">Step 01</div>
+          <h3>Pick a garment</h3>
+          <p>Start with a base built on real ISO 8559 measurements. Industry-standard from the first click.</p>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="02">
+        <div class="step-illustration">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" style="height:72px;width:auto">
+            <path fill="none" stroke="#fb8f6c" stroke-width="11" stroke-linejoin="round" d="M185.81,62.56s47.8,16.51,76.06,7.85"/>
+            <path fill="none" stroke="#fb8f6c" stroke-width="11" stroke-linejoin="round" d="M179.74,57.44c5.2,47.38,56.15,89.11,56.15,89.11l27.19-16.96"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-linecap="square" stroke-linejoin="round" d="M109.75,245.48v-47.11s26.1-53.78-4.12-115.56l81.78-28s32.61,21.04,70.82,9.67"/>
+            <polyline fill="none" stroke="#231f20" stroke-width="4" stroke-linejoin="round" points="105.63 82.81 40.74 143.89 81.19 208.59 109.75 198.37"/>
+            <line fill="none" stroke="#231f20" stroke-width="4" stroke-linejoin="round" x1="92.16" y1="204.66" x2="50.01" y2="135.28"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-linecap="square" stroke-linejoin="round" d="M173.89,60.48c0,42.25,61.96,93.44,61.96,93.44l29-17.78"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-linecap="square" stroke-linejoin="round" d="M186.93,56.93c-.66,37.05,43.6,75.8,49.7,82.22l21.6-13.55"/>
+            <path fill="none" stroke="#231f20" stroke-width="4" stroke-linejoin="round" d="M189.46,70.27s40.36,16.44,73.84,5.18"/>
+            <line fill="none" stroke="#231f20" stroke-width="4" stroke-linejoin="round" x1="174.96" y1="72.3" x2="110.69" y2="94.37"/>
+          </svg>
+        </div>
+        <div class="step-content">
+          <div class="step-num-label">Step 02</div>
+          <h3>Snap</h3>
+          <p>Necklines, sleeves, fits, details — production-ready variants that cover most real projects. Everything connects cleanly. No fixing seams. No rebuilding shapes.</p>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="03">
+        <div class="step-illustration">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" style="height:72px;width:auto">
+            <line fill="none" stroke="#fb8f6c" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" x1="66.99" y1="239.75" x2="233.01" y2="239.65"/>
+            <polygon fill="none" stroke="#231f20" stroke-width="4" stroke-linecap="square" stroke-linejoin="round" points="93.56 150 150.1 212.37 205.11 150 174.89 150 174.3 55.33 123.33 55.33 123.93 150 93.56 150"/>
+          </svg>
+        </div>
+        <div class="step-content">
+          <div class="step-num-label">Step 03</div>
+          <h3>Export</h3>
+          <p>A clean SVG — or a full tech pack PDF. Measurements. Tolerances. Construction notes. Ready for production.</p>
+          <span class="step-pro-tag">Tech Pack PDF available</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trinity">
+      <div class="trinity-header">
+        <span class="trinity-label">The Holy Trinity · Foundation garments</span>
+        <p class="trinity-tagline">The foundation of every collection. Built properly.</p>
+      </div>
+      <div class="trinity-grid">
+        <div class="trinity-item" data-garment="tshirt">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+            <path d="M32.5894 41.9812H12.2318C11.3024 41.9803 10.424 41.8895 9.96697 40.8777L9.94967 40.8385C9.57552 40.0081 9.95347 39.4707 10.2095 38.7151C10.889 36.7098 11.1382 34.5185 11.3283 32.4223L11.4789 29.9422C11.4929 29.6738 11.5369 29.4083 11.5451 29.1395L11.5438 23.1286C11.4935 22.068 11.2869 21.0138 11.2436 19.9546C9.22086 19.862 9.46986 22.2818 7.81175 21.9943C5.1695 21.5363 3.30809 18.9185 1.77831 16.9334C1.43204 16.484 0.92864 15.98 0.784673 15.4207C0.32562 13.6374 2.79601 12.712 4.00676 12.0412L8.13809 9.71224C8.6082 9.43525 9.07827 9.16089 9.52686 8.84946C10.5791 8.11891 11.5957 7.25875 12.927 7.14044L13.7573 7.10655C15.255 6.99044 16.6423 6.42967 18.0818 6.05083C18.6583 5.99505 18.9269 6.54175 19.2718 6.90508C20.5876 8.29127 22.2906 8.65356 24.1229 8.64283C25.9008 8.63238 27.8 8.19208 28.9716 6.75663C29.6863 5.88105 29.4636 5.94377 30.6301 6.27414L33.0581 6.92524C33.4586 7.01247 33.8553 7.07317 34.2651 7.10125C35.853 7.2101 36.4692 7.40927 37.842 8.39027L39.125 9.25708L45.4384 12.8368C46.0444 13.1912 47.1305 13.7534 47.2425 14.5516L47.2603 14.6496C47.4394 15.3698 46.9317 15.9498 46.5134 16.4606L44.9036 18.5623C43.8075 19.9259 42.0232 21.8012 40.2482 21.9885L40.2065 21.9927C39.4198 22.0762 39.1632 21.8225 38.7942 21.2212C38.341 20.4827 37.6409 19.6242 36.71 20.129C36.6543 20.3867 36.6555 20.6584 36.6348 20.9208L36.4944 22.3123C36.448 22.6531 36.4554 23.0058 36.4505 23.3494L36.4578 29.4632C36.4667 29.7263 36.5255 29.975 36.5355 30.2364L36.5647 31.5362C36.5712 31.6265 36.6025 31.7076 36.6093 31.7958L36.6571 32.5779L37.1772 36.2147C37.2759 36.7998 37.3663 37.4034 37.5469 37.9685C37.6908 38.4186 38.084 39.343 38.1447 39.694C38.1503 39.7263 38.1543 39.7563 38.1654 39.7876C38.5007 40.7285 37.5651 41.7612 36.6814 41.9361L36.641 41.9439C36.2045 42.0311 35.6843 41.9809 35.2362 41.9811L32.5894 41.9812Z" fill="#212B31"/>
+          </svg>
+          <span class="trinity-name">T-Shirt</span>
+          <a href="app.html?src=home&cta=trinity" class="trinity-cta">Create →</a>
+        </div>
+        <div class="trinity-item soon" data-garment="pants">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+            <path d="M25.8 30.5809L24.0272 22.0138C23.8861 22.3255 23.8519 22.6787 23.778 23.0111L22.2237 30.4218L21.466 34.5598L20.4073 41.302C20.2097 42.4318 19.0706 42.3686 18.2404 42.3691L12.4416 42.3701C12.2562 42.37 12.0524 42.381 11.8708 42.3402L11.8361 42.3319C10.6125 42.0537 10.6719 41.1105 10.6725 40.1356L10.6831 31.5095L10.7899 27.5976C10.7997 27.231 10.8622 26.8642 10.8792 26.4966L10.8914 24.6537C10.9009 24.2719 10.9698 23.8956 10.982 23.5162L11.0015 21.5742C11.01 21.3021 11.0602 21.0346 11.0704 20.7622L11.1881 17.6689L11.3765 14.8799C11.4661 13.8102 11.6452 12.7353 11.8594 11.684L12.2532 9.71786C12.3126 9.42405 12.2936 9.10338 12.2935 8.80403L12.2924 7.47705C12.2923 7.18844 12.2506 6.79896 12.3836 6.53678C12.7005 5.91185 13.1171 5.63331 13.8406 5.58799L33.5629 5.58203C35.1583 5.58105 35.7035 5.91011 35.7073 7.50372L35.7098 8.68028C35.7111 9.07417 35.7576 9.45592 35.8191 9.8455L35.995 10.8356C36.0053 10.8972 36.0326 10.9547 36.0463 11.0156L36.2448 11.948C36.3884 12.6854 36.4822 13.434 36.5453 14.1828L36.6881 16.2233C36.7042 16.4748 36.6846 16.7786 36.7402 17.0215L36.7701 17.1562C36.8792 17.6553 36.8283 18.2263 36.8519 18.7383C36.8611 18.9374 36.9061 19.1353 36.9126 19.3323L36.9328 20.8307C36.9448 21.0554 36.9905 21.2787 36.9978 21.504L37.0144 23.0844C37.0256 23.3708 37.0909 23.6529 37.1037 23.9414L37.1323 25.8809C37.1383 26.0432 37.171 26.2033 37.1758 26.3654L37.2283 28.654C37.2349 28.8338 37.2792 29.0088 37.2842 29.1888L37.2908 30.7932C37.2966 30.9853 37.3404 31.1733 37.3453 31.3645L37.3522 39.6626C37.3526 40.7783 37.6006 41.9018 36.2228 42.3199L36.155 42.3401C36.0127 42.3733 35.8587 42.3656 35.7136 42.3667L30.2397 42.3695C28.2167 42.3686 27.7933 42.5797 27.4682 40.2539L25.8 30.5809Z" fill="#212B31"/>
+          </svg>
+          <span class="trinity-name">Pants</span>
+          <span class="trinity-status soon">Coming soon</span>
+        </div>
+        <div class="trinity-item soon" data-garment="hoodie">
+          <svg width="40" height="40" viewBox="0 0 1965.41 2813.66" fill="none">
+            <path d="M1355.86,2788.72c-74.59-33.07-153.72-33.65-232.38-33.69-67.02.35-177.86-.27-247.84-.02-94.51.15-186.3-3.51-274.69,40.49-33.5,17.79-57.59,32.08-85.86-5.35-36.5-49.81-7.7-116.02-24.31-170.44-8.94-29.75-24.94-56.45-35.11-85.54-23.93-64.03-45.45-138.47-54.24-205-.82-4.78-2.72,1.01-3.64,4.33-18.44,65.92-39.68,137.96-54.12,205.82-6.41,32.03-11.24,64.34-15.78,96.77-5.95,32.73-4.75,93.06-43.61,103.04-45.1,9.38-128.88-24.66-172.3-41.86-35.66-14.52-77.76-31.02-90.26-71.2-7.32-23.34-4.37-50.29,1.73-73.91,5.54-22.17,12.08-31.71,10.04-51.37-1.22-9.24-3.7-18.67-7.07-28.3-47.13-112.09-21.27-235.98,1.19-351.95,19.56-97.89,47.54-225.16,68.53-326.99,39.14-168.19,113.12-328.16,124.5-503.71,4.84-25.18,10.77-54.44,13.86-79.16,6.93-45.5,28.02-111.71,51.35-159.14,13.25-29.59,40.93-64.34,53.91-86.34,4.87-8.25,8.18-16.93,13.87-24.72,67.09-78.54,214.31-77.92,292.79-99.9,23.3-5.64-2.71-8.58-23.53-64.81-41.52-105.75-8.12-289.77,17.41-413.11C679.82,201.77,838.36-3.92,1001.56.06c161.83,20.77,293.33,292.4,314.67,433.52s5.33,253.12-58.27,354.7c-13.26,21.18,89.23,45.98,58.27,38.41-76.2-18.62,123.9,47.42,193.07,72.96,9.92,3.91,16.13,7.65,24.74,14.01,36.18,28.05,83.05,45.92,110.16,82.85,5.41,8.63,11.08,15.62,13.41,23.82,19.94,58.64,107.62,341.86,141.7,455.02,28.21,142.01,77.25,341.05,110.2,488.14,6.59,28.66,10.72,45.37,16.04,71.22,2.52,14.52,6.64,32.15,8.89,47.34,19.42,132.71,58.43,264.15.54,394.73-9.58,21.99-3.31,43,1.8,65.41,12.16,53.83,18.05,92.67-18.52,123.66-41.12,35.61-95.5,53.59-146.76,65.38-93.8,19.98-121.88,24.08-135.12-80.87-3.9-29-8.44-57.79-12.96-86.5-13.05-73.44-36.22-150.73-53.59-222.35-.76-2.52-3.68-21.04-6.01-15.37-11.13,70.43-35.14,158.75-59.69,218-9.56,22.39-22.4,45.68-30.29,68.88-15.65,48,2.01,91.97-8.65,140.24-3.47,18-11.85,39.27-25.48,50.99-22.42,19.4-57.16-3.39-83.69-15.46l-.19-.09Z" fill="#212B31"/>
+          </svg>
+          <span class="trinity-name">Hoodie</span>
+          <span class="trinity-status soon">Coming soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ───── PROBLEM (01) ───── -->
-<section class="problem" id="problem" data-screen-label="02 Problem">
-  <div class="problem-bg-num">01</div>
+<section class="problem" id="problem" data-screen-label="03 Problem">
   <div class="problem-inner">
     <div class="problem-left">
-      <div class="section-label"><span class="num">01</span> The problem</div>
-      <h2>This is where your <em>time</em> gets wasted.</h2>
+      <div class="section-label"><span class="num">01</span> The workflow problem</div>
+      <h2>Why are we still redrawing the exact same garments <em>every season?</em></h2>
     </div>
     <div class="problem-right">
       <div class="problem-narrative">
         <div class="problem-block">
-          <span class="problem-block-label">The reality</span>
-          <p>You designed the collection. You sourced the fabric. You're ready for production.</p>
-          <p>Then you end up rebuilding the same t-shirt flat that already exists in hundreds of variations — point by point, anchor by anchor. And somewhere in between, you're digging through folders trying to find the last version you swear you already made.</p>
+          <span class="problem-block-label">The industry reality</span>
+          <p>Most collections are built on the exact same garment foundations — t-shirts, hoodies, pants, and standard silhouettes.</p>
+          <p>Yet development teams still spend hours rebuilding technical flats manually, <strong>anchor point by anchor point, version after version.</strong></p>
         </div>
         <div class="problem-block">
-          <span class="problem-block-label">The pain point</span>
-          <p>Most free templates are unusable. <strong>Bad proportions. Broken groups. Random construction.</strong> They're not built for production workflows. They're built to be downloaded and abandoned.</p>
+          <span class="problem-block-label">The template pain point</span>
+          <p>Let's be honest: most free fashion flat templates are completely unreliable. <strong>Bad proportions, broken vector groups, and random construction.</strong></p>
+          <p>They are not built for professional manufacturing workflows — they are built to be downloaded and abandoned.</p>
         </div>
         <div class="problem-block">
-          <span class="problem-block-label">The gap</span>
-          <p>The alternative isn't much better. Either you patch together free files that break under pressure, or you pay enterprise-level software pricing for tools built far beyond what most brands actually need.</p>
-          <p>FlatLabs defines the <strong>base layer of fashion flats</strong> — technically correct, reusable constructions for the 80% of garments that don't require custom pattern engineering. Clean, professional drawings. Ready fast, and built to be handed off when things get more complex.</p>
-          <p>Highly specialized construction and fully custom silhouettes belong with a patternmaker. FlatLabs focuses on base garment structures — the foundations most collections are built on — so technical development starts further downstream, not from scratch.</p>
+          <span class="problem-block-label">The software gap</span>
+          <p>The alternative isn't much better. <strong>Professional fashion CAD tools are overly complex, wildly expensive, and require bloated enterprise suites.</strong></p>
+          <p>Free templates solve speed, but ruin consistency.</p>
+        </div>
+        <div class="problem-block">
+          <span class="problem-block-label">The missing middle layer</span>
+          <p>FlatLabs delivers <strong>technically correct fashion flats built for everyday garment production.</strong> You get reusable base constructions, editable SVG vectors, and clean specs designed to move faster from concept to clothing factory.</p>
+        </div>
+        <div class="problem-block">
+          <span class="problem-block-label">Patternmaker positioning</span>
+          <p>To be clear: custom pattern engineering, specialized draping, and advanced silhouette development still belong with master patternmakers.</p>
+          <p>FlatLabs handles the standardized layer underneath — the technical foundations most collections already rely on — so development starts further downstream, not from zero.</p>
         </div>
       </div>
       <div class="price-callout">
-        <p>Professional flat software exists — but it's either <strong>expensive, overbuilt, or both.</strong> Free templates are the opposite problem: fast, but unreliable.</p>
-        <p>FlatLabs is the missing middle layer: technically correct flats for everyday garment construction.</p>
+        <p>Professional fashion CAD tools are often <strong>complex, expensive, or oversized</strong> for everyday flat work. Free templates solve speed, but not consistency.</p>
+        <p>FlatLabs was built right between those two extremes.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ───── GLOSSARY (02) ───── -->
-<section class="glossary" id="glossary" data-screen-label="03 Glossary">
-  <div class="glossary-bg-num">02</div>
+<!-- ───── TECH PACK PREVIEW (03) ───── -->
+<section class="tp-section" id="techpack-preview" data-screen-label="04 Tech Pack Preview">
+<style>
+.tp-section { background: var(--bg); padding: 100px 20px; position: relative; overflow: hidden; }
+.tp-inner { max-width: 900px; margin: 0 auto; }
+.tp-header { max-width: 640px; margin: 0 auto 48px; text-align: center; }
+.tp-header .section-label { justify-content: center; }
+.tp-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4.2vw, 56px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1.4px;
+  color: var(--ink);
+  margin-bottom: 18px;
+  text-wrap: balance;
+}
+.tp-header h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.tp-header p {
+  font-size: 16px; color: var(--ink-soft); line-height: 1.65;
+}
+
+.tp-tabs {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: 8px; margin-bottom: 28px;
+}
+.tp-tab {
+  font-family: var(--sans);
+  font-size: 13px; font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.tp-tab:hover { border-color: var(--ink); color: var(--ink); }
+.tp-tab.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+.tp-panel { display: none; }
+.tp-panel.active { display: block; }
+
+.tp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+.tp-card-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 22px;
+}
+.tp-card-num {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+.tp-card-title { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -.3px; }
+.tp-card-subtitle { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+.tp-table-wrap { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.tp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tp-table th {
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+.tp-table td {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.tp-table tr:last-child td { border-bottom: none; }
+.tp-blur { filter: blur(4px); user-select: none; }
+
+.tp-note {
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 2px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.tp-cta {
+  margin-top: 56px;
+  background: var(--surface-dark);
+  border-radius: var(--radius);
+  padding: 44px 32px;
+  text-align: center;
+}
+.tp-cta h3 {
+  font-family: var(--serif);
+  font-size: 26px; font-weight: 700;
+  color: #fff; letter-spacing: -.4px;
+  margin-bottom: 8px;
+}
+.tp-cta p { font-size: 14px; color: rgba(255,255,255,.6); margin-bottom: 22px; }
+.tp-cta a {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: #fff;
+  padding: 13px 24px; border-radius: 100px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  text-decoration: none;
+  transition: all .25s var(--ease);
+}
+.tp-cta a:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+@media (max-width: 900px) {
+  .tp-section { padding: 72px 16px; }
+  .tp-card { padding: 22px; }
+  .tp-card-num { width: 34px; height: 34px; font-size: 12px; }
+  .tp-card-title { font-size: 17px; }
+  .tp-table { font-size: 12px; }
+  .tp-table th, .tp-table td { padding: 10px 10px; }
+  .tp-tab { font-size: 12px; padding: 9px 14px; }
+}
+</style>
+
+<div class="tp-inner">
+  <div class="tp-header">
+    <div class="section-label"><span class="num">02</span> What's inside</div>
+    <h2>4 pages. Zero guesswork for <em>your factory.</em></h2>
+    <p>Every section a manufacturer needs. Preview the structure below — generate yours in minutes.</p>
+  </div>
+
+  <div class="tp-tabs">
+    <button class="tp-tab active" data-tp-tab="1" onclick="showTpPage(1)">Page 1 — Flat &amp; Specs</button>
+    <button class="tp-tab" data-tp-tab="2" onclick="showTpPage(2)">Page 2 — BOM &amp; Stitching</button>
+    <button class="tp-tab" data-tp-tab="3" onclick="showTpPage(3)">Page 3 — Fabric &amp; Construction</button>
+    <button class="tp-tab" data-tp-tab="4" onclick="showTpPage(4)">Page 4 — Artwork &amp; Print</button>
+  </div>
+
+  <div class="tp-panel active" data-tp-panel="1">
+    <div class="tp-card">
+      <div class="tp-card-header">
+        <div class="tp-card-num">01</div>
+        <div>
+          <div class="tp-card-title">Flat &amp; Specs</div>
+          <div class="tp-card-subtitle">Points of measure, by size</div>
+        </div>
+      </div>
+      <div class="tp-table-wrap">
+        <table class="tp-table">
+          <thead><tr><th>POM</th><th>Description</th><th>EU34</th><th>EU36</th><th>EU38</th><th>EU40</th><th>EU42</th><th>EU44</th><th>Tol.</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>Chest 1/2</td><td class="tp-blur">44.5</td><td class="tp-blur">46.5</td><td class="tp-blur">48.5</td><td class="tp-blur">50.5</td><td class="tp-blur">52.5</td><td class="tp-blur">54.5</td><td class="tp-blur">±0.5</td></tr>
+            <tr><td>B</td><td>Waist 1/2</td><td class="tp-blur">41.0</td><td class="tp-blur">43.0</td><td class="tp-blur">45.0</td><td class="tp-blur">47.0</td><td class="tp-blur">49.0</td><td class="tp-blur">51.0</td><td class="tp-blur">±0.5</td></tr>
+            <tr><td>C</td><td>Body Length HPS</td><td class="tp-blur">68.0</td><td class="tp-blur">69.5</td><td class="tp-blur">71.0</td><td class="tp-blur">72.5</td><td class="tp-blur">74.0</td><td class="tp-blur">75.5</td><td class="tp-blur">±1.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tp-note">Exact measurements + tolerances. The factory measures, compares, and knows immediately if the sample passes.</div>
+    </div>
+  </div>
+
+  <div class="tp-panel" data-tp-panel="2">
+    <div class="tp-card">
+      <div class="tp-card-header">
+        <div class="tp-card-num">02</div>
+        <div>
+          <div class="tp-card-title">BOM &amp; Stitching</div>
+          <div class="tp-card-subtitle">Seam types, standards, and machine setup</div>
+        </div>
+      </div>
+      <div class="tp-table-wrap">
+        <table class="tp-table">
+          <thead><tr><th>Stitch</th><th>ISO</th><th>SPI</th><th>Needle</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>4-Thread Overlock</td><td>ISO 514</td><td class="tp-blur">12</td><td class="tp-blur">80/12</td><td class="tp-blur">Side &amp; shoulder seams</td></tr>
+            <tr><td>Coverseam</td><td>ISO 406</td><td class="tp-blur">10</td><td class="tp-blur">75/11</td><td class="tp-blur">Hem &amp; sleeve cuff</td></tr>
+            <tr><td>Flatlock</td><td>ISO 607</td><td class="tp-blur">11</td><td class="tp-blur">80/12</td><td class="tp-blur">Neck binding</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tp-note">Wrong needle = broken threads. Wrong SPI = weak seams. Every stitch specified.</div>
+    </div>
+  </div>
+
+  <div class="tp-panel" data-tp-panel="3">
+    <div class="tp-card">
+      <div class="tp-card-header">
+        <div class="tp-card-num">03</div>
+        <div>
+          <div class="tp-card-title">Fabric &amp; Construction</div>
+          <div class="tp-card-subtitle">Composition, weight, and shrinkage compensation</div>
+        </div>
+      </div>
+      <div class="tp-table-wrap">
+        <table class="tp-table">
+          <thead><tr><th>Property</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Fabric</td><td class="tp-blur">Midweight Jersey, 180gsm</td></tr>
+            <tr><td>Composition</td><td class="tp-blur">100% Combed Cotton</td></tr>
+            <tr><td>Shrinkage Length</td><td class="tp-blur">-3.2%</td></tr>
+            <tr><td>Shrinkage Width</td><td class="tp-blur">-2.1%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tp-note">Shrinkage compensation is built into the pattern. Without it, a size M becomes a size S after the first wash.</div>
+    </div>
+  </div>
+
+  <div class="tp-panel" data-tp-panel="4">
+    <div class="tp-card">
+      <div class="tp-card-header">
+        <div class="tp-card-num">04</div>
+        <div>
+          <div class="tp-card-title">Artwork &amp; Print</div>
+          <div class="tp-card-subtitle">Placement, method, and file specs</div>
+        </div>
+      </div>
+      <div class="tp-table-wrap">
+        <table class="tp-table">
+          <thead><tr><th>Side</th><th>Zone</th><th>Position</th><th>Size</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td>Front</td><td>Center Chest</td><td class="tp-blur">8cm below HPS</td><td class="tp-blur">9 x 9cm</td><td class="tp-blur">Embroidery</td></tr>
+            <tr><td>Back</td><td>Full Back</td><td class="tp-blur">4cm below neck</td><td class="tp-blur">28 x 32cm</td><td class="tp-blur">DTG</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tp-note">Exact placement, method, and file specs. No back-and-forth with the factory.</div>
+    </div>
+  </div>
+
+  <div class="tp-cta">
+    <h3>Production-ready in minutes</h3>
+    <p>ISO 8559-1 compliant. Not AI-generated.</p>
+    <a href="app.html?src=home&cta=techpack-preview">
+      Generate Your Tech Pack
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<script>
+function showTpPage(n) {
+  document.querySelectorAll('.tp-tab').forEach(el => el.classList.toggle('active', el.dataset.tpTab === String(n)));
+  document.querySelectorAll('.tp-panel').forEach(el => el.classList.toggle('active', el.dataset.tpPanel === String(n)));
+}
+</script>
+</section>
+
+<!-- ───── PRICING (02) ───── -->
+<section class="pricing" id="pricing" data-screen-label="05 Pricing">
+  <div class="pricing-bg-num">03</div>
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="section-label"><span class="num">03</span> Transparent pricing</div>
+      <h2>Flexible pricing for <em>growing fashion brands.</em></h2>
+      <!-- PROMO-HIDDEN-START
+      <p class="pricing-intro"><strong>Design for free. Download only when you need production-ready vectors.</strong></p>
+      PROMO-HIDDEN-END -->
+      <p class="pricing-intro"><strong>Everything is free during the FlatLabs launch. Design, download, and export production-ready files.</strong></p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="price-card outlined" data-tier="free">
+        <div class="price-name">Free</div>
+        <!-- PROMO-HIDDEN-START
+        <div class="price-amount">€0<span class="price-period">/ forever</span></div>
+        PROMO-HIDDEN-END -->
+        <div class="price-amount">Free</div>
+        <!-- PROMO-HIDDEN-START
+        <p class="price-desc">Preview the entire system and test your workflows before paying for anything.</p>
+        PROMO-HIDDEN-END -->
+        <p class="price-desc">Preview the entire system and export editable SVG flats for your own projects.</p>
+        <div class="price-included">Included</div>
+        <ul class="price-features">
+          <li>Full garment configurator preview</li>
+          <li>Open-access glossary</li>
+          <!-- PROMO-HIDDEN-START
+          <li>1 free T-shirt SVG download</li>
+          PROMO-HIDDEN-END -->
+          <li>5 SVG downloads per month</li>
+        </ul>
+        <a href="app.html?src=home&cta=price-free" class="price-cta">Open Configurator</a>
+      </div>
+
+      <!-- PAY PER DOWNLOAD -->
+      <div class="price-card outlined" data-tier="ppd">
+        <span class="price-tag">Launch access</span>
+        <div class="price-name">Tech Pack</div>
+        <!-- PROMO-HIDDEN-START
+        <div class="price-tier-range">€10 <span class="price-period">/ download</span></div>
+        PROMO-HIDDEN-END -->
+        <div class="price-tier-range">Free</div>
+        <p class="price-desc">Turn your flat into a factory-ready spec sheet.</p>
+        <div class="price-included">What you get</div>
+        <ul class="price-features">
+          <li>ISO 8559-1 compliant Tech Pack PDF</li>
+          <li>Measurements, POMs, BOM &amp; construction specs</li>
+          <li>Editable SVG flat included</li>
+        </ul>
+        <p class="price-note">// T-shirt available now. Pants &amp; hoodie coming soon.</p>
+        <a href="app.html?src=home&cta=price-techpack" class="price-cta">Start a Project</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="price-card soon">
+        <span class="price-tag">Coming soon</span>
+        <div class="price-name">Pro Subscription</div>
+        <!-- PROMO-HIDDEN-START
+        <div class="price-amount">€25<span class="price-period">/ month</span></div>
+        PROMO-HIDDEN-END -->
+        <div class="price-amount">Coming soon</div>
+        <div class="pro-teaser-blur" aria-hidden="true">
+          <p class="price-desc">Built for fashion designers and apparel brands scaling recurring collections.</p>
+          <div class="price-included">Planned</div>
+          <ul class="price-features">
+            <li>15 downloads per month</li>
+            <li>Unlimited garment combinations</li>
+            <li>Full SVG + Tech Pack PDF exports</li>
+            <li>Faster multi-style workflows across recurring styles</li>
+          </ul>
+        </div>
+        <span class="price-cta">Coming soon</span>
+      </div>
+    </div>
+
+    <div class="pricing-footer">
+      <p><strong>No enterprise contracts. No bloated CAD suites.</strong> Just technically correct fashion flats, ready when you need them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───── GLOSSARY (03) ───── -->
+<section class="glossary" id="glossary" data-screen-label="06 Glossary">
+  <div class="glossary-bg-num">04</div>
   <div class="glossary-inner">
     <div class="glossary-header">
-      <div class="section-label"><span class="num">02</span> Available now</div>
-      <h2>Learn the language behind <em>every tech pack.</em></h2>
-      <p class="glossary-body">The FlatLabs glossary is <strong>open now.</strong> Fabrics, seams, finishes, threads, construction terms — explained clearly, without paywalls or inflated jargon. Built for designers, students, and independent brands.</p>
+      <div class="section-label"><span class="num">04</span> Free Tech Pack Glossary</div>
+      <h2>Master the technical language of <em>apparel manufacturing.</em></h2>
+      <p class="glossary-body">The FlatLabs glossary is <strong>completely open.</strong> Fabrics, seams, finishes, and specs — explained clearly, without paywalls or inflated industry jargon. Built for apparel designers, fashion students, and independent brands.</p>
     </div>
 
-    <div class="glossary-grid fade">
-      <a href="learn/fabrics/midweight-jersey.html" class="gl-term-card" data-cat="fabric">
-        <span class="gl-term-cat">Fabric</span>
-        <span class="gl-term-name">Midweight Jersey</span>
-        <span class="gl-term-desc">The industry standard for high-quality T-shirts.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-
-      <a href="learn/seams/iso-514-overlock.html" class="gl-term-card" data-cat="seam">
-        <span class="gl-term-cat">Seam</span>
-        <span class="gl-term-name">4-Thread Overlock</span>
-        <span class="gl-term-desc">Secure and elastic seam for joining knitted panels.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-
-      <a href="learn/color/pantone-tcx-system.html" class="gl-term-card" data-cat="color">
-        <span class="gl-term-cat">Color</span>
-        <span class="gl-term-name">Pantone TCX</span>
-        <span class="gl-term-desc">The global standard for textile color on cotton.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-
-      <a href="learn/trims/care-labels-standards.html" class="gl-term-card" data-cat="label">
-        <span class="gl-term-cat">Label</span>
-        <span class="gl-term-name">Care &amp; Content Label</span>
-        <span class="gl-term-desc">Required label for legal and care information.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-
-      <a href="learn/printing/water-based-screen.html" class="gl-term-card" data-cat="print">
-        <span class="gl-term-cat">Print</span>
-        <span class="gl-term-name">Water-based Screen Print</span>
-        <span class="gl-term-desc">Eco-friendly ink that integrates into the fabric.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-
-      <a href="learn/finishes/sanforized-standards.html" class="gl-term-card" data-cat="finish">
-        <span class="gl-term-cat">Finish</span>
-        <span class="gl-term-name">Sanforized</span>
-        <span class="gl-term-desc">Pre-shrinking process to ensure dimensional stability.</span>
-        <span class="gl-term-link">Read more →</span>
-      </a>
-    </div>
-
+    <div id="glossaryWidget"></div>
     <div class="glossary-cta">
-      <a href="learn/">Browse all 24 terms →</a>
-      <span class="glossary-cta-count">// 24 entries · open access</span>
+      <a href="learn/index.html" id="glossaryCta">Browse all terms →</a>
+      <span class="glossary-cta-count" id="glossaryCtaCount"></span>
     </div>
+    <script src="js/glossary-widget.js"></script>
+    <script>
+      document.getElementById('glossaryCta').textContent = 'Browse all ' + (window.GLOSSARY_COUNT || 26) + ' terms →';
+      document.getElementById('glossaryCtaCount').textContent = '// ' + (window.GLOSSARY_COUNT || 26) + ' entries · open access';
+    </script>
   </div>
 </section>
 
-<!-- ───── WHERE WE ARE ───── -->
-<section class="disclaimer" id="disclaimer" data-screen-label="04 Status">
-  <div class="disclaimer-inner">
+<!-- ───── STATUS (04) ───── -->
+<section class="status" id="status" data-screen-label="07 Status">
+  <div class="status-bg-num">05</div>
+  <div class="status-inner">
     <div>
-      <div class="section-label"><span class="num">03</span> Where we are</div>
-      <h2>Building in public. <em>Honestly.</em></h2>
-      <p>The full platform — including tech pack PDFs, manufacturing workflows, pants, and hoodies — <strong>launches in Q4 2026 for the SS27 season.</strong></p>
-      <div class="disclaimer-prompt">
-        <p>If you've ever wasted hours searching for usable flats, fixing broken templates, or overpaying for software that shouldn't cost luxury-car money, this probably makes sense to you.</p>
-        <p>Tell us if it does.</p>
+      <div class="section-label"><span class="num">05</span> Product roadmap</div>
+      <h2>Built for production. <em>Evolving in public.</em></h2>
+      <p><strong>Our interactive T-shirt is live right now.</strong></p>
+      <p>Pants, hoodies, expanded tech pack PDF generation, and modular garment components are rolling out progressively throughout the SS27 season.</p>
+      <div class="status-prompt">
+        <p>If you've ever rebuilt the same flat twice, this will probably feel familiar. Tell us if it does.</p>
+        <a href="legal/contact.html" class="status-prompt-cta">
+          Share your feedback
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
 
-    <div class="disclaimer-visual fade">
-      <div class="disclaimer-pocket-wrap">
+    <div class="status-visual fade">
+      <div class="status-pocket-wrap">
         <svg viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- horizon guides -->
           <line x1="0" y1="60" x2="320" y2="60" stroke="#E8E8E3" stroke-width="1" stroke-dasharray="6 4"/>
           <line x1="0" y1="64" x2="320" y2="64" stroke="#E8E8E3" stroke-width=".7" stroke-dasharray="6 4"/>
           <line x1="0" y1="300" x2="320" y2="300" stroke="#E8E8E3" stroke-width="1" stroke-dasharray="6 4"/>
           <line x1="0" y1="304" x2="320" y2="304" stroke="#E8E8E3" stroke-width=".7" stroke-dasharray="6 4"/>
-          <!-- pocket -->
           <rect x="60" y="90" width="200" height="170" rx="3" stroke="#111111" stroke-width="2.5" fill="#FFFFFF"/>
           <line x1="63" y1="104" x2="257" y2="104" stroke="#111111" stroke-width="1.2" stroke-dasharray="5 3.5"/>
           <line x1="63" y1="110" x2="257" y2="110" stroke="#111111" stroke-width=".8" stroke-dasharray="5 3.5" opacity=".55"/>
           <line x1="71" y1="104" x2="71" y2="255" stroke="#111111" stroke-width=".8" stroke-dasharray="4 3" opacity=".45"/>
           <line x1="249" y1="104" x2="249" y2="255" stroke="#111111" stroke-width=".8" stroke-dasharray="4 3" opacity=".45"/>
           <line x1="63" y1="249" x2="257" y2="249" stroke="#111111" stroke-width=".8" stroke-dasharray="4 3" opacity=".45"/>
-          <!-- measurement -->
           <line x1="60" y1="78" x2="260" y2="78" stroke="#FF6B57" stroke-width="1" opacity=".7"/>
           <line x1="60" y1="74" x2="60" y2="82" stroke="#FF6B57" stroke-width="1" opacity=".7"/>
           <line x1="260" y1="74" x2="260" y2="82" stroke="#FF6B57" stroke-width="1" opacity=".7"/>
           <text x="160" y="73" font-family="'JetBrains Mono', monospace" font-size="10" fill="#FF6B57" text-anchor="middle">12 cm</text>
-          <!-- label -->
           <text x="160" y="186" font-family="'JetBrains Mono', monospace" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="500" letter-spacing="1.5">CHEST POCKET</text>
           <text x="160" y="202" font-family="'JetBrains Mono', monospace" font-size="9" fill="#9CA3AF" text-anchor="middle">patch · double topstitch</text>
         </svg>
@@ -952,130 +1900,64 @@ footer {
   </div>
 </section>
 
-<!-- ───── VALIDATION ───── -->
-<section class="validation" id="validate" data-screen-label="05 Validate">
-  <div class="validation-inner">
-    <div class="section-label"><span class="num">04</span> Get on the list</div>
-    <h2>If this <em>resonates</em>, get on the list.</h2>
-    <p class="validation-sub">If you've ever needed a professional flat but never needed €3,000 software to get them, tap the button.</p>
-
-    <div class="validation-buttons">
-      <button class="btn-validate btn-yes" id="btnYes" type="button" onclick="handleYes()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        This makes sense
-      </button>
-      <button class="btn-validate btn-email" id="btnEmail" type="button" onclick="showEmail()">
-        Notify me at launch
+<!-- ───── FINAL CTA (05) ───── -->
+<section class="final-cta" id="start" data-screen-label="08 Final CTA">
+  <div class="final-cta-inner">
+    <div class="section-label"><span class="num">06</span> Instant CAD exports</div>
+    <h2>Production-ready fashion flats, without <em>the Illustrator overhead.</em></h2>
+    <p>Start completely free and <strong>pay only per export</strong> when you need production-ready vectors. Built for fashion designers, independent apparel brands, and clothing production teams working on real timelines.</p>
+    <div class="final-cta-buttons">
+      <a href="app.html?src=home&cta=final" class="btn-primary-light">
+        Create Your First Flat Now
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
+      </a>
     </div>
-
-    <form name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="email-form" id="emailForm">
-      <input type="hidden" name="form-name" value="waitlist">
-      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <div class="email-row">
-        <input type="email" name="email" class="email-input" id="emailInput" placeholder="your@email.com" required>
-        <button type="submit" class="email-submit">Send</button>
-      </div>
-      <div class="email-note">No spam. One email when we launch this year.</div>
-    </form>
-
-    <div class="email-success" id="emailSuccess">You're on the list. We'll let you know when FlatLabs ships.</div>
-    <div class="validation-count" id="validationCount"></div>
   </div>
 </section>
 
 <!-- ───── FOOTER ───── -->
 <footer>
   <div class="footer-inner">
-    <span class="footer-copy">© 2026 FlatLabs · Built in public for SS27</span>
+    <span class="footer-copy">© FlatLabs 2026</span>
     <div class="footer-links">
-      <a href="#problem">Why</a>
-      <a href="learn/">Glossary</a>
-      <a href="#disclaimer">Status</a>
-      <a href="legal/contact.html">Contact</a>
+      <a href="#problem">Why FlatLabs</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#glossary">Open Glossary</a>
+      <a href="#status">Product Status</a>
+      <a href="app.html?src=home&cta=footer">Open App</a>
     </div>
     <div class="footer-legal">
-      <a href="legal/privacy.html">Privacy</a>
-      <a href="legal/terms.html">Terms</a>
+      <a href="legal/privacy.html">Privacy Policy</a>
+      <a href="legal/terms.html">Terms of Service</a>
       <a href="legal/legal.html">Legal Notice</a>
+      <a href="legal/contact.html">Contact</a>
     </div>
   </div>
 </footer>
 
 <script>
-// Light fade-in on visual elements only — no stagger, no transform on text
 const fades = document.querySelectorAll('.fade');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 fades.forEach(el => observer.observe(el));
-
-let votes = JSON.parse(localStorage.getItem('fl_votes') || '{"yes":0,"emails":[]}');
-
-function updateCount() {
-  const total = votes.yes + votes.emails.length;
-  const el = document.getElementById('validationCount');
-  if (total > 0) {
-    el.textContent = `// ${total} ${total === 1 ? 'person has' : 'people have'} said this makes sense`;
-  }
-}
-
-async function handleYes() {
-  const btn = document.getElementById('btnYes');
-  if (btn.classList.contains('clicked')) return;
-  btn.classList.add('clicked');
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Noted — thank you';
-  votes.yes++;
-  localStorage.setItem('fl_votes', JSON.stringify(votes));
-  updateCount();
+</script>
+<script>
+// Toggle nav auth links based on session state
+(async function checkAuthNav() {
   try {
-    await fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ 'form-name': 'validation', 'action': 'this-makes-sense' }).toString()
-    });
-  } catch(e) {}
-}
-
-function showEmail() {
-  document.getElementById('emailForm').classList.add('show');
-  document.getElementById('emailInput').focus();
-}
-
-async function submitEmail(event) {
-  event.preventDefault();
-  const form = document.getElementById('emailForm');
-  const input = document.getElementById('emailInput');
-  const email = input.value.trim();
-  if (!email || !email.includes('@')) {
-    input.style.borderColor = '#ef4444';
-    setTimeout(() => { input.style.borderColor = ''; }, 1500);
-    return;
+    const res = await fetch('/api/get-account', { credentials: 'same-origin' });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      const acct = document.getElementById('navAccount');
+      const login = document.getElementById('navLogin');
+      if (acct) acct.style.display = '';
+      if (login) login.style.display = 'none';
+    }
+  } catch (e) {
+    // Not logged in or error — leave default (Sign in visible)
   }
-  const formData = new FormData(form);
-  try {
-    const response = await fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    });
-    if (!response.ok) throw new Error('failed');
-    votes.emails.push(email);
-    localStorage.setItem('fl_votes', JSON.stringify(votes));
-    form.classList.remove('show');
-    document.getElementById('emailSuccess').classList.add('show');
-    document.getElementById('btnEmail').style.display = 'none';
-    updateCount();
-    form.reset();
-  } catch(e) {
-    input.style.borderColor = '#ef4444';
-    setTimeout(() => { input.style.borderColor = ''; }, 1500);
-  }
-}
-
-document.getElementById('emailForm').addEventListener('submit', submitEmail);
-updateCount();
+})();
 </script>
 </body>
 </html>
