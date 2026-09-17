@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='DM Sans, -apple-system, sans-serif' font-weight='700' fill='%23FF6B57'%3EF%3C/text%3E%3C/svg%3E">
+  <title>Checkout — FlatLabs</title>
+  <meta name="description" content="Secure checkout — FlatLabs Tech Pack PDF.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    :root {
+      --ink: #212B31;
+      --ink-soft: #5F7385;
+      --ink-faint: rgba(33, 43, 49, .55);
+      --rule: rgba(33, 43, 49, .1);
+      --rule-soft: rgba(33, 43, 49, .06);
+      --surface: #ffffff;
+      --surface-paper: #faf6ee;
+      --surface-card: #fbfaf7;
+      --surface-dark: #212B31;
+      --accent: #ff9a6e;
+      --accent-hover: #f08860;
+      --accent-text: #212B31;
+      --accent-soft: rgba(255, 154, 110, .12);
+      --danger-bg: #fff5f3;
+      --danger-border: rgba(192, 57, 43, .25);
+      --danger-text: #b3361f;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --shadow-card: 0 1px 2px rgba(33, 43, 49, .04), 0 8px 24px rgba(33, 43, 49, .06);
+      --shadow-pay: 0 1px 2px rgba(33, 43, 49, .15), 0 12px 32px rgba(33, 43, 49, .18);
+      --shadow-pay-hover: 0 1px 2px rgba(255, 154, 110, .3), 0 12px 32px rgba(255, 154, 110, .35);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--surface-paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-font-feature-settings: "ss01", "cv11";
+              font-feature-settings: "ss01", "cv11";
+    }
+    ::selection { background: var(--accent-soft); }
+
+    a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: color .2s; }
+    a:hover { color: var(--accent); }
+
+    /* ── HEADER ── */
+    .checkout-header {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .checkout-header .logo {
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .checkout-header .logo em { font-style: normal; color: var(--accent); }
+    .checkout-header a:not(.logo) {
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: .1px;
+      transition: color .2s;
+    }
+    .checkout-header a:not(.logo):hover { color: var(--ink); }
+
+    /* ── PAGE WRAP ── */
+    .checkout {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* ── HERO BLOCK ── (product + price + preview) */
+    .product-block {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 32px 28px 28px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .product-tag::before {
+      content: '';
+      width: 24px; height: 1.5px;
+      background: var(--accent);
+    }
+    #productTitle {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -.8px;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 6px;
+      text-wrap: balance;
+    }
+    #productTitle:empty::before {
+      content: 'Tech Pack PDF';
+      opacity: .4;
+    }
+    .product-subtitle {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-bottom: 22px;
+    }
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    #productPrice {
+      font-family: var(--serif);
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      color: var(--ink);
+    }
+    #productPrice:empty::before {
+      content: '—';
+      opacity: .3;
+    }
+    .product-price-row .vat {
+      font-size: 12px;
+      color: var(--ink-soft);
+      letter-spacing: .3px;
+    }
+
+    #flatPreview {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--surface-paper);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-faint);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s ease;
+    }
+    #flatPreview.has-preview {
+      background: #ffffff;
+    }
+    #flatPreview:empty::before {
+      content: 'Flat preview';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    #flatPreview:empty::after {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border: 1.5px dashed var(--rule);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    #flatPreview img {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ── INFO SECTIONS ── */
+    .info-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 24px 26px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+    .info-card h2 {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .info-card h2 .num {
+      display: inline-block;
+      min-width: 22px;
+      padding-top: 1px;
+      color: var(--ink-faint);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+    }
+    .info-card p,
+    .info-card li {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+    .info-card p { color: var(--ink); }
+    .info-card .lede {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: -.2px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .info-card .lede em { color: var(--accent); font-style: italic; }
+    .info-card .body {
+      font-size: 14px;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+    .info-card ul { list-style: none; }
+    .info-card ul li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 6px;
+      padding: 8px 0;
+      border-top: 1px solid var(--rule-soft);
+    }
+    .info-card ul li:first-child { border-top: none; padding-top: 4px; }
+    .info-card ul li::before {
+      content: '';
+      display: block;
+      width: 14px; height: 14px;
+      margin-top: 4px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff9a6e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+      background-size: 14px;
+      background-repeat: no-repeat;
+    }
+
+    /* Trust card — ISO 8559 */
+    .trust-card {
+      background: var(--surface-dark);
+      color: white;
+      border-radius: 16px;
+      padding: 26px 28px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-card::before {
+      content: 'ISO';
+      position: absolute;
+      top: -8px; right: -8px;
+      font-family: var(--serif);
+      font-size: 96px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, .04);
+      line-height: 1;
+      letter-spacing: -3px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .trust-card .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .trust-card .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255, 154, 110, .2);
+    }
+    .trust-card h2 {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: white;
+    }
+    .trust-card h2 em { color: var(--accent); font-style: italic; font-weight: 400; }
+    .trust-card p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, .8);
+      max-width: 100%;
+      position: relative;
+    }
+    .trust-card p.disclaimer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.55;
+    }
+    .trust-card p.disclaimer strong { color: rgba(255, 255, 255, .85); font-weight: 600; }
+    .trust-card .meta {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      display: flex;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .55);
+      font-weight: 600;
+    }
+    .trust-card .meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .trust-card .meta span::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── FORM CARD ── */
+    .pay-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 28px 28px 24px;
+      margin-top: 28px;
+      box-shadow: var(--shadow-card);
+    }
+    .pay-card .pay-kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .pay-card h2 {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 22px;
+    }
+
+    .form-group { margin-bottom: 12px; }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+    #checkoutEmail {
+      width: 100%;
+      font-family: var(--sans);
+      font-size: 16px; /* 16px prevents iOS zoom on focus */
+      color: var(--ink);
+      background: var(--surface-card);
+      border: 1.5px solid var(--rule);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: border-color .2s var(--ease), box-shadow .2s var(--ease), background-color .2s;
+      -webkit-appearance: none;
+              appearance: none;
+    }
+    #checkoutEmail::placeholder { color: var(--ink-faint); }
+    #checkoutEmail:hover { border-color: rgba(33, 43, 49, .2); }
+    #checkoutEmail:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    #checkoutEmail:invalid:not(:placeholder-shown) {
+      border-color: rgba(192, 57, 43, .35);
+    }
+
+    /* Custom checkboxes */
+    .checkbox-label {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 14px;
+      margin-top: 10px;
+      background: var(--surface-card);
+      border: 1.5px solid var(--rule);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color .2s var(--ease), background-color .2s;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+      user-select: none;
+    }
+    .checkbox-label:hover { border-color: rgba(33, 43, 49, .2); }
+    .checkbox-label:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .checkbox-label input {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      margin-top: 1px;
+      border: 1.5px solid var(--rule);
+      border-radius: 7px;
+      background: var(--surface);
+      cursor: pointer;
+      position: relative;
+      transition: all .2s var(--ease);
+      flex-shrink: 0;
+    }
+    .checkbox-label input:hover { border-color: var(--ink-soft); }
+    .checkbox-label input:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .checkbox-label input:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 12px; height: 12px;
+      transform: translate(-50%, -55%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23212B31' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-repeat: no-repeat;
+      background-position: center;
+      animation: tick .25s var(--ease-out);
+    }
+    @keyframes tick {
+      0% { opacity: 0; transform: translate(-50%, -55%) scale(.6); }
+      100% { opacity: 1; transform: translate(-50%, -55%) scale(1); }
+    }
+    .checkbox-label input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .checkbox-label a {
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
+    .checkbox-label a:hover { color: var(--accent); }
+
+    /* Pay button */
+    #btnPay {
+      width: 100%;
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -.1px;
+      color: white;
+      background: var(--ink);
+      border: none;
+      border-radius: 14px;
+      padding: 18px 24px;
+      margin-top: 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow-pay);
+      transition: transform .2s var(--ease-out), background-color .25s, color .25s, box-shadow .25s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    #btnPay::after {
+      content: '';
+      display: inline-block;
+      width: 16px; height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+      background-size: 16px;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform .25s var(--ease-out);
+    }
+    #btnPay:not(:disabled):hover {
+      background: var(--accent);
+      color: var(--accent-text);
+      box-shadow: var(--shadow-pay-hover);
+      transform: translateY(-1px);
+    }
+    #btnPay:not(:disabled):hover::after { transform: translateX(3px); }
+    #btnPay:not(:disabled):active { transform: translateY(0); }
+    #btnPay:not(:disabled):focus-visible {
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+    #btnPay:disabled {
+      background: rgba(33, 43, 49, .12);
+      color: rgba(33, 43, 49, .4);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    #btnPay:disabled::after {
+      opacity: .4;
+    }
+
+    /* Pay meta — Stripe trust line */
+    .pay-meta {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: .3px;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+    .pay-meta::before {
+      content: '';
+      display: inline-block;
+      width: 12px; height: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235F7385' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-repeat: no-repeat;
+    }
+
+    /* Error */
+    #checkoutError {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      border-radius: 12px;
+      color: var(--danger-text);
+      font-size: 13.5px;
+      line-height: 1.5;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      animation: errorIn .25s var(--ease-out);
+    }
+    #checkoutError::before {
+      content: '';
+      flex-shrink: 0;
+      width: 16px; height: 16px;
+      margin-top: 1px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3361f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 8v4M12 16h.01'/%3E%3C/svg%3E");
+      background-size: 16px;
+      background-repeat: no-repeat;
+    }
+    #checkoutError[hidden] { display: none; }
+    @keyframes errorIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer note */
+    .checkout-footer {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: .2px;
+    }
+    .checkout-footer a { color: var(--ink-soft); text-decoration-color: var(--rule); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .checkout-header { padding: 20px 18px 0; }
+      .checkout { padding: 24px 18px 56px; }
+      .product-block { padding: 24px 22px 22px; border-radius: 18px; }
+      #productTitle { font-size: 26px; letter-spacing: -.6px; }
+      #productPrice { font-size: 38px; letter-spacing: -1.2px; }
+      .info-card { padding: 22px 22px; border-radius: 14px; }
+      .trust-card { padding: 22px 22px; border-radius: 14px; }
+      .trust-card h2 { font-size: 20px; }
+      .pay-card { padding: 24px 22px 22px; border-radius: 18px; }
+      .pay-card h2 { font-size: 22px; }
+      #btnPay { padding: 16px 20px; }
+      .checkbox-label { padding: 11px 13px; font-size: 13.5px; gap: 11px; grid-template-columns: 20px 1fr; }
+      .checkbox-label input { width: 20px; height: 20px; }
+    }
+    @media (max-width: 360px) {
+      .checkout { padding: 20px 14px 48px; }
+      .checkout-header { padding: 16px 14px 0; }
+      #productTitle { font-size: 23px; }
+      #productPrice { font-size: 34px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="checkout-header">
+    <a href="/" class="logo">Flat<em>Labs</em></a>
+    <a href="/app.html">← Back to app</a>
+  </header>
+
+  <main class="checkout">
+
+    <!-- Product hero -->
+    <section class="product-block" aria-labelledby="productTitle">
+      <div class="product-tag">Tech Pack · PDF</div>
+      <h1 id="productTitle"></h1>
+      <div class="product-subtitle">A complete, factory-ready document.</div>
+
+      <div class="product-price-row">
+        <div id="productPrice"></div>
+        <span class="vat">incl. VAT · one-time</span>
+      </div>
+
+      <div id="flatPreview"></div>
+    </section>
+
+    <!-- What you get -->
+    <section class="info-card">
+      <h2><span class="num">01</span> What you get</h2>
+      <ul>
+        <li>Tech Pack PDF with POM, BOM and construction notes</li>
+        <li>SVG flat (front + back) included</li>
+      </ul>
+    </section>
+
+    <!-- Trust signal — ISO -->
+    <section class="trust-card" aria-labelledby="trustHeading">
+      <div class="badge">Professional Tech Pack Templates</div>
+      <h2 id="trustHeading">Global Standards. <em>Human Expertise.</em> </h2>
+      <p>FlatLabs Tech Packs use the ISO 8559-1:2017 international reference to ensure your sizing is world-class. Our templates are 100% human-built by industry experts, offering a level of precision that AI simply can’t match.</p>
+      <p class="disclaimer">FlatLabs is an independent tool referencing public standards and is not affiliated with the ISO.</p>
+      <div class="meta">
+        <span>REFERENCE: ISO 8559-1:2017</span>
+        <span>CRAFT: HUMAN-BUILT</span>
+        <span>STATUS: PUBLIC REFERENCE</span>
+      </div>
+    </section>
+
+    <!-- Before production -->
+    <section class="info-card">
+      <h2><span class="num">02</span> Before production</h2>
+      <p class="lede">Always make a sample before a full production run.</p>
+      <p class="body">We give you the template — your factory does the magic. Final responsibility for production specifications lies with the brand, but we make sure the foundation is solid.</p>
+    </section>
+
+    <!-- Pay form -->
+    <section class="pay-card" aria-labelledby="payHeading">
+      <h2><span class="num">03</span> Checkout</h2>
+      <h2 id="payHeading">Send it to your inbox.</h2>
+
+      <div class="form-group">
+        <label class="form-label" for="checkoutEmail">Email address</label>
+        <input
+          type="email"
+          id="checkoutEmail"
+          placeholder="you@studio.com"
+          required
+          autocomplete="email"
+          inputmode="email"
+          autocapitalize="off"
+          spellcheck="false">
+      </div>
+
+      <label class="checkbox-label" for="acceptTerms">
+        <input type="checkbox" id="acceptTerms">
+        <span>I accept the <a href="/legal/terms.html" target="_blank" rel="noopener">Terms and Conditions</a></span>
+      </label>
+
+      <label class="checkbox-label" for="acceptPrivacy">
+        <input type="checkbox" id="acceptPrivacy">
+        <span>I accept the <a href="/legal/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></span>
+      </label>
+
+      <button id="btnPay" disabled>Pay 10€</button>
+      <div class="pay-meta">Secure checkout via Stripe</div>
+
+      <div id="checkoutError" hidden></div>
+    </section>
+
+  </main>
+
+  <footer class="checkout-footer">
+    &copy; 2026 FlatLabs · <a href="/legal/legal.html">Legal</a> · <a href="/legal/privacy.html">Privacy</a> · <a href="/legal/terms.html">Terms</a>
+  </footer>
+
+  <script type="module" src="/js/checkout.js"></script>
+</body>
+</html>

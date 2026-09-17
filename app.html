@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='DM Sans, -apple-system, sans-serif' font-weight='700' fill='%23FF6B57'%3EF%3C/text%3E%3C/svg%3E">
 <title>FlatLabs — Technical Flat Creator | Fashion Design Tool | Production-Ready SVG</title>
 <meta name="description" content="FlatLabs is a free technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with ISO standards. Build t-shirts, pants, and jackets with modular components.">
 <meta name="keywords" content="technical flat creator, fashion design tool, production-ready SVG, ISO garment standards, flat sketch generator, tech pack, fashion illustration">
@@ -16,9 +19,9 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="FlatLabs — Technical Flat Creator for Fashion Design">
 <meta property="og:description" content="Free tool to generate production-ready SVG garment flats. Modular components, ISO standards, instant download.">
-<meta property="og:url" content="https://flatlabs.app/app.html">
+<meta property="og:url" content="https://flatsgenerator.com/app.html">
 <meta property="og:site_name" content="FlatLabs">
-<meta property="og:image" content="https://flatlabs.app/og-image.png">
+<meta property="og:image" content="https://flatsgenerator.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
@@ -26,7 +29,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FlatLabs — Technical Flat Creator">
 <meta name="twitter:description" content="Generate production-ready SVG garment flats. Free fashion design tool.">
-<meta name="twitter:image" content="https://flatlabs.app/og-image.png">
+<meta name="twitter:image" content="https://flatsgenerator.com/og-image.png">
 
 <!-- Schema.org -->
 <script type="application/ld+json">
@@ -37,7 +40,7 @@
   "applicationCategory": "DesignApplication",
   "operatingSystem": "Web",
   "description": "Technical flat sketch generator for fashion designers. Create production-ready SVG garment flats with modular components and ISO garment standards.",
-  "url": "https://flatlabs.app",
+  "url": "https://flatsgenerator.com",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -45,7 +48,7 @@
     "description": "Free illustration flats. Pro ISO EU38 technical flats coming soon."
   },
   "featureList": ["SVG Export", "Modular Components", "Technical Flats", "ISO EU38 Standards", "Fashion Design"],
-  "screenshot": "https://flatlabs.app/og-image.png"
+  "screenshot": "https://flatsgenerator.com/og-image.png"
 }
 </script>
 
@@ -54,7 +57,30 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="styles.css">
+  
+<style>
+/* Pro credits badge in topbar */
+.topbar-credits {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #111111;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+/* Warning state: 0 credits left this period */
+.topbar-credits.is-depleted {
+    background: #FF6B57;
+    color: #FFFFFF;
+}
+</style>
+  
 </head>
 <body>
 
@@ -67,27 +93,21 @@
     Home
 </a>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">↓ Download SVG</button>
-
+<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">⬇ Download SVG</button>
+<button class="mobile-download" id="mobileTechPack" aria-label="Export Tech Pack">Export Tech Pack</button>
+  
 <div class="app">
     <aside class="sidebar" id="sidebar" role="complementary">
         <header class="sidebar-header">
             <div class="app-title">FlatLabs</div>
-            <div class="app-sub">Technical flat creator</div>
+            <div class="app-sub">Technical Flat Creator for Fashion Design</div>
         </header>
 
-        <nav class="man-toggle" aria-label="Mannequin type">
-            <button class="man-btn active" id="btnSty" aria-label="Illustration mannequin - Free">
-                Illustration <span class="man-tag man-tag-free">FREE</span>
-            </button>
-            <button class="man-btn" id="btnIso" aria-label="ISO EU38 mannequin - Pro">
-                ISO EU38 <span class="man-tag man-tag-soon">PRO</span>
-            </button>
-        </nav>
-
-        <div class="steps-nav" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="2">
+        <div class="steps-nav" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
             <div class="step-dot active" data-step="0"></div>
             <div class="step-dot" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
         </div>
 
         <div class="steps-scroll">
@@ -96,7 +116,13 @@
                     <div class="step-content">
                         <h2 class="step-title">Garment</h2>
                         <p class="step-desc">Choose a category to start designing</p>
-                        <div class="sec-label">Category</div>
+                        <div class="sec-label">Sizing Standard</div>
+                        <div class="man-toggle" style="border:none;background:transparent;padding:0;gap:8px">
+                            <button class="man-btn active" id="genderFemale" data-gender="female">Female · EU38</button>
+                            <button class="man-btn"        id="genderMale"   data-gender="male">Male · EU50 (M)</button>
+                        </div>
+
+                        <div class="sec-label" style="margin-top:24px">Category</div>
                         <div class="cat-grid" id="catGrid" role="radiogroup" aria-label="Garment categories"></div>
                     </div>
                 </section>
@@ -114,7 +140,7 @@
                             </span>
                             <span class="pantone-meta">
                                 <span class="pantone-brand">PANTONE<sup>®</sup></span>
-                                <span class="pantone-code" id="hFill">00-0000 TCX</span>
+                                <span class="pantone-code" id="hFill">FF-FFFF HEX</span>
                                 <span class="pantone-name" id="pantoneHex">#FFFFFF</span>
                             </span>
                         </label>
@@ -129,6 +155,20 @@
                         </div>
                     </div>
                 </section>
+                <section class="step-panel" aria-label="Step 3: Manufacturing specs">
+                <div class="step-content">
+                    <h2 class="step-title">Manufacturing</h2>
+                    <p class="step-desc">Select fabric weight and seam type</p>
+                    <div id="manufContainer"></div>
+                </div>
+                </section>
+                <section class="step-panel" aria-label="Step 4: Print and artwork">
+                <div class="step-content">
+                    <h2 class="step-title">Print</h2>
+                    <p class="step-desc">Add artwork to front or back print zones</p>
+                    <div id="printContainer"></div>
+                </div>
+                </section>
             </div>
         </div>
 
@@ -140,10 +180,15 @@
 
     <main class="main" role="main">
         <div class="topbar">
-            <a href="index.html" class="topbar-home" aria-label="Back to homepage">← Home</a>
             <div class="topbar-title" id="topbarTitle">Canvas</div>
+            <a href="index.html" class="topbar-home" aria-label="Back to homepage">Home</a>
+            <a href="/learn/" class="topbar-home" aria-label="Glossary">Glossary</a>
+            <a href="/account.html" class="topbar-home" id="topbarAccount" style="display:none">My account</a>
+            <span class="topbar-credits" id="topbarCredits" style="display:none" aria-label="Pro credits remaining"></span>
+            <a href="/login.html" class="topbar-home" id="topbarLogin">Sign in</a>
             <div class="topbar-actions">
-                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">↓ Download SVG</button>
+                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">⬇ Download SVG</button>
+                <button class="topbar-download" id="btnTechPack" style="display:none">Export Tech Pack</button>
             </div>
         </div>
         <div class="canvas-area">
@@ -171,35 +216,148 @@
 <!-- Email Modal -->
 <div class="modal-overlay" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
     <div class="modal-content">
-        <h3 class="modal-title" id="emailModalTitle">One more step.</h3>
-        <p class="modal-text">FlatLabs is in <strong>beta.</strong> Drop your email to download the SVG and get notified when new modules ship.</p>
-        <form name="leads-flatlabs" method="POST" data-netlify="true" id="leadForm">
-            <input type="hidden" name="form-name" value="leads-flatlabs">
-            <input type="email" name="email" placeholder="you@email.com" required id="emailInput"
-                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:15px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
+        <h3 class="modal-title" id="emailModalTitle">Almost there!</h3>
+        <p class="modal-text">Enter your email to download your SVG and get notified about new modules.</p>
+        <form id="leadForm">
+            <input type="email" placeholder="your@email.com" required id="emailInput"
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;margin-bottom:12px;font-size:15px;font-family:inherit;outline:none;transition:border .2s"
                 aria-label="Email address">
-            <button type="submit" class="btn btn-blue" style="width:100%">Download SVG</button>
+            <label class="modal-checkbox-label">
+                <input type="checkbox" id="emailAcceptTC">
+                I accept the <a href="/legal/terms.html" target="_blank">Terms and Conditions</a> and <a href="/legal/privacy.html" target="_blank">Privacy Policy</a>
+            </label>
+            <p style="font-size:11px;color:var(--gray2);margin:6px 0 0;line-height:1.4">No spam — just your file and updates on new modules.</p>
+            <div id="emailModalError" hidden style="margin-bottom:10px"></div>
+            <button type="submit" class="btn btn-blue" style="width:100%;margin-top:12px">Download SVG</button>
         </form>
-        <button id="btnSkipEmail" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6;transition:opacity .2s">Not interested, download anyway →</button>
         <button id="btnCloseEmailModal" style="background:none;border:none;color:var(--gray2);margin-top:15px;cursor:pointer;font-size:12px;font-family:inherit">Close</button>
-        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);text-align:center">
-            <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Did FlatLabs save you time?</p>
-            <a href="https://buymeacoffee.com/flatlabs" target="_blank" rel="noopener" style="display:inline-block;padding:10px 18px;background:#fff;color:var(--ink);border:1px solid var(--border);text-decoration:none;border-radius:100px;font-weight:600;font-size:13px;font-family:inherit;transition:all .2s">Buy me a coffee →</a>
-        </div>
+    </div>
+</div>
+
+<!-- Post-download upsell -->
+<div class="modal-overlay" id="postDownloadUpsell" role="dialog" aria-modal="true">
+    <div class="modal-content">
+        <h3 class="modal-title">Your SVG is ready!</h3>
+        <p class="modal-text">Want the full spec sheet? Get POM, BOM, grading, and construction notes — ready for your factory.</p>
+        <!-- PROMO-HIDDEN-START
+        <button class="btn btn-blue" id="btnPostUpsellTechPack" style="width:100%">Get Tech Pack — 10€</button>
+        PROMO-HIDDEN-END -->
+        <button class="btn btn-blue" id="btnPostUpsellTechPack" style="width:100%">Get your Tech Pack</button>
+        <button id="btnClosePostUpsell" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6">Not now</button>
     </div>
 </div>
 
 <!-- Pro Modal -->
 <div class="modal-overlay" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proModalTitle">
     <div class="modal-content">
-        <h3 class="modal-title" id="proModalTitle">FlatLabs Pro</h3>
-        <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming July 2026.</strong></p>
+        <h3 class="modal-title" id="proModalTitle">🔒 FlatLabs Pro</h3>
+        <p class="modal-text">ISO EU38 technical flats with precise measurements and factory-compliant standards.<br><br>Preview is available — download requires a Pro subscription.<br><br><strong>Coming soon.</strong></p>
         <button class="btn btn-blue" id="btnCloseProModal" style="width:100%">Got it</button>
     </div>
 </div>
 
+<!-- Tech Pack Modal -->
+<div class="modal-overlay" id="techPackModal" role="dialog" aria-modal="true" aria-labelledby="techPackModalTitle">
+    <div class="modal-content">
+        <!-- PROMO-HIDDEN-START
+        <h3 class="modal-title" id="techPackModalTitle">Export Tech Pack — 10€</h3>
+        PROMO-HIDDEN-END -->
+        <h3 class="modal-title" id="techPackModalTitle">Export Tech Pack</h3>
+        <p class="modal-text">Fill in your project details. These will appear on the cover of your spec sheet.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+            <input type="text" id="tpBrand"   placeholder="Brand name"     maxlength="60"
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border .2s">
+            <input type="text" id="tpProject" placeholder="Project / Collection name" maxlength="60"
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border .2s">
+            <input type="text" id="tpSku"     placeholder="SKU (e.g. FL-TS-001)"     maxlength="40"
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border .2s">
+            <input type="text" id="tpSeason"  placeholder="Season (e.g. SS26)"       maxlength="20"
+                style="width:100%;padding:12px;border:1.5px solid var(--gray3);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border .2s">
+        </div>
+        <!-- PROMO-HIDDEN-START
+        <p style="font-size:11px;color:var(--gray2);margin:0 0 10px;text-align:center">🔒 Secure payment via Stripe</p>
+        PROMO-HIDDEN-END -->
+        <p style="font-size:11px;color:var(--gray2);margin:0 0 10px;text-align:center">Free during the FlatLabs launch</p>
+        <button class="btn btn-blue" id="btnConfirmTechPack" style="width:100%">Generate PDF</button>
+        <button id="btnCloseTechPackModal" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6">Cancel</button>
+    </div>
+</div>
+  
+<!-- Already Used Free Download Modal — upsell toward Tech Pack -->
+<div class="modal-overlay" id="alreadyUsedModal" role="dialog" aria-modal="true" aria-labelledby="alreadyUsedModalTitle">
+    <div class="modal-content">
+        <!-- PROMO-HIDDEN-START
+        <h3 class="modal-title" id="alreadyUsedModalTitle">You've already used your free download</h3>
+        <p class="modal-text">Ready for the full Tech Pack? Get POM, BOM, and construction notes.</p>
+        <button class="btn btn-blue" id="btnGetTechPack" style="width:100%">Get Tech Pack — 10€ →</button>
+        PROMO-HIDDEN-END -->
+        <h3 class="modal-title" id="alreadyUsedModalTitle">Download limit reached</h3>
+        <p class="modal-text">You've reached 5 downloads in the last 30 days.</p>
+        <p class="modal-text" style="font-size:12px;color:var(--gray2)">Resets on: <span id="alreadyUsedResetDate"></span></p>
+        <button class="btn btn-blue" id="btnGetTechPack" style="width:100%">Got it</button>
+        <button id="btnCloseAlreadyUsedModal" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6">Maybe later</button>
+    </div>
+</div>
 
-
+<!-- IP Blocked Modal -->
+<div class="modal-overlay" id="ipBlockedModal" role="dialog" aria-modal="true" aria-labelledby="ipBlockedModalTitle">
+    <div class="modal-content">
+        <h3 class="modal-title" id="ipBlockedModalTitle">Download paused</h3>
+        <p class="modal-text">Our system has detected high activity from your network. As a precaution, free downloads from this connection are paused for 30 days.</p>
+        <p class="modal-text">If you believe this is a mistake or you're using FlatLabs from a school or studio with multiple users, please contact us — we'd love to learn how you're using FlatLabs and find a solution that works for you.</p>
+        <a href="/legal/contact.html" class="btn btn-blue" style="width:100%;text-decoration:none;display:flex">Contact us</a>
+        <button id="btnCloseIpBlockedModal" style="background:none;border:none;color:var(--gray2);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;opacity:.6">Close</button>
+    </div>
+</div>
+  
+<div id="paymentOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:#212B31;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px">
+    <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#ff9a6e;display:flex;align-items:center;gap:8px">
+        <span style="width:6px;height:6px;border-radius:50%;background:#ff9a6e;box-shadow:0 0 0 4px rgba(255,154,110,.2)"></span>
+        <!-- PROMO-HIDDEN-START
+        Verifying payment
+        PROMO-HIDDEN-END -->
+        Preparing your Tech Pack
+    </div>
+    <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.5px">Preparing your Tech Pack...</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(255,255,255,.6)">This will only take a moment.</div>
+</div>
+  
 <script type="module" src="app.js"></script>
+<script>
+// Toggle topbar auth links based on session state, then show Pro credits if applicable
+(async function checkAuthTopbar() {
+  try {
+    const res = await fetch('/api/get-account', { credentials: 'same-origin' });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      const acct = document.getElementById('topbarAccount');
+      const login = document.getElementById('topbarLogin');
+      if (acct) acct.style.display = '';
+      if (login) login.style.display = 'none';
+
+      // Logged in → check Pro credits. Badge only shows for active Pro users.
+      try {
+        const cRes = await fetch('/api/check-user-credits', { credentials: 'same-origin' });
+        const cData = await cRes.json();
+        if (cRes.ok && cData.is_pro) {
+          const badge = document.getElementById('topbarCredits');
+          if (badge) {
+            const n = cData.credits_remaining ?? 0;
+            badge.textContent = `Pro · ${n} ${n === 1 ? 'credit' : 'credits'}`;
+            // Depleted state: no usable credits left this period
+            badge.classList.toggle('is-depleted', !cData.can_use_credit);
+            badge.style.display = '';
+          }
+        }
+      } catch (e) {
+        // Credits check failed — leave badge hidden, non-critical
+      }
+    }
+  } catch (e) {
+    // Not logged in — leave default
+  }
+})();
+</script>
+
 </body>
 </html>
