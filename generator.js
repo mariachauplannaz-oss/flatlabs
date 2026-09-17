@@ -257,21 +257,11 @@ export function generate(state, log) {
         }
     }
 
-    // Download buttons
-    const canDownload = true;
-    document.getElementById('btnDownload').style.display = canDownload ? '' : 'none';
-    if (window.innerWidth <= 800) {
-    const mDl = document.getElementById('mobileDownload');
-    const mTp = document.getElementById('mobileTechPack');
-    if (canDownload) mDl.classList.add('show');
-    else mDl.classList.remove('show');
-    if (mTp) {
-        if (!cfg.free) mTp.classList.add('show');
-        else mTp.classList.remove('show');
-    }
-}
+    // Download/export CTA visibility is now owned by app.js's
+    // updateMobileDownloadVisibility() / doUpdateButton() — see the delegated
+    // listeners set up in init() — since it depends on both the generated
+    // design and the sidebar open/closed state, not just the render itself.
 
-    document.getElementById('topbarTitle').textContent = (DICT[selections.torso]||'T-Shirt') + ' \u2014 Generated';
+    document.getElementById('topbarTitle').textContent = (DICT[selections.torso]||'T-Shirt') + ' — Generated';
     log('Done!', 'ok');
-    document.getElementById('btnTechPack').style.display = cfg.free ? 'none' : '';
 }
