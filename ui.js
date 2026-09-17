@@ -107,7 +107,11 @@ export function updateButton(state) {
         btn.textContent = 'Next';
         btn.disabled = false;
     } else {
-        btn.textContent = 'Generate';
+        // state.ui.isGenerated is computed by app.js's doUpdateButton() right
+        // before this runs — true when the current design (torso/neck/sleeve,
+        // fabric, color, print placements, etc.) matches what was last
+        // generated. Same button, same spot — it just relabels itself.
+        btn.textContent = state.ui.isGenerated ? 'Download Tech Pack →' : 'Generate';
         btn.disabled = false;
     }
 }
@@ -856,18 +860,11 @@ export function initToggles() {
 
 export function toggleSidebar() {
     closeInfoPanel();
-    const isOpening = !document.getElementById('sidebar').classList.contains('open');
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarBackdrop').classList.toggle('show');
-    const mDl = document.getElementById('mobileDownload');
-    if (mDl) {
-        if (isOpening) {
-            mDl.dataset.wasShown = mDl.classList.contains('show');
-            mDl.classList.remove('show');
-        } else {
-            if (mDl.dataset.wasShown === 'true') mDl.classList.add('show');
-        }
-    }
+    // Floating #mobileTechPack visibility is derived (sidebar open/closed +
+    // generated state) and refreshed by app.js's updateMobileDownloadVisibility()
+    // right after this call — see doToggleSidebar()/doCloseSidebar() in app.js.
 }
 
 export function closeSidebar() {

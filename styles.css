@@ -1253,8 +1253,8 @@ body.iso-mode .man-btn.active {
     margin-bottom: 12px;
 }
 
-#mobileDownload { bottom: 20px; }
+/* Only floating mobile button left — sits where #mobileDownload used to. */
 #mobileTechPack {
-    bottom: 72px;
+    bottom: 20px;
     background: var(--surface-dark, #111);
 }

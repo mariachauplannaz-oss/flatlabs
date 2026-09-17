@@ -237,12 +237,22 @@ function renderZones(svgEl, side, placements, onImageCommit) {
     svgEl.appendChild(layer);
 }
 
+// Fired whenever a drag on a print image commits a new position (endDrag(),
+// above). app.js registers doUpdateButton() here so dragging artwork — the
+// one design change that happens on the canvas, outside #stepsTrack — also
+// re-evaluates the Generate/"Download Tech Pack" button label.
+let onCommitListener = null;
+export function setPrintCommitListener(fn) { onCommitListener = fn; }
+
 export function updatePrintZones(state) {
     const svgFront = document.querySelector('#svg-preview svg');
     const svgBack  = document.querySelector('#svg-preview-back svg');
     const placements = (state.print && state.print.enabled) ? state.print.placements : [];
 
-    const onImageCommit = () => updatePrintZones(state);
+    const onImageCommit = () => {
+        updatePrintZones(state);
+        if (onCommitListener) onCommitListener();
+    };
     renderZones(svgFront, 'front', placements, onImageCommit);
     renderZones(svgBack,  'back',  placements, onImageCommit);
 }

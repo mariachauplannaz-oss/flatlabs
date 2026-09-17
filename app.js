@@ -5,10 +5,10 @@ import { parseSVG } from './parser.js';
 import { generate } from './generator.js';
 import { track } from './tracker.js';
 import { initCategories, goStep, updateButton, buildStep1, buildStep2, buildStep4, initToggles, toggleSidebar, closeSidebar, setIsoMode, awaitPendingUploads, getMissingMethodZones } from './ui.js';
-import { downloadSVG, triggerDownload, handleEmailSubmit, showAlreadyUsedModal } from './download.js';
+import { triggerDownload, handleEmailSubmit, showAlreadyUsedModal } from './download.js';
 import { exportSpecSheet } from './specsheet.js';
 import { showTooltip, hideTooltip, openInfoPanel, closeInfoPanel } from './infoPanel.js';
-import { updatePrintZones } from './print-renderer.js';
+import { updatePrintZones, setPrintCommitListener } from './print-renderer.js';
 
 window.showTooltip    = showTooltip;
 window.hideTooltip    = hideTooltip;
@@ -28,7 +28,10 @@ const state = {
         step3AdvancedCollapsed: true,
         step4ArtworkCollapsed:  false,
         printActiveSide:        'front',
-        printShowValidation:    false
+        printShowValidation:    false,
+        // True when the current design matches lastGeneratedSnapshot below —
+        // recomputed on every doUpdateButton() call, never set directly.
+        isGenerated:            false
     },
     fabric:        'jersey_180',
     stitchType:    'overlock_4t',
@@ -59,6 +62,14 @@ const svgCache = {};
 // exit path — successful submit, modal close, limit/IP-blocked branches —
 // so it never leaks between the two flows.
 let techPackExportPending = false;
+
+// Snapshot (JSON string, from buildTechPackGarmentConfig()) of the design as
+// of the last successful Generate click on the last step. state.ui.isGenerated
+// is true exactly when the CURRENT design produces an identical snapshot —
+// this is what lets #btnNext (and the mobile floating CTA) know whether to
+// read "Generate" or "Download Tech Pack →" without a separate dirty flag
+// that would need to be reset by hand on every possible option change.
+let lastGeneratedSnapshot = null;
 
 // The shared emailModal's copy is hardcoded in app.html for the free SVG
 // download. Capture it once at module load (app.html stays the single
@@ -162,7 +173,38 @@ async function loadSVG() {
 }
 
 // ═══ NAVIGATION ═══
-function doUpdateButton() { updateButton(state); }
+function doUpdateButton() {
+    // "Generated" is derived, not a flag that has to be reset by hand on every
+    // possible option change: it's just whether the current design produces
+    // the same snapshot as the last successful Generate. That makes harmless
+    // interactions (expanding a section, opening a tooltip) automatically
+    // safe to re-check against — nothing in them changes the snapshot, so the
+    // button never reverts just because doUpdateButton() ran again.
+    state.ui.isGenerated = lastGeneratedSnapshot !== null &&
+        JSON.stringify(buildTechPackGarmentConfig()) === lastGeneratedSnapshot;
+    updateButton(state);
+    updateMobileDownloadVisibility();
+}
+
+// The floating mobile CTA (#mobileTechPack, relabeled "Download Tech Pack →")
+// mirrors #btnNext but lives outside the sidebar. It only makes sense to show
+// when the sidebar is closed (otherwise #btnNext already shows the same
+// label, in the same spot, right there — showing both would be exactly the
+// "button jumps around" problem this task fixes) AND the design on screen is
+// the one that was actually generated.
+function updateMobileDownloadVisibility() {
+    const mtp = document.getElementById('mobileTechPack');
+    if (!mtp) return;
+    const sidebarOpen = document.getElementById('sidebar')?.classList.contains('open');
+    const isMobile    = window.innerWidth <= 800;
+    mtp.classList.toggle('show', isMobile && !sidebarOpen && state.ui.isGenerated);
+}
+
+// Sidebar open/close changes what the mobile CTA should show even though it
+// doesn't touch the design itself, so every call site refreshes it here
+// rather than each caller remembering to.
+function doToggleSidebar() { toggleSidebar(); updateMobileDownloadVisibility(); }
+function doCloseSidebar()  { closeSidebar();  updateMobileDownloadVisibility(); }
 
 function nextAction() {
     if (state.currentStep === 0) {
@@ -185,6 +227,20 @@ function nextAction() {
         goStep(3, state, doUpdateButton);
         buildStep4(state);
     } else {
+        // Same button, same spot (decision #2): once the design on screen is
+        // exactly what was last generated, this click exports it instead of
+        // regenerating. Any option change since then makes state.ui.isGenerated
+        // false again (see doUpdateButton()), so this branch can't fire on a
+        // design that doesn't match what the user is actually looking at.
+        if (state.ui.isGenerated) {
+            track('download_cta_clicked', {
+                garment: state.selectedCategory || 'tshirt',
+                device:  window.innerWidth <= 800 ? 'mobile' : 'desktop'
+            });
+            doExportTechPack();
+            return;
+        }
+
         const missing = [];
         if (!state.selections.torso) missing.push('Torso');
         if (!state.selections.neck)  missing.push('Neckline');
@@ -205,13 +261,23 @@ function nextAction() {
 
         generate(state, log);
         updatePrintZones(state);
-        if (window.innerWidth <= 800) closeSidebar();
+        lastGeneratedSnapshot = JSON.stringify(buildTechPackGarmentConfig());
+        track('generate_clicked', { garment: state.selectedCategory || 'tshirt' });
+        doUpdateButton();
+        // Auto-close kept on mobile (per product decision) so the user sees
+        // the rendered flat — the sidebar covers most of the screen there.
+        // #btnNext already reads "Download Tech Pack →" underneath, and the
+        // floating mobile CTA now appears in its place (updateMobileDownloadVisibility()).
+        if (window.innerWidth <= 800) doCloseSidebar();
     }
 }
 
 // ═══ DOWNLOAD WRAPPERS ═══
-function doDownload()      { downloadSVG(state, log); }
 function doTriggerDownload() { triggerDownload(state, log); }
+function doMobileDownloadCta() {
+    track('download_cta_clicked', { garment: state.selectedCategory || 'tshirt', device: 'mobile' });
+    doExportTechPack();
+}
 function doEmailSubmit(e) {
     if (techPackExportPending) {
         e.preventDefault();
@@ -332,6 +398,12 @@ async function doExportTechPack() {
 // method/colors, and each image sub-object keeps filename/ratio/blob_key/
 // offsetX_pct/offsetY_pct/scale. dataURI is dropped; blob_key is what
 // survives and is re-fetched via /api/get-print-image in handlePaymentReturn.
+//
+// Also doubles as the design "snapshot" doUpdateButton() compares against
+// lastGeneratedSnapshot (see NAVIGATION section above) — which is why
+// colorHex is read live from #cFill rather than state.colorHex: the latter
+// is only synced during generate(), so it wouldn't reflect a color picked
+// after the last Generate click until the next one.
 function buildTechPackGarmentConfig() {
     return {
         garment:       state.selectedCategory || 'tshirt',
@@ -344,7 +416,7 @@ function buildTechPackGarmentConfig() {
         careLabel:     state.careLabel,
         brandLabel:    state.brandLabel,
         brandLabelQty: state.brandLabelQty,
-        colorHex:      state.colorHex,
+        colorHex:      document.getElementById('cFill')?.value ?? state.colorHex,
         print: state.print && state.print.enabled
             ? { enabled: true, placements: state.print.placements.map(p => ({
                     side: p.side, mode: p.mode, zone: p.zone,
@@ -678,18 +750,31 @@ async function init() {
     goStep(0, state, doUpdateButton);
 
     // Event listeners
-    document.getElementById('burgerBtn')?.addEventListener('click', toggleSidebar);
-    document.getElementById('sidebarBackdrop')?.addEventListener('click', closeSidebar);
-    document.getElementById('mobileTechPack')?.addEventListener('click', doExportTechPack);
-    document.getElementById('btnDownload')?.addEventListener('click', doDownload);
-    document.getElementById('btnTechPack')?.addEventListener('click', doExportTechPack);
+    document.getElementById('burgerBtn')?.addEventListener('click', doToggleSidebar);
+    document.getElementById('sidebarBackdrop')?.addEventListener('click', doCloseSidebar);
+    // Free SVG download (#btnDownload/#mobileDownload) and the top-bar Tech
+    // Pack export (#btnTechPack) are gone — #btnNext now transforms into the
+    // download action in place (see nextAction()), and #mobileTechPack is
+    // repurposed as its mobile-only floating mirror.
+    document.getElementById('mobileTechPack')?.addEventListener('click', doMobileDownloadCta);
     document.getElementById('btnBack')?.addEventListener('click', () => {
         const prev = state.currentStep - 1;
         goStep(prev, state, doUpdateButton);
         if (prev === 1) buildStep1(state);
     });
-    document.getElementById('fabCreate')?.addEventListener('click', () => { toggleSidebar(); });
+    document.getElementById('fabCreate')?.addEventListener('click', doToggleSidebar);
     document.getElementById('btnNext')?.addEventListener('click', nextAction);
+
+    // Re-evaluate the Generate/"Download Tech Pack" button whenever anything
+    // inside the wizard steps changes. Safe to run on every click/input/change
+    // in here (including "harmless" ones like expanding a section or opening
+    // a tooltip) because doUpdateButton() compares a full design snapshot —
+    // an interaction that doesn't change the snapshot can't revert the button.
+    const stepsTrack = document.getElementById('stepsTrack');
+    ['click', 'input', 'change'].forEach(evt => stepsTrack?.addEventListener(evt, doUpdateButton));
+    // The one design change that happens outside #stepsTrack: dragging print
+    // artwork directly on the canvas.
+    setPrintCommitListener(doUpdateButton);
 
     // CHANGE 3 — listeners for btnConfirmTechPack and btnCloseTechPackModal removed
     // They are now wired dynamically inside showPostPaymentModal()
@@ -742,7 +827,7 @@ async function init() {
     if (window.innerWidth <= 800 && !localStorage.getItem('flatlabs_visited')) {
         localStorage.setItem('flatlabs_visited', '1');
         // Small delay to let layout settle
-        setTimeout(() => { toggleSidebar(); }, 300);
+        setTimeout(() => { doToggleSidebar(); }, 300);
     }
 
     // CHANGE 5 — Handle return from Stripe payment (if applicable)

@@ -93,8 +93,11 @@
     Home
 </a>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-<button class="mobile-download" id="mobileDownload" aria-label="Download SVG">⬇ Download SVG</button>
-<button class="mobile-download" id="mobileTechPack" aria-label="Export Tech Pack">Export Tech Pack</button>
+<!-- Free SVG download removed — the SVG is delivered inside the free Tech
+     Pack flow. This floating CTA mirrors the transforming #btnNext button
+     inside the sidebar: it only shows once a design has been generated and
+     the sidebar is closed (see updateMobileDownloadVisibility() in app.js). -->
+<button class="mobile-download" id="mobileTechPack" aria-label="Download Tech Pack">Download Tech Pack →</button>
   
 <div class="app">
     <aside class="sidebar" id="sidebar" role="complementary">
@@ -186,10 +189,9 @@
             <a href="/account.html" class="topbar-home" id="topbarAccount" style="display:none">My account</a>
             <span class="topbar-credits" id="topbarCredits" style="display:none" aria-label="Pro credits remaining"></span>
             <a href="/login.html" class="topbar-home" id="topbarLogin">Sign in</a>
-            <div class="topbar-actions">
-                <button class="topbar-download" id="btnDownload" style="display:none" aria-label="Download SVG file">⬇ Download SVG</button>
-                <button class="topbar-download" id="btnTechPack" style="display:none">Export Tech Pack</button>
-            </div>
+            <!-- Free SVG download and top-bar Tech Pack export removed — the
+                 primary action now lives on #btnNext, which transforms into
+                 "Download Tech Pack →" in place once a design is generated. -->
         </div>
         <div class="canvas-area">
             <!-- Front canvas (always visible) -->
